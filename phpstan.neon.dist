@@ -1,12 +1,21 @@
 includes:
     - phpstan-baseline.neon
+    - vendor/larastan/larastan/extension.neon
 
 parameters:
-    level: 5
+    level: max
     paths:
         - src
         - config
         - database
+        - tests
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    checkMissingIterableValueType: true
+    checkMissingCallableSignature: true
+    strictRules:
+        allRules: true
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.parameterType

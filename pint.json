@@ -1,0 +1,49 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "blank_line_between_class_members": {
+            "min_lines_count": 2
+        },
+        "blank_lines_between_imports": true,
+        "class_definition": {
+            "multi_line_extends_each_single_line": true,
+            "single_item_single_line": true,
+            "single_line": false
+        },
+        "long_list_syntax": true,
+        "method_chaining_indentation": true,
+        "method_argument_space": true,
+        "new_with_braces": true,
+        "no_spaces_around_offset": true,
+        "no_trailing_comma_in_single_line_array": true,
+        "nullable_type_declaration_for_default_null_value": true,
+        "ordered_class_attributes": {
+            "order": ["use_trait", "constant", "property", "method"]
+        },
+        "ordered_imports": {
+            "sort_algorithm": "alpha",
+            "imports_order": ["class", "function", "const"]
+        },
+        "php_unit_attributes": true,
+        "php_unit_internal_class": false,
+        "return_type_declaration": true,
+        "spaces_inside_parentheses": true,
+        "statement_indentation": true,
+        "trailing_comma_in_multiline": {
+            "elements": ["arrays", "arguments", "parameters"]
+        },
+        "type_declaration_spaces": true,
+        "unary_operator_spaces": true,
+        "visibility_required": {
+            "elements": ["const", "method", "property"]
+        }
+    },
+    "exclude": [
+        "bootstrap",
+        "cache",
+        "node_modules",
+        "storage",
+        "vendor",
+        "build"
+    ]
+}
