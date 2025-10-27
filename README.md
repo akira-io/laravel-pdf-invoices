@@ -1,10 +1,10 @@
 ![img.png](docs/assets/banner.png)
 
 <p align="center">
-  <a href="https://packagist.org/packages/akira-io/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/v/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Latest Version on Packagist"></a>
+  <a href="https://packagist.org/packages/akira/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/v/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Latest Version on Packagist"></a>
   <a href="https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3Arun-tests+branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/run-tests.yml?branch=main&label=tests&style=flat-square" alt="GitHub Tests"></a>
   <a href="https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square" alt="Code Style"></a>
-  <a href="https://packagist.org/packages/akira-io/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/dt/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/akira/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/dt/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Total Downloads"></a>
 </p>
 
 Beautiful, type-safe PDF invoice generator for Laravel 12+ with a fluent builder API, multiple professional templates,
