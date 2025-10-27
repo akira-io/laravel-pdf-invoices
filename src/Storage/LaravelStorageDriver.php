@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Akira\PdfInvoices\Storage;
+
+use Akira\PdfInvoices\Contracts\StorageDriverContract;
+use Illuminate\Contracts\Filesystem\Filesystem;
+
+final class LaravelStorageDriver implements StorageDriverContract
+{
+    public function __construct(
+        private Filesystem $disk,
+    ) {}
+
+    public function save(string $path, string $content): string
+    {
+        $this->disk->put($path, $content);
+
+        return $path;
+    }
+
+    public function exists(string $path): bool
+    {
+        return $this->disk->exists($path);
+    }
+
+    public function get(string $path): string
+    {
+        return $this->disk->get($path);
+    }
+
+    public function delete(string $path): bool
+    {
+        return $this->disk->delete($path);
+    }
+}
