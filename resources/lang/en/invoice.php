@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'invoice' => 'INVOICE',
+    'invoice_number' => 'Invoice Number',
+    'invoice_date' => 'Invoice Date',
+    'due_date' => 'Due Date',
+    'invoice_from' => 'Invoice From',
+    'invoice_to' => 'Invoice To',
+    'bill_from' => 'Bill From',
+    'bill_to' => 'Bill To',
+    'from' => 'From',
+    'to' => 'To',
+    'description' => 'Description',
+    'unit_price' => 'Unit Price',
+    'quantity' => 'Quantity',
+    'qty' => 'Qty',
+    'tax' => 'Tax',
+    'tax_rate' => 'Tax Rate',
+    'amount' => 'Amount',
+    'subtotal' => 'Subtotal',
+    'discount' => 'Discount',
+    'total' => 'Total',
+    'total_due' => 'Total Due',
+    'terms_and_notes' => 'Terms & Notes',
+    'notes' => 'Notes',
+    'thank_you' => 'Thank you for your business!',
+    'all_rights_reserved' => 'All rights reserved',
+    'vat_id' => 'VAT ID',
+    'vat' => 'VAT',
+    'issued' => 'Issued',
+    'due' => 'Due',
+];

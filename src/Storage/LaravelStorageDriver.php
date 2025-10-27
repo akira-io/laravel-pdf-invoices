@@ -7,7 +7,7 @@ namespace Akira\PdfInvoices\Storage;
 use Akira\PdfInvoices\Contracts\StorageDriverContract;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-final class LaravelStorageDriver implements StorageDriverContract
+final readonly class LaravelStorageDriver implements StorageDriverContract
 {
     public function __construct(
         private Filesystem $disk,

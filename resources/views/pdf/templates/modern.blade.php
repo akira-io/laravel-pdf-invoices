@@ -5,127 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice {{ $invoice->invoiceNumber }}</title>
     <style>
-        @import url('https://rsms.me/inter/inter.css');
-        html { font-family: 'Inter', sans-serif; }
-        @supports (font-variation-settings: normal) {
-            html { font-family: 'Inter var', sans-serif; }
-        }
+        {!! $compiledCss !!}
     </style>
-    <link rel="stylesheet" href="{{ asset('css/invoices-modern.css') }}">
 </head>
-<body class="bg-gray-50">
-    <div class="max-w-2xl mx-auto bg-white shadow-lg overflow-hidden">
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-12">
+<body class="bg-white">
+    <div class="w-full bg-white overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-12 py-10">
             <div class="flex justify-between items-start">
                 <div>
-                    <h1 class="text-3xl font-bold mb-2">{{ $invoice->seller->name }}</h1>
+                    <h1 class="text-2xl font-bold mb-2">{{ $invoice->seller->name }}</h1>
                     @if($invoice->seller->address || $invoice->seller->vatNumber)
-                        <p class="text-sm text-indigo-100 leading-relaxed">
+                        <p class="text-xs text-indigo-100 leading-tight">
                             @if($invoice->seller->address)
                                 {{ $invoice->seller->address }}<br>
                             @endif
                             @if($invoice->seller->vatNumber)
-                                VAT: {{ $invoice->seller->vatNumber }}
+                                {{ $translator->__('vat') }}: {{ $invoice->seller->vatNumber }}
                             @endif
                         </p>
                     @endif
                 </div>
 
                 <div class="text-right">
-                    <p class="text-xs uppercase tracking-wide text-indigo-100 mb-2">Invoice</p>
-                    <p class="text-4xl font-bold mb-4">#{{ $invoice->invoiceNumber }}</p>
-                    <div class="text-xs text-indigo-100 space-y-1">
+                    <p class="text-xs uppercase tracking-wide text-indigo-100 mb-1">{{ $translator->__('invoice') }}</p>
+                    <p class="text-3xl font-bold mb-2">#{{ $invoice->invoiceNumber }}</p>
+                    <div class="text-xs text-indigo-100 space-y-0">
                         @if($invoice->issuedAt)
-                            <div>Issued: {{ $invoice->issuedAt->format('d M Y') }}</div>
+                            <div>{{ $translator->__('issued') }}: {{ $invoice->issuedAt->format('d M Y') }}</div>
                         @endif
                         @if($invoice->dueAt)
-                            <div>Due: {{ $invoice->dueAt->format('d M Y') }}</div>
+                            <div>{{ $translator->__('due') }}: {{ $invoice->dueAt->format('d M Y') }}</div>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="px-10 py-10">
-            <div class="grid grid-cols-2 gap-10 mb-10">
+        <div class="px-12 py-8">
+            <div class="grid grid-cols-2 gap-8 mb-8">
                 <div>
-                    <h3 class="text-xs uppercase font-semibold text-gray-500 mb-3">Bill From</h3>
-                    <p class="font-semibold text-gray-900">{{ $invoice->seller->name }}</p>
+                    <h3 class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('bill_from') }}</h3>
+                    <p class="font-semibold text-sm text-gray-900">{{ $invoice->seller->name }}</p>
                     @if($invoice->seller->email)
-                        <p class="text-sm text-gray-600">{{ $invoice->seller->email }}</p>
+                        <p class="text-xs text-gray-600">{{ $invoice->seller->email }}</p>
                     @endif
                 </div>
 
                 <div>
-                    <h3 class="text-xs uppercase font-semibold text-gray-500 mb-3">Bill To</h3>
-                    <p class="font-semibold text-gray-900">{{ $invoice->buyer->name }}</p>
+                    <h3 class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('bill_to') }}</h3>
+                    <p class="font-semibold text-sm text-gray-900">{{ $invoice->buyer->name }}</p>
                     @if($invoice->buyer->address)
-                        <p class="text-sm text-gray-600">{{ $invoice->buyer->address }}</p>
+                        <p class="text-xs text-gray-600">{{ $invoice->buyer->address }}</p>
                     @endif
                     @if($invoice->buyer->email)
-                        <p class="text-sm text-gray-600">{{ $invoice->buyer->email }}</p>
+                        <p class="text-xs text-gray-600">{{ $invoice->buyer->email }}</p>
                     @endif
                 </div>
             </div>
 
-            <table class="w-full mb-8 text-sm">
-                <thead class="bg-gray-50 border-b-2 border-indigo-600">
+            <table class="w-full mb-6 text-xs">
+                <thead class="bg-gray-50 border-b border-indigo-600">
                     <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-900 text-xs uppercase">Description</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-900 text-xs uppercase">Unit Price</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-900 text-xs uppercase">Qty</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-900 text-xs uppercase">Tax</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-900 text-xs uppercase">Amount</th>
+                        <th class="px-4 py-2 text-left font-semibold text-gray-900 uppercase">{{ $translator->__('description') }}</th>
+                        <th class="px-4 py-2 text-right font-semibold text-gray-900 uppercase">{{ $translator->__('unit_price') }}</th>
+                        <th class="px-4 py-2 text-right font-semibold text-gray-900 uppercase">{{ $translator->__('qty') }}</th>
+                        <th class="px-4 py-2 text-right font-semibold text-gray-900 uppercase">{{ $translator->__('tax') }}</th>
+                        <th class="px-4 py-2 text-right font-semibold text-gray-900 uppercase">{{ $translator->__('amount') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($invoice->items as $item)
-                        <tr class="border-b border-gray-100 hover:bg-gray-50">
-                            <td class="px-4 py-3 text-gray-900">{{ $item->description }}</td>
-                            <td class="px-4 py-3 text-right text-gray-600">{{ number_format($item->unitPrice, 2) }}</td>
-                            <td class="px-4 py-3 text-right text-gray-600">{{ $item->quantity }}</td>
-                            <td class="px-4 py-3 text-right text-gray-600">{{ number_format($item->tax * 100, 0) }}%</td>
-                            <td class="px-4 py-3 text-right font-semibold text-gray-900">{{ number_format($item->getTotal(), 2) }}</td>
+                        <tr class="border-b border-gray-100">
+                            <td class="px-4 py-2 text-gray-900">{{ $item->description }}</td>
+                            <td class="px-4 py-2 text-right text-gray-600">{{ number_format($item->unitPrice, 2) }}</td>
+                            <td class="px-4 py-2 text-right text-gray-600">{{ $item->quantity }}</td>
+                            <td class="px-4 py-2 text-right text-gray-600">{{ number_format($item->tax * 100, 0) }}%</td>
+                            <td class="px-4 py-2 text-right font-semibold text-gray-900">{{ number_format($item->getTotal(), 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
 
-            <div class="flex justify-end mb-8">
-                <div class="w-80">
+            <div class="flex justify-end mb-4">
+                <div class="w-72">
                     @if($invoice->getTotalDiscount() > 0)
-                        <div class="flex justify-between py-2 px-4 text-sm text-gray-600 border-b border-gray-200">
-                            <span>Subtotal:</span>
+                        <div class="flex justify-between py-1 px-4 text-xs text-gray-600 border-b border-gray-200">
+                            <span>{{ $translator->__('subtotal') }}:</span>
                             <span>{{ number_format($invoice->getSubtotal(), 2) }}</span>
                         </div>
-                        <div class="flex justify-between py-2 px-4 text-sm text-gray-600 border-b border-gray-200">
-                            <span>Discount:</span>
+                        <div class="flex justify-between py-1 px-4 text-xs text-gray-600 border-b border-gray-200">
+                            <span>{{ $translator->__('discount') }}:</span>
                             <span>-{{ number_format($invoice->getTotalDiscount(), 2) }}</span>
                         </div>
                     @endif
                     @if($invoice->getTotalTax() > 0)
-                        <div class="flex justify-between py-2 px-4 text-sm text-gray-600 border-b border-gray-200">
-                            <span>Tax:</span>
+                        <div class="flex justify-between py-1 px-4 text-xs text-gray-600 border-b border-gray-200">
+                            <span>{{ $translator->__('tax') }}:</span>
                             <span>{{ number_format($invoice->getTotalTax(), 2) }}</span>
                         </div>
                     @endif
-                    <div class="flex justify-between py-3 px-4 bg-gray-50 border-t-2 border-b-2 border-indigo-600">
-                        <span class="font-bold text-gray-900">Total Due</span>
+                    <div class="flex justify-between py-2 px-4 bg-gray-50 border-t border-b border-indigo-600">
+                        <span class="font-bold text-sm text-gray-900">{{ $translator->__('total_due') }}</span>
                         <span class="font-bold text-lg text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
                     </div>
                 </div>
             </div>
 
             @if($invoice->notes)
-                <div class="bg-gray-50 p-4 rounded border-l-4 border-indigo-600 mb-8 text-sm text-gray-700">
-                    <strong class="text-gray-900 block mb-2">Notes & Terms</strong>
+                <div class="bg-gray-50 p-3 rounded border-l-4 border-indigo-600 mb-4 text-xs text-gray-700">
+                    <strong class="text-gray-900 block mb-1">{{ $translator->__('notes') }}</strong>
                     {{ $invoice->notes }}
                 </div>
             @endif
         </div>
 
-        <div class="bg-gray-50 px-10 py-6 border-t border-gray-200 text-center text-sm text-gray-600">
-            <p>Thank you for your business!</p>
+        <div class="bg-gray-50 px-12 py-6 border-t border-gray-200 text-center text-xs text-gray-600">
+            <p>{{ $translator->__('thank_you') }}</p>
         </div>
     </div>
 </body>

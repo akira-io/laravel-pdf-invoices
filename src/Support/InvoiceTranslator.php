@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Akira\PdfInvoices\Support;
+
+/**
+ * Helper class for translating invoice labels and strings.
+ *
+ * Provides methods to access translated invoice-related strings based on locale.
+ */
+final readonly class InvoiceTranslator
+{
+    /**
+     * @param string $locale The locale to use for translations (e.g., 'en', 'pt')
+     */
+    public function __construct(
+        private string $locale = 'en',
+    ) {}
+
+    /**
+     * Translate an invoice key.
+     *
+     * @param string $key The translation key (e.g., 'invoice', 'subtotal')
+     * @param array<string, mixed> $replace Replacements for the translation
+     * @return string The translated string
+     */
+    public function translate(string $key, array $replace = []): string
+    {
+        return trans("pdf-invoices::invoice.{$key}", $replace, $this->locale);
+    }
+
+    /**
+     * Alias for translate() method.
+     *
+     * @param string $key The translation key
+     * @param array<string, mixed> $replace Replacements for the translation
+     * @return string The translated string
+     */
+    public function __(string $key, array $replace = []): string
+    {
+        return $this->translate($key, $replace);
+    }
+
+    /**
+     * Get the current locale.
+     *
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Create a new instance with a different locale.
+     *
+     * @param string $locale
+     * @return self
+     */
+    public function withLocale(string $locale): self
+    {
+        return new self($locale);
+    }
+}

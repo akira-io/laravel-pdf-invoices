@@ -21,5 +21,10 @@ return [
         'locale' => env('INVOICES_LOCALE', 'en'),
     ],
 
+    'localization' => [
+        'locale' => env('INVOICES_LOCALE', 'en'),
+        'supported_locales' => ['en', 'pt'],
+    ],
+
     'allow_custom_attributes' => env('INVOICES_ALLOW_CUSTOM_ATTRIBUTES', true),
 ];

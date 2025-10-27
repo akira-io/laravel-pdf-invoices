@@ -6,7 +6,7 @@ namespace Akira\PdfInvoices\Support;
 
 use Akira\PdfInvoices\Contracts\CurrencyFormatterContract;
 
-final class SimpleCurrencyFormatter implements CurrencyFormatterContract
+final readonly class SimpleCurrencyFormatter implements CurrencyFormatterContract
 {
     public function __construct(
         private string $symbol = '€',

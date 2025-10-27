@@ -6,9 +6,10 @@ namespace Akira\PdfInvoices\Pdf;
 
 use Akira\PdfInvoices\Contracts\PdfGeneratorContract;
 use Akira\PdfInvoices\DTO\InvoiceData;
+use Akira\PdfInvoices\Support\InvoiceTranslator;
 use Spatie\LaravelPdf\Facades\Pdf;
 
-final class SpatiePdfGenerator implements PdfGeneratorContract
+final readonly class SpatiePdfGenerator implements PdfGeneratorContract
 {
     public function __construct(
         private string $basePath = 'invoices',
@@ -16,19 +17,52 @@ final class SpatiePdfGenerator implements PdfGeneratorContract
 
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
     {
-        return Pdf::view("pdf-invoices::pdf.templates.{$template}", [
+        $tempFile = tempnam(sys_get_temp_dir(), 'pdf_') . '.pdf';
+        $compiledCss = $this->getCompiledCss();
+        $locale = config('pdf-invoices.localization.locale', 'en');
+        $translator = new InvoiceTranslator($locale);
+
+        Pdf::view("pdf-invoices::pdf.templates.{$template}", [
             'invoice' => $invoice,
-        ])->render();
+            'compiledCss' => $compiledCss,
+            'translator' => $translator,
+        ])->save($tempFile);
+
+        $content = file_get_contents($tempFile);
+        unlink($tempFile);
+
+        return $content;
     }
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
         $fullPath = $this->basePath . '/' . $path;
+        $compiledCss = $this->getCompiledCss();
+        $locale = config('pdf-invoices.localization.locale', 'en');
+        $translator = new InvoiceTranslator($locale);
 
         Pdf::view("pdf-invoices::pdf.templates.{$template}", [
             'invoice' => $invoice,
+            'compiledCss' => $compiledCss,
+            'translator' => $translator,
         ])->save($fullPath);
 
         return $fullPath;
+    }
+
+    /**
+     * Get compiled CSS content.
+     *
+     * @return string
+     */
+    private function getCompiledCss(): string
+    {
+        $cssPath = __DIR__ . '/../../resources/css/compiled.css';
+
+        if (!file_exists($cssPath)) {
+            return '';
+        }
+
+        return file_get_contents($cssPath);
     }
 }

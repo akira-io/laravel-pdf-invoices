@@ -12,9 +12,10 @@ A modern, strictly typed, and extensible invoice generator for Laravel 12+ built
 - **Builder Pattern**: Chainable, fluent API for creating invoices, sellers, buyers, and items
 - **Immutable DTOs**: Type-safe data transfer objects with strict types and readonly properties
 - **Custom Attributes**: Extensible system for adding custom fields to any entity
-- **Multiple Templates**: Built-in minimal, modern, and branded Blade templates
+- **Multiple Templates**: Built-in minimal, modern, and branded Blade templates with full Tailwind CSS styling
+- **Localization**: Multi-language support (English, Portuguese) with extensible translator
 - **Currency Formatting**: Flexible currency system with Laravel integration and custom formatters
-- **PDF Generation**: Powered by Spatie's laravel-pdf with easy customization
+- **PDF Generation**: Powered by Spatie's laravel-pdf with compiled CSS injection
 - **Storage Abstraction**: Pluggable storage drivers for saving invoices
 - **Quality Tools**: PHPStan level max, Laravel Pint, and Rector integration
 - **Well Tested**: Comprehensive PestPHP test suite
