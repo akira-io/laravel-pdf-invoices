@@ -1,130 +1,248 @@
-# Akira Laravel PDF Invoices
+![img.png](docs/assets/banner.png)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/akira-io/laravel-pdf-invoices.svg?style=flat-square)](https://packagist.org/packages/akira-io/laravel-pdf-invoices)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/akira-io/laravel-pdf-invoices.svg?style=flat-square)](https://packagist.org/packages/akira-io/laravel-pdf-invoices)
+<p align="center">
+  <a href="https://packagist.org/packages/akira-io/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/v/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Latest Version on Packagist"></a>
+  <a href="https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3Arun-tests+branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/run-tests.yml?branch=main&label=tests&style=flat-square" alt="GitHub Tests"></a>
+  <a href="https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square" alt="Code Style"></a>
+  <a href="https://packagist.org/packages/akira-io/laravel-pdf-invoices"><img src="https://img.shields.io/packagist/dt/akira-io/laravel-pdf-invoices.svg?style=flat-square" alt="Total Downloads"></a>
+</p>
 
-A modern, strictly typed, and extensible invoice generator for Laravel 12+ built with PHP 8.4 syntax. This package provides a clean builder pattern API, immutable data objects, and modular design inspired by LaravelDaily/laravel-invoices but rewritten from scratch with SOLID principles and Laravel best practices.
+Beautiful, type-safe PDF invoice generator for Laravel 12+ with a fluent builder API, multiple professional templates,
+and multi-language support.
 
-### Key Features
+## Features
 
-- **Builder Pattern**: Chainable, fluent API for creating invoices, sellers, buyers, and items
-- **Immutable DTOs**: Type-safe data transfer objects with strict types and readonly properties
-- **Custom Attributes**: Extensible system for adding custom fields to any entity
-- **Multiple Templates**: Built-in minimal, modern, and branded Blade templates with full Tailwind CSS styling
-- **Localization**: Multi-language support (English, Portuguese) with extensible translator
-- **Currency Formatting**: Flexible currency system with Laravel integration and custom formatters
-- **PDF Generation**: Powered by Spatie's laravel-pdf with compiled CSS injection
-- **Storage Abstraction**: Pluggable storage drivers for saving invoices
-- **Quality Tools**: PHPStan level max, Laravel Pint, and Rector integration
-- **Well Tested**: Comprehensive PestPHP test suite
-- **Release Automation**: release-it integration for semantic versioning and changelogs
+- **Builder Pattern** - Chainable, fluent API for creating invoices
+- **Type-Safe** - Strict types, readonly DTOs, zero magic
+- **3 Templates** - Minimal, modern, and branded designs (Tailwind CSS)
+- **Multi-Language** - English, Portuguese (easily extensible)
+- **Custom Fields** - Add any custom attributes to entities
+- **Currency Support** - Flexible formatting with Laravel integration
+- **PDF Generation** - Powered by Spatie's laravel-pdf
+- **Fully Tested** - Comprehensive PestPHP test suite
+- **Quality Tools** - PHPStan level max, Laravel Pint, Rector
 
-### Quick Example
+## Installation
+
+Install via Composer:
+
+```bash
+composer require akira/laravel-pdf-invoices
+```
+
+Publish assets:
+
+```bash
+php artisan vendor:publish --provider="Akira\PdfInvoices\PdfInvoicesServiceProvider"
+```
+
+## Quick Start
 
 ```php
+use Akira\PdfInvoices\Builders\InvoiceBuilder;
+use Akira\PdfInvoices\Builders\EntityBuilder;
+use Akira\PdfInvoices\Builders\ItemBuilder;
+
 $invoice = InvoiceBuilder::make()
     ->seller(
         EntityBuilder::make()
-            ->name('Akira Corporation')
-            ->address('Luxembourg')
-            ->vat('LU12345678')
+            ->name('Your Company')
+            ->address('123 Main St, City')
+            ->email('hello@company.com')
+            ->vat('123456789')
             ->build()
     )
     ->buyer(
         EntityBuilder::make()
             ->name('Client Name')
             ->email('client@example.com')
+            ->address('456 Oak Ave, Town')
+            ->vat('987654321')
             ->build()
     )
     ->addItem(
         ItemBuilder::make()
-            ->description('Consulting Service')
+            ->description('Professional Services')
+            ->unitPrice(150)
+            ->quantity(10)
+            ->tax(0.19)
+            ->build()
+    )
+    ->addItem(
+        ItemBuilder::make()
+            ->description('Support & Maintenance')
             ->unitPrice(100)
             ->quantity(5)
-            ->tax(0.15)
+            ->tax(0.19)
             ->discount(0.10)
             ->build()
     )
-    ->notes('Payment due in 10 days.')
+    ->notes('Payment due within 30 days.')
     ->build();
 
-$invoice->generatePdf()->save('invoices/invoice-001.pdf');
+// Generate and save PDF
+$pdf = $invoice->generatePdf();
+$pdf->save('invoices/invoice-001.pdf');
+
+// Or get as stream (for downloads/email)
+return response()->streamDownload(
+    fn() => echo $pdf,
+    'invoice-001.pdf'
+);
 ```
 
-## Support us
+## Templates
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-pdf-invoices.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-pdf-invoices)
+Choose your preferred invoice style:
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+### Minimal
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Clean and simple, perfect for service invoices.
 
-## Installation
+### Modern
 
-You can install the package via composer:
+Contemporary design with gradient header and professional layout.
 
-```bash
-composer require akira-io/laravel-pdf-invoices
-```
+### Branded
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-pdf-invoices-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-pdf-invoices-config"
-```
-
-This is the contents of the published config file:
+Business-focused with color accents for custom branding.
 
 ```php
-return [
-];
+// Use a specific template
+$pdf = $invoice->generatePdf(template: 'branded');
 ```
 
-Optionally, you can publish the views using
+## Localization
 
-```bash
-php artisan vendor:publish --tag="laravel-pdf-invoices-views"
-```
-
-## Usage
+Generate invoices in different languages:
 
 ```php
-$pdfInvoices = new Akira\PdfInvoices();
-echo $pdfInvoices->echoPhrase('Hello, Akira!');
+// Portuguese
+$pdf = $invoice->generatePdf(locale: 'pt');
+
+// English (default)
+$pdf = $invoice->generatePdf(locale: 'en');
+```
+
+Supported: English (`en`), Portuguese (`pt`)
+
+[View all translation keys →](docs/localization.md)
+
+## Custom Attributes
+
+Add custom fields to any entity:
+
+```php
+$seller = EntityBuilder::make()
+    ->name('Company')
+    ->withAttributes([
+        'bank_account' => 'IBAN123456',
+        'registration' => 'REG-123',
+    ])
+    ->build();
+
+// Access them
+$seller->attributes('bank_account'); // IBAN123456
+```
+
+## Currency Formatting
+
+Use Laravel's currency or custom formatters:
+
+```php
+// Laravel currency (respects app.php locale)
+$invoice->currency = 'EUR';
+
+// Custom currency symbol
+$invoice->currency = '$';
+```
+
+## Storage
+
+Save invoices to disk or custom storage:
+
+```php
+// Save to storage/app/invoices
+$storage = app(\Akira\PdfInvoices\Contracts\StorageDriverContract::class);
+$storage->save('invoice-001.pdf', $pdf);
+
+// Or use Laravel Storage facade directly
+\Illuminate\Support\Facades\Storage::put('invoices/invoice-001.pdf', $pdf);
+```
+
+## Advanced Usage
+
+### Discounts & Taxes
+
+```php
+ItemBuilder::make()
+    ->description('Service')
+    ->unitPrice(1000)
+    ->quantity(2)
+    ->tax(0.19)           // 19% tax
+    ->discount(0.10)      // 10% discount on subtotal
+    ->build()
+```
+
+### Custom Invoice Numbers
+
+```php
+$invoice = InvoiceBuilder::make()
+    ->invoiceNumber('INV-2024-001')
+    ->issuedAt(now())
+    ->dueAt(now()->addDays(30))
+    // ...
+    ->build();
+```
+
+### Accessing Calculations
+
+```php
+$invoice->getSubtotal();      // Sum of all items
+$invoice->getTotalTax();      // Total tax amount
+$invoice->getTotalDiscount(); // Total discount amount
+$invoice->getTotal();         // Final amount due
 ```
 
 ## Testing
+
+Run the test suite:
 
 ```bash
 composer test
 ```
 
+With coverage:
+
+```bash
+composer test -- --coverage
+```
+
+## Documentation
+
+- [Full Documentation](docs/index.md)
+- [Builder Pattern](docs/builders.md)
+- [Custom Attributes](docs/attributes.md)
+- [Templates Guide](docs/templates.md)
+- [Localization](docs/localization.md)
+- [CSS Compilation](docs/css-compilation.md)
+
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [Kidiatoliny](https://github.com/kidiatoliny)
-- [All Contributors](../../contributors)
+See [CHANGELOG.md](CHANGELOG.md) for recent changes and updates.
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). See [LICENSE.md](LICENSE.md) for details.
+
+## Credits
+
+Built with Laravel best practices and inspired by the Laravel community.
+
+- [Kidiatoliny](https://github.com/kidiatoliny) - Creator
+- [All Contributors](https://github.com/akira-io/laravel-pdf-invoices/graphs/contributors)
+
+## Support
+
+Having issues? Check out the [documentation](docs/) or open
+an [issue on GitHub](https://github.com/akira-io/laravel-pdf-invoices/issues).
