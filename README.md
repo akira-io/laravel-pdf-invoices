@@ -1,11 +1,56 @@
-# This is my package laravel-pdf-invoices
+# Akira Laravel PDF Invoices
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/akira-io/laravel-pdf-invoices.svg?style=flat-square)](https://packagist.org/packages/akira-io/laravel-pdf-invoices)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/akira-io/laravel-pdf-invoices/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/akira-io/laravel-pdf-invoices/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/akira-io/laravel-pdf-invoices.svg?style=flat-square)](https://packagist.org/packages/akira-io/laravel-pdf-invoices)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A modern, strictly typed, and extensible invoice generator for Laravel 12+ built with PHP 8.4 syntax. This package provides a clean builder pattern API, immutable data objects, and modular design inspired by LaravelDaily/laravel-invoices but rewritten from scratch with SOLID principles and Laravel best practices.
+
+### Key Features
+
+- **Builder Pattern**: Chainable, fluent API for creating invoices, sellers, buyers, and items
+- **Immutable DTOs**: Type-safe data transfer objects with strict types and readonly properties
+- **Custom Attributes**: Extensible system for adding custom fields to any entity
+- **Multiple Templates**: Built-in minimal, modern, and branded Blade templates
+- **Currency Formatting**: Flexible currency system with Laravel integration and custom formatters
+- **PDF Generation**: Powered by Spatie's laravel-pdf with easy customization
+- **Storage Abstraction**: Pluggable storage drivers for saving invoices
+- **Quality Tools**: PHPStan level max, Laravel Pint, and Rector integration
+- **Well Tested**: Comprehensive PestPHP test suite
+- **Release Automation**: release-it integration for semantic versioning and changelogs
+
+### Quick Example
+
+```php
+$invoice = InvoiceBuilder::make()
+    ->seller(
+        EntityBuilder::make()
+            ->name('Akira Corporation')
+            ->address('Luxembourg')
+            ->vat('LU12345678')
+            ->build()
+    )
+    ->buyer(
+        EntityBuilder::make()
+            ->name('Client Name')
+            ->email('client@example.com')
+            ->build()
+    )
+    ->addItem(
+        ItemBuilder::make()
+            ->description('Consulting Service')
+            ->unitPrice(100)
+            ->quantity(5)
+            ->tax(0.15)
+            ->discount(0.10)
+            ->build()
+    )
+    ->notes('Payment due in 10 days.')
+    ->build();
+
+$invoice->generatePdf()->save('invoices/invoice-001.pdf');
+```
 
 ## Support us
 

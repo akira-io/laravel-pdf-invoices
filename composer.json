@@ -1,10 +1,19 @@
 {
     "name": "akira-io/laravel-pdf-invoices",
-    "description": "This is my package laravel-pdf-invoices",
+    "description": "A modern, strictly typed, and extensible invoice generator for Laravel 12+ built with PHP 8.4 syntax. This package provides a clean builder pattern API, immutable data objects, and modular design inspired by LaravelDaily/laravel-invoices but rewritten from scratch with SOLID principles and Laravel best practices.",
     "keywords": [
         "Akira",
         "laravel",
-        "laravel-pdf-invoices"
+        "laravel-pdf-invoices",
+        "pdf",
+        "invoices",
+        "invoice-generator",
+        "billing",
+        "billing-system",
+        "billing-invoices",
+        "pdf-invoices",
+        "pdf-invoice-generator",
+        "laravel-invoice-generator"
     ],
     "homepage": "https://github.com/akira-io/laravel-pdf-invoices",
     "license": "MIT",
