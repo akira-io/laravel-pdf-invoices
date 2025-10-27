@@ -104,16 +104,16 @@
                             <span>{{ number_format($invoice->getTotalTax(), 2) }}</span>
                         </div>
                     @endif
-                    <div class="flex justify-between py-2 px-4 bg-gray-50 border-t border-b border-indigo-600">
-                        <span class="font-bold text-sm text-gray-900">{{ $translator->__('total_due') }}</span>
-                        <span class="font-bold text-lg text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
+                    <div class="flex flex-col py-4 px-4 bg-gray-50 border-t border-b border-indigo-600 gap-2">
+                        <span class="font-bold text-sm text-gray-900">{{ $translator->__('total') }}</span>
+                        <span class="font-bold text-2xl text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
                     </div>
                 </div>
             </div>
 
             @if($invoice->notes)
-                <div class="bg-gray-50 p-3 rounded border-l-4 border-indigo-600 mb-4 text-xs text-gray-700">
-                    <strong class="text-gray-900 block mb-1">{{ $translator->__('notes') }}</strong>
+                <div class="bg-gray-50 p-6 rounded border-l-4 border-indigo-600 mb-12 text-xs text-gray-700">
+                    <strong class="text-gray-900 block mb-2">{{ $translator->__('notes') }}</strong>
                     {{ $invoice->notes }}
                 </div>
             @endif

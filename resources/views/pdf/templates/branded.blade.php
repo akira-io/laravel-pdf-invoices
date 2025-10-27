@@ -120,9 +120,9 @@
 						<span>{{ number_format($invoice->getTotalTax(), 2) }}</span>
 					</div>
 				@endif
-				<div class="flex justify-between py-2 px-4 bg-gray-100 border-t border-b border-blue-600">
-					<span class="font-bold text-gray-900 text-sm">{{ $translator->__('total') }}:</span>
-					<span class="font-bold text-lg text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
+				<div class="flex flex-col py-4 px-4 bg-gray-100 border-t border-b border-blue-600 gap-2">
+					<span class="font-bold text-gray-900 text-sm">{{ $translator->__('total') }}</span>
+					<span class="font-bold text-2xl text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
 				</div>
 			</div>
 		</div>
