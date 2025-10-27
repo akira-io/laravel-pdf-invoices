@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "akira-io/laravel-pdf-invoices",
+    "description": "This is my package laravel-pdf-invoices",
     "keywords": [
-        ":vendor_name",
+        "Akira",
         "laravel",
-        ":package_slug"
+        "laravel-pdf-invoices"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/akira-io/laravel-pdf-invoices",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Kidiatoliny",
+            "email": "kidiatoliny@akira-io.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Akira\\PdfInvoices\\": "src/",
+            "Akira\\PdfInvoices\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Akira\\PdfInvoices\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Akira\\PdfInvoices\\PdfInvoicesServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "PdfInvoices": "Akira\\PdfInvoices\\Facades\\PdfInvoices"
             }
         }
     },

@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Akira\PdfInvoices\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PdfInvoicesCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-pdf-invoices';
 
     public $description = 'My command';
 
