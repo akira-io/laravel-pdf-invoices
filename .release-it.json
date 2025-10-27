@@ -1,0 +1,30 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true,
+    "requireCommits": true,
+    "commitMessage": "chore(release): v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
+    "push": true,
+    "pushTags": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}",
+    "releaseNotes": "cat CHANGELOG.md"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    }
+  },
+  "hooks": {
+    "before:init": "npm run lint && npm run test",
+    "after:release": "echo 'Release v${version} complete!'"
+  }
+}
