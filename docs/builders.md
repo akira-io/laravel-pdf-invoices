@@ -138,13 +138,31 @@ $invoice = InvoiceBuilder::make()
 - `addItem(ItemData $item)`: Add line item
 - `items(array $items)`: Set all items at once
 - `invoiceNumber(string $number)`: Set invoice number
-- `issuedAt(DateTime $date)`: Set issue date
-- `dueAt(DateTime $date)`: Set due date
+- `issuedAt(CarbonInterface | DateTimeInterface $date)`: Set issue date
+- `dueAt(CarbonInterface | DateTimeInterface $date)`: Set due date
 - `currency(string $currency)`: Set currency code (default: 'EUR')
 - `notes(string $notes)`: Set payment/delivery notes
 - `set(string $key, mixed $value)`: Add custom attribute
 - `withAttributes(array $data)`: Add multiple custom attributes
 - `build(): InvoiceData`: Build immutable invoice
+
+#### Date Handling
+
+The `issuedAt()` and `dueAt()` methods accept both `Carbon` and `CarbonImmutable` instances (via `CarbonInterface`), as well as any `DateTimeInterface` implementation. This makes it seamless to work with Laravel's date handling:
+
+```php
+// Using Carbon (mutable)
+$invoice->issuedAt(Carbon::now());
+
+// Using CarbonImmutable (immutable - Laravel 11+ default)
+$invoice->issuedAt(now());
+
+// Using DateTime
+$invoice->issuedAt(new DateTime('2024-01-01'));
+
+// Using Eloquent model attributes (automatically CarbonImmutable in Laravel 11+)
+$invoice->issuedAt($model->created_at);
+```
 
 ### Validations
 
@@ -272,8 +290,8 @@ $invoice = InvoiceBuilder::make()->seller($s)->buyer($b)->build();
 // - seller: EntityData
 // - buyer: EntityData
 // - items: ItemData[]
-// - issuedAt: ?DateTime
-// - dueAt: ?DateTime
+// - issuedAt: ?CarbonInterface|?DateTimeInterface
+// - dueAt: ?CarbonInterface|?DateTimeInterface
 // - invoiceNumber: string
 // - currency: string
 // - notes: ?string
@@ -281,3 +299,7 @@ $invoice = InvoiceBuilder::make()->seller($s)->buyer($b)->build();
 ```
 
 All DTOs are immutable and cannot be modified after creation. Create a new instance if you need different data.
+
+#### Date Properties in InvoiceData
+
+The `issuedAt` and `dueAt` properties in the returned `InvoiceData` DTO will be stored as `CarbonInterface` instances for consistency, regardless of the input type (Carbon, CarbonImmutable, or DateTime).

@@ -14,11 +14,12 @@ and multi-language support.
 
 - **Builder Pattern** - Chainable, fluent API for creating invoices
 - **Type-Safe** - Strict types, readonly DTOs, zero magic
+- **Carbon Support** - Seamless `Carbon` and `CarbonImmutable` integration for Laravel 11+
 - **3 Templates** - Minimal, modern, and branded designs (Tailwind CSS)
 - **Multi-Language** - English, Portuguese (easily extensible)
 - **Custom Fields** - Add any custom attributes to entities
 - **Currency Support** - Flexible formatting with Laravel integration
-- **PDF Generation** - Powered by Spatie's laravel-pdf
+- **PDF Generation** - Powered by Spatie's laravel-pdf with `puppeteer` integration
 - **Fully Tested** - Comprehensive PestPHP test suite
 - **Quality Tools** - PHPStan level max, Laravel Pint, Rector
 
@@ -184,7 +185,7 @@ ItemBuilder::make()
     ->build()
 ```
 
-### Custom Invoice Numbers
+### Custom Invoice Numbers & Dates
 
 ```php
 $invoice = InvoiceBuilder::make()
@@ -193,6 +194,18 @@ $invoice = InvoiceBuilder::make()
     ->dueAt(now()->addDays(30))
     // ...
     ->build();
+```
+
+### Carbon & CarbonImmutable Support
+
+The date methods accept both `Carbon` (mutable) and `CarbonImmutable` (immutable) instances, as well as any `DateTimeInterface` implementation. This makes it seamless to work with Laravel 11+ which uses `CarbonImmutable` by default:
+
+```php
+// All of these work seamlessly:
+$invoice->issuedAt(Carbon::now());              // Mutable Carbon
+$invoice->issuedAt(now());                      // CarbonImmutable (Laravel default)
+$invoice->issuedAt(new DateTime('2024-01-01')); // DateTime
+$invoice->issuedAt($model->created_at);         // Eloquent model attribute (CarbonImmutable)
 ```
 
 ### Accessing Calculations
