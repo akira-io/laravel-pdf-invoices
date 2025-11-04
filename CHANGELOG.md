@@ -1,5 +1,12 @@
 
 
+## [1.1.1](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.1.0...v1.1.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* reorder type hints for issuedAt and dueAt methods in InvoiceBuilder ([84c9426](https://github.com/akira-io/laravel-pdf-invoices/commit/84c94263988f0f3afdeaea274ac127de0c4ec00e))
+
 ## [1.1.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.0.0...v1.1.0) (2025-11-04)
 
 
