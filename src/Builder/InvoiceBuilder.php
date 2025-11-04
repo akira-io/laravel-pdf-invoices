@@ -70,14 +70,14 @@ final class InvoiceBuilder implements BuilderContract
         return $this;
     }
 
-    public function issuedAt(DateTimeInterface | CarbonInterface $date): static
+    public function issuedAt(CarbonInterface | DateTimeInterface $date): static
     {
         $this->issuedAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
 
         return $this;
     }
 
-    public function dueAt(DateTimeInterface | CarbonInterface $date): static
+    public function dueAt(CarbonInterface | DateTimeInterface $date): static
     {
         $this->dueAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
 
