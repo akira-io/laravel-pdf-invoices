@@ -1,5 +1,12 @@
 
 
+## [1.1.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.0.0...v1.1.0) (2025-11-04)
+
+
+### Features
+
+* replace DateTime with Carbon for date handling in InvoiceBuilder ([2bc171a](https://github.com/akira-io/laravel-pdf-invoices/commit/2bc171a649347b0e245ea1f68aab416f3e1d32a9))
+
 ## 1.0.0 (2025-10-27)
 
 
