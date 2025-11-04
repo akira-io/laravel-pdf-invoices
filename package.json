@@ -10,8 +10,8 @@
     "lint": "composer format",
     "release": "release-it"
   },
-  "dependencies": {
-    "puppeteer": "^24.28.0"
+  "peerDependencies": {
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^7.0.0",

@@ -24,8 +24,16 @@ This package provides a clean builder pattern API, immutable data objects, and m
 
 ## Installation
 
+Install the package via Composer:
+
 ```bash
 composer require akira/laravel-pdf-invoices
+```
+
+Install the peer dependency (required for PDF generation):
+
+```bash
+npm install puppeteer
 ```
 
 Publish the configuration and views:

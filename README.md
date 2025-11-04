@@ -31,6 +31,12 @@ Install via Composer:
 composer require akira/laravel-pdf-invoices
 ```
 
+Install peer dependency (Puppeteer for PDF generation):
+
+```bash
+npm install puppeteer
+```
+
 Publish assets:
 
 ```bash
