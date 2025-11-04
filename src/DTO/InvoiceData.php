@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices\DTO;
 
-use DateTime;
+use Carbon\CarbonInterface;
+use DateTimeInterface;
 
 final readonly class InvoiceData
 {
@@ -12,8 +13,8 @@ final readonly class InvoiceData
      * @param  EntityData  $seller
      * @param  EntityData  $buyer
      * @param  array<int, ItemData>  $items
-     * @param  DateTime|null  $issuedAt
-     * @param  DateTime|null  $dueAt
+     * @param  CarbonInterface|DateTimeInterface|null  $issuedAt
+     * @param  CarbonInterface|DateTimeInterface|null  $dueAt
      * @param  string  $invoiceNumber
      * @param  string  $currency
      * @param  string|null  $notes
@@ -23,8 +24,8 @@ final readonly class InvoiceData
         public EntityData $seller,
         public EntityData $buyer,
         public array $items = [],
-        public ?DateTime $issuedAt = null,
-        public ?DateTime $dueAt = null,
+        public CarbonInterface | DateTimeInterface | null $issuedAt = null,
+        public CarbonInterface | DateTimeInterface | null $dueAt = null,
         public string $invoiceNumber = '',
         public string $currency = 'EUR',
         public ?string $notes = null,
