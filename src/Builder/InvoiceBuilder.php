@@ -8,7 +8,9 @@ use Akira\PdfInvoices\Contracts\BuilderContract;
 use Akira\PdfInvoices\DTO\EntityData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\DTO\ItemData;
-use DateTime;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
+use DateTimeInterface;
 
 final class InvoiceBuilder implements BuilderContract
 {
@@ -19,9 +21,9 @@ final class InvoiceBuilder implements BuilderContract
     /** @var array<int, ItemData> */
     private array $items = [];
 
-    private ?DateTime $issuedAt = null;
+    private ?CarbonInterface $issuedAt = null;
 
-    private ?DateTime $dueAt = null;
+    private ?CarbonInterface $dueAt = null;
 
     private string $invoiceNumber = '';
 
@@ -68,16 +70,16 @@ final class InvoiceBuilder implements BuilderContract
         return $this;
     }
 
-    public function issuedAt(DateTime $date): static
+    public function issuedAt(DateTimeInterface | CarbonInterface $date): static
     {
-        $this->issuedAt = $date;
+        $this->issuedAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
 
         return $this;
     }
 
-    public function dueAt(DateTime $date): static
+    public function dueAt(DateTimeInterface | CarbonInterface $date): static
     {
-        $this->dueAt = $date;
+        $this->dueAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
 
         return $this;
     }
