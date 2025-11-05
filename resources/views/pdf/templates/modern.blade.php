@@ -46,20 +46,27 @@
                 <div>
                     <h3 class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('bill_from') }}</h3>
                     <p class="font-semibold text-sm text-gray-900">{{ $invoice->seller->name }}</p>
-                    @if($invoice->seller->email)
-                        <p class="text-xs text-gray-600">{{ $invoice->seller->email }}</p>
-                    @endif
+                    <p class="text-xs text-gray-600">
+                        @forelse($invoice->seller->getAttributes() as $value)
+                            @if(!empty($value))
+                                {{ $value }}<br>
+                            @endif
+                        @empty
+                        @endforelse
+                    </p>
                 </div>
 
                 <div>
                     <h3 class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('bill_to') }}</h3>
                     <p class="font-semibold text-sm text-gray-900">{{ $invoice->buyer->name }}</p>
-                    @if($invoice->buyer->address)
-                        <p class="text-xs text-gray-600">{{ $invoice->buyer->address }}</p>
-                    @endif
-                    @if($invoice->buyer->email)
-                        <p class="text-xs text-gray-600">{{ $invoice->buyer->email }}</p>
-                    @endif
+                    <p class="text-xs text-gray-600">
+                        @forelse($invoice->buyer->getAttributes() as $value)
+                            @if(!empty($value))
+                                {{ $value }}<br>
+                            @endif
+                        @empty
+                        @endforelse
+                    </p>
                 </div>
             </div>
 
