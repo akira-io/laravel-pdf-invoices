@@ -150,7 +150,7 @@
 	</div>
 	<div class="bg-gray-100 border-t border-gray-200 px-12 py-6 flex justify-between items-center text-xs">
 		<p class="text-sm font-semibold text-gray-900">{{ $translator->__('thank_you') }}</p>
-		<p class="text-xs text-gray-600">{{ config('app.name') }} - {{ $translator->__('all_rights_reserved') }}</p>
+		{{--		<p class="text-xs text-gray-600">{{ config('app.name') }} - {{ $translator->__('all_rights_reserved') }}</p>--}}
 	</div>
 </div>
 </body>
