@@ -56,24 +56,42 @@
 				<p class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('invoice_from') }}</p>
 				<p class="font-bold text-sm text-gray-900">{{ $invoice->seller->name }}</p>
 				<p class="text-xs text-gray-600">
-					@forelse($invoice->seller->getAttributes() as $value)
+					@if($invoice->seller->address)
+						{{ $invoice->seller->address }}<br>
+					@endif
+					@if($invoice->seller->email)
+						{{ $invoice->seller->email }}<br>
+					@endif
+					@forelse($invoice->seller->attributes() as $value)
 						@if(!empty($value))
 							{{ $value }}<br>
 						@endif
 					@empty
 					@endforelse
+					@if($invoice->seller->vatNumber)
+						{{ $translator->__('vat_id') }}: {{ $invoice->seller->vatNumber }}
+					@endif
 				</p>
 			</div>
 			<div>
 				<p class="text-xs uppercase font-semibold text-gray-500 mb-2">{{ $translator->__('invoice_to') }}</p>
 				<p class="font-bold text-sm text-gray-900">{{ $invoice->buyer->name }}</p>
 				<p class="text-xs text-gray-600">
-					@forelse($invoice->buyer->getAttributes() as $value)
+					@if($invoice->buyer->address)
+						{{ $invoice->buyer->address }}<br>
+					@endif
+					@if($invoice->buyer->email)
+						{{ $invoice->buyer->email }}<br>
+					@endif
+					@forelse($invoice->buyer->attributes() as $value)
 						@if(!empty($value))
 							{{ $value }}<br>
 						@endif
 					@empty
 					@endforelse
+					@if($invoice->buyer->vatNumber)
+						{{ $translator->__('vat_id') }}: {{ $invoice->buyer->vatNumber }}
+					@endif
 				</p>
 			</div>
 		</div>
