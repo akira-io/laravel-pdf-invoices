@@ -10,7 +10,7 @@
 </head>
 <body class="bg-white">
 <div class="w-full bg-white overflow-hidden">
-	<div class="border-b-4 border-blue-600 px-12 py-8">
+	<div class="border-b-4 border-primary px-12 py-8">
 		<div class="flex justify-between items-start">
 			<div>
 				<h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $invoice->seller->name }}</h1>
@@ -27,7 +27,7 @@
 				</p>
 			</div>
 			<div class="text-right">
-				<p class="text-4xl font-light text-blue-600 mb-2 tracking-wider">{{ strtoupper($translator->__('invoice')) }}</p>
+				<p class="text-4xl font-light text-primary mb-2 tracking-wider">{{ strtoupper($translator->__('invoice')) }}</p>
 				<p class="text-xs text-gray-600">
 					<span class="text-2xl font-bold text-gray-900 block">#{{ $invoice->invoiceNumber }}</span>
 				</p>
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<table class="w-full mb-6 text-xs">
-			<thead class="bg-gray-100 border-t border-b border-blue-600">
+			<thead class="bg-gray-100 border-t border-b border-primary">
 			<tr>
 				<th class="px-4 py-2 text-left font-bold text-gray-900 uppercase">{{ $translator->__('description') }}</th>
 				<th class="px-4 py-2 text-right font-bold text-gray-900 uppercase">{{ $translator->__('unit_price') }}</th>
@@ -135,14 +135,14 @@
 						<span>{{ number_format($invoice->getTotalTax(), 2) }}</span>
 					</div>
 				@endif
-				<div class="flex flex-col py-4 px-4 bg-gray-100 border-t border-b border-blue-600 gap-2">
+				<div class="flex flex-col py-4 px-4 bg-gray-100 border-t border-b border-primary gap-2">
 					<span class="font-bold text-gray-900 text-sm">{{ $translator->__('total') }}</span>
 					<span class="font-bold text-2xl text-gray-900">{{ number_format($invoice->getTotal(), 2) }} {{ $invoice->currency }}</span>
 				</div>
 			</div>
 		</div>
 		@if($invoice->notes)
-			<div class="bg-blue-50 border-l-4 border-blue-600 px-4 py-3 mb-4 text-xs text-gray-700">
+			<div class="bg-blue-50 border-l-4 border-primary px-4 py-3 mb-4 text-xs text-gray-700">
 				<strong class="text-gray-900 block mb-1">{{ $translator->__('terms_and_notes') }}</strong>
 				{{ $invoice->notes }}
 			</div>
