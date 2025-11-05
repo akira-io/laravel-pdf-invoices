@@ -51,18 +51,34 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
     }
 
     /**
-     * Get compiled CSS content.
+     * Get compiled CSS content from parent app's Vite build.
      *
      * @return string
      */
     private function getCompiledCss(): string
     {
-        $cssPath = __DIR__ . '/../../resources/css/compiled.css';
-
-        if (!file_exists($cssPath)) {
-            return '';
+        // Try to get CSS from parent app's Vite manifest
+        $manifestPath = public_path('build/manifest.json');
+        if (file_exists($manifestPath)) {
+            try {
+                $manifest = json_decode(file_get_contents($manifestPath), true);
+                if (isset($manifest['resources/css/app.css']['file'])) {
+                    $cssFile = public_path('build/' . $manifest['resources/css/app.css']['file']);
+                    if (file_exists($cssFile)) {
+                        return file_get_contents($cssFile);
+                    }
+                }
+            } catch (\Exception) {
+                // Fallback to alternative approach
+            }
         }
 
-        return file_get_contents($cssPath);
+        // Fallback: try to read CSS from resources
+        $cssPath = __DIR__ . '/../../resources/css/compiled.css';
+        if (file_exists($cssPath)) {
+            return file_get_contents($cssPath);
+        }
+
+        return '';
     }
 }
