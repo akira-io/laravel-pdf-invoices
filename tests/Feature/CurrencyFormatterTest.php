@@ -21,6 +21,13 @@ describe('LaravelCurrencyFormatter', function (): void {
 
         expect($formatted)->toBeString();
     });
+
+    it('handles formatting with currency code 0', function (): void {
+        $formatter = new LaravelCurrencyFormatter();
+        $formatted = $formatter->format(100.00, '0', 'en');
+
+        expect($formatted)->toBeString();
+    });
 });
 
 describe('SimpleCurrencyFormatter', function (): void {
