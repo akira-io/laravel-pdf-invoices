@@ -168,4 +168,10 @@ If a translation key is not found:
 
 1. The translator attempts to use the specified locale
 2. Falls back to the default locale (usually 'en')
-3. Returns the key itself if no translation is found
+3. Returns the key itself if no translation is found---
+
+**← Previous:** [07 - ](./07-customization.md) | **Next:** [09 -  →](./09-css-compilation.md)
+
+---
+
+**← Previous:** [07 - Customization](./07-customization.md) | **Next:** [09 - CSS Compilation →](./09-css-compilation.md)

@@ -282,4 +282,10 @@ Create a template that uses your brand colors:
 - Templates render quickly with laravel-pdf
 - CSS is compiled to minimize overhead
 - Optimize images used in templates
-- Use simple layouts for faster generation
+- Use simple layouts for faster generation---
+
+**← Previous:** [04 - ](./04-attributes.md) | **Next:** [06 -  →](./06-creating-custom-templates.md)
+
+---
+
+**← Previous:** [04 - Custom Attributes](./04-attributes.md) | **Next:** [06 - Creating Custom Templates →](./06-creating-custom-templates.md)

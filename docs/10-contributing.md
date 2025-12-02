@@ -247,4 +247,10 @@ Contributors are recognized in:
 - CHANGELOG.md
 - GitHub contributors page
 
-Thank you for contributing!
+Thank you for contributing!---
+
+**← Previous:** [09 - ](./09-css-compilation.md)
+
+---
+
+**← Previous:** [09 - CSS Compilation](./09-css-compilation.md)

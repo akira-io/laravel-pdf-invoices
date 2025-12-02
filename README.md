@@ -62,7 +62,7 @@ Configure your PDF engine in `.env`:
 INVOICES_PDF_DRIVER=spatie
 ```
 
-[Learn more about PDF generators →](docs/pdf-generators.md)
+[Learn more about PDF generators →](docs/02-pdf-generators.md)
 
 ## Quick Start
 
@@ -154,7 +154,7 @@ $pdf = $invoice->generatePdf(locale: 'en');
 
 Supported: English (`en`), Portuguese (`pt`)
 
-[View all translation keys →](docs/localization.md)
+[View all translation keys →](docs/08-localization.md)
 
 ## Custom Attributes
 
@@ -260,13 +260,17 @@ composer test -- --coverage
 
 ## Documentation
 
-- [Full Documentation](docs/index.md)
-- [PDF Generators](docs/pdf-generators.md)
-- [Builder Pattern](docs/builders.md)
-- [Custom Attributes](docs/attributes.md)
-- [Templates Guide](docs/templates.md)
-- [Localization](docs/localization.md)
-- [CSS Compilation](docs/css-compilation.md)
+- [Full Documentation](docs/00-index.md)
+- [Usage Guide](docs/01-usage.md)
+- [PDF Generators](docs/02-pdf-generators.md)
+- [Builder Pattern](docs/03-builders.md)
+- [Custom Attributes](docs/04-attributes.md)
+- [Templates Guide](docs/05-templates.md)
+- [Custom Templates](docs/06-creating-custom-templates.md)
+- [Customization](docs/07-customization.md)
+- [Localization](docs/08-localization.md)
+- [CSS Compilation](docs/09-css-compilation.md)
+- [Contributing](docs/10-contributing.md)
 
 ## Changelog
 

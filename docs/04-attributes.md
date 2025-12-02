@@ -265,4 +265,10 @@ $invoice = InvoiceBuilder::make()
 echo $invoice->get('po_number');           // 'PO-2024-001'
 echo $buyer->get('customer_id');           // 'CUST-001'
 echo $invoice->items[0]->get('project_id'); // 'PROJ-ABC'
-```
+```---
+
+**← Previous:** [03 - ](./03-builders.md) | **Next:** [05 -  →](./05-templates.md)
+
+---
+
+**← Previous:** [03 - Builders](./03-builders.md) | **Next:** [05 - Templates →](./05-templates.md)

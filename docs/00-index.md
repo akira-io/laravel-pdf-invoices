@@ -80,13 +80,16 @@ $invoice = InvoiceBuilder::make()
 
 ## Documentation
 
-- [Usage](./usage.md) - Installation and usage examples
-- [PDF Generators](./pdf-generators.md) - Spatie vs DomPDF comparison and configuration
-- [Builders](./builders.md) - Explanation of builder pattern
-- [Custom Attributes](./attributes.md) - Handling custom attributes
-- [Templates](./templates.md) - Template customization
-- [Customization](./customization.md) - Extending and overriding services
-- [Contributing](./contributing.md) - Contribution guide
+1. [Usage](./01-usage.md) - Installation and usage examples
+2. [PDF Generators](./02-pdf-generators.md) - Spatie vs DomPDF comparison and configuration
+3. [Builders](./03-builders.md) - Explanation of builder pattern
+4. [Custom Attributes](./04-attributes.md) - Handling custom attributes
+5. [Templates](./05-templates.md) - Template customization
+6. [Creating Custom Templates](./06-creating-custom-templates.md) - Build your own templates
+7. [Customization](./07-customization.md) - Extending and overriding services
+8. [Localization](./08-localization.md) - Multi-language support
+9. [CSS Compilation](./09-css-compilation.md) - CSS setup and compilation
+10. [Contributing](./10-contributing.md) - Contribution guide
 
 ## Testing
 
@@ -112,3 +115,8 @@ composer format       # Run Laravel Pint
 ## License
 
 The MIT License (MIT). See [License File](../LICENSE.md) for more information.
+
+
+---
+
+**Next:** [01 - Usage →](./01-usage.md)

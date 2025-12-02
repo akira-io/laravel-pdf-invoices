@@ -253,4 +253,10 @@ try {
 } catch (InvalidArgumentException $e) {
     // Handle error
 }
-```
+```---
+
+**← Previous:** [00 - ](./00-index.md) | **Next:** [02 -  →](./02-pdf-generators.md)
+
+---
+
+**← Previous:** [00 - Index](./00-index.md) | **Next:** [02 - PDF Generators →](./02-pdf-generators.md)

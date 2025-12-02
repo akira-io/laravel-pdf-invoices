@@ -189,4 +189,10 @@ Potential optimizations being considered:
 
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Vite CSS Processing](https://vitejs.dev/guide/features.html#css)
-- [Spatie Laravel PDF](https://spatie.be/docs/laravel-pdf)
+- [Spatie Laravel PDF](https://spatie.be/docs/laravel-pdf)---
+
+**← Previous:** [08 - ](./08-localization.md) | **Next:** [10 -  →](./10-contributing.md)
+
+---
+
+**← Previous:** [08 - Localization](./08-localization.md) | **Next:** [10 - Contributing →](./10-contributing.md)

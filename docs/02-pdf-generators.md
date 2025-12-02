@@ -36,38 +36,6 @@ Set in `.env`:
 INVOICES_PDF_DRIVER=spatie
 ```
 
----
-
-### 2. DomPDF
-
-Pure PHP solution using `barryvdh/laravel-dompdf`. No Node.js required.
-
-**Pros:**
-- Pure PHP, no external dependencies
-- Lightweight and fast for simple documents
-- No need for Node.js or Chromium
-- Smaller memory footprint
-- Great for simple invoices with basic CSS
-
-**Cons:**
-- Limited JavaScript support
-- Some advanced CSS features not supported
-- Slower with complex layouts
-- May have rendering differences in edge cases
-
-**Use case:** Simple invoices, lightweight deployments, or when Node.js is not available.
-
-#### Setup
-
-DomPDF is already included as a dependency. Just configure it:
-
-Set in `.env`:
-
-```env
-INVOICES_PDF_DRIVER=dompdf
-```
-
----
 
 ## Comparison Table
 
@@ -82,30 +50,6 @@ INVOICES_PDF_DRIVER=dompdf
 | License | MIT | LGPL |
 | Best For | Complex layouts | Simple invoices |
 
----
-
-## Switching Drivers
-
-Switching between drivers is simple and doesn't require code changes:
-
-```bash
-# Use DomPDF
-INVOICES_PDF_DRIVER=dompdf
-
-# Use Spatie
-INVOICES_PDF_DRIVER=spatie
-```
-
-Your invoice generation code remains the same:
-
-```php
-$pdf = $invoice->generatePdf();
-$pdf->save('invoices/invoice-001.pdf');
-```
-
-The underlying engine will be swapped automatically based on the configuration.
-
----
 
 ## Configuration
 
@@ -119,37 +63,6 @@ All PDF generation configuration is managed in `config/pdf-invoices.php`:
 ],
 ```
 
----
-
-## Troubleshooting
-
-### Spatie (Puppeteer) Issues
-
-**"Puppeteer not found"**
-```bash
-npm install puppeteer
-```
-
-**Memory exhausted**
-- Reduce concurrent PDF generations
-- Increase PHP memory limit in `php.ini`
-
-**Timeouts**
-- Increase Laravel's timeout configuration
-- Check Chromium process requirements
-
-### DomPDF Issues
-
-**CSS not rendering correctly**
-- Some CSS features are limited in DomPDF
-- Test with inline styles instead
-- Refer to [DomPDF documentation](https://github.com/barryvdh/laravel-dompdf)
-
-**Font issues**
-- Make sure fonts are available
-- Use system fonts or specify font paths
-
----
 
 ## Performance Tips
 
@@ -165,29 +78,6 @@ npm install puppeteer
 2. **Inline styles:** Use inline CSS over external stylesheets when possible
 3. **Optimize images:** Use optimized images to reduce file size
 
----
-
-## Environment Variables
-
-```env
-# PDF Generation Driver
-INVOICES_PDF_DRIVER=spatie
-
-# Invoice Template (minimal, modern, branded)
-INVOICES_TEMPLATE=modern
-
-# Base path for saving PDFs
-INVOICES_PDF_PATH=invoices
-
-# Localization
-INVOICES_LOCALE=en
-
-# Currency Configuration
-INVOICES_CURRENCY_CODE=EUR
-INVOICES_CURRENCY_SYMBOL=€
-```
-
----
 
 ## Custom PDF Generator
 
@@ -221,8 +111,10 @@ Register it in your service provider:
 $this->app->singleton(PdfGeneratorContract::class, function ($app) {
     return new CustomPdfGenerator();
 });
-```
+```---
+
+**← Previous:** [01 - ](./01-usage.md) | **Next:** [03 -  →](./03-builders.md)
 
 ---
 
-See the [main documentation](index.md) for more information.
+**← Previous:** [01 - Usage](./01-usage.md) | **Next:** [03 - Builders →](./03-builders.md)

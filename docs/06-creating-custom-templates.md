@@ -276,4 +276,10 @@ See the package's language files for all available translations.
 ### Missing Fonts
 - The PDF generator uses system fonts by default
 - Consider the fonts available in the rendering environment
-- Stick to web-safe fonts: Arial, Helvetica, Times New Roman, etc.
+- Stick to web-safe fonts: Arial, Helvetica, Times New Roman, etc.---
+
+**← Previous:** [05 - ](./05-templates.md) | **Next:** [07 -  →](./07-customization.md)
+
+---
+
+**← Previous:** [05 - Templates](./05-templates.md) | **Next:** [07 - Customization →](./07-customization.md)

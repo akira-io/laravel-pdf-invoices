@@ -302,4 +302,10 @@ All DTOs are immutable and cannot be modified after creation. Create a new insta
 
 #### Date Properties in InvoiceData
 
-The `issuedAt` and `dueAt` properties in the returned `InvoiceData` DTO will be stored as `CarbonInterface` instances for consistency, regardless of the input type (Carbon, CarbonImmutable, or DateTime).
+The `issuedAt` and `dueAt` properties in the returned `InvoiceData` DTO will be stored as `CarbonInterface` instances for consistency, regardless of the input type (Carbon, CarbonImmutable, or DateTime).---
+
+**← Previous:** [02 - ](./02-pdf-generators.md) | **Next:** [04 -  →](./04-attributes.md)
+
+---
+
+**← Previous:** [02 - PDF Generators](./02-pdf-generators.md) | **Next:** [04 - Custom Attributes →](./04-attributes.md)
