@@ -2,9 +2,10 @@
 
 namespace Akira\PdfInvoices\Tests;
 
+use Akira\Debugger\DebuggerServiceProvider;
+use Akira\PdfInvoices\PdfInvoicesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Akira\PdfInvoices\PdfInvoicesServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -21,6 +22,7 @@ class TestCase extends Orchestra
     {
         return [
             PdfInvoicesServiceProvider::class,
+            DebuggerServiceProvider::class
         ];
     }
 
