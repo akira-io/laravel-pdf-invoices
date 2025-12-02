@@ -1,29 +1,33 @@
-
-
-## [1.2.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.1.2...v1.2.0) (2025-12-02)
-
-
-### Features
-
-* add ConfigManager for type-safe configuration access and fix PHPStan level max issues ([4bc806a](https://github.com/akira-io/laravel-pdf-invoices/commit/4bc806a363042f2e713955f6f986546ec9b12195))
-* add puppeteer as a dependency in package.json ([653c865](https://github.com/akira-io/laravel-pdf-invoices/commit/653c865a06686010649cb4826355bcf71878ec8b))
-* add support for DomPDF as an alternative PDF generator and enhance configuration options ([5f213bc](https://github.com/akira-io/laravel-pdf-invoices/commit/5f213bca6f2106654932a3f7a8de692e74baf46d))
-* enhance CSS retrieval by integrating Vite manifest support ([42fac19](https://github.com/akira-io/laravel-pdf-invoices/commit/42fac19f21111154154ed5e43fb528cf1d47b82d))
-* enhance seller information display in invoice templates ([d82d752](https://github.com/akira-io/laravel-pdf-invoices/commit/d82d752741d0914df55ac3c7490607a1d95c8767))
-
-
-### Bug Fixes
-
-* remove addUnreleased from release-it config to properly include header ([1a6d03e](https://github.com/akira-io/laravel-pdf-invoices/commit/1a6d03e88cd7e15076a753b4987ce9c20e04e3c2))
-* resolve all PHPStan level max issues with proper type handling and assertions ([901a92d](https://github.com/akira-io/laravel-pdf-invoices/commit/901a92d534faf8dc6d8fe7d3170e92f8e004a4c5))
-* update issuedAt and dueAt methods to support Carbon and DateTime interfaces in documentation ([e7030db](https://github.com/akira-io/laravel-pdf-invoices/commit/e7030db11f04efc07eb2cd0edbaea8d6582367ad))
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.2.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.1.2...v1.2.0) (2025-12-02)
+
+### Features
+
+* add ConfigManager for type-safe configuration access and fix PHPStan level max
+  issues ([4bc806a](https://github.com/akira-io/laravel-pdf-invoices/commit/4bc806a363042f2e713955f6f986546ec9b12195))
+* add puppeteer as a dependency in
+  package.json ([653c865](https://github.com/akira-io/laravel-pdf-invoices/commit/653c865a06686010649cb4826355bcf71878ec8b))
+* add support for DomPDF as an alternative PDF generator and enhance configuration
+  options ([5f213bc](https://github.com/akira-io/laravel-pdf-invoices/commit/5f213bca6f2106654932a3f7a8de692e74baf46d))
+* enhance CSS retrieval by integrating Vite manifest
+  support ([42fac19](https://github.com/akira-io/laravel-pdf-invoices/commit/42fac19f21111154154ed5e43fb528cf1d47b82d))
+* enhance seller information display in invoice
+  templates ([d82d752](https://github.com/akira-io/laravel-pdf-invoices/commit/d82d752741d0914df55ac3c7490607a1d95c8767))
+
+### Bug Fixes
+
+* remove addUnreleased from release-it config to properly include
+  header ([1a6d03e](https://github.com/akira-io/laravel-pdf-invoices/commit/1a6d03e88cd7e15076a753b4987ce9c20e04e3c2))
+* resolve all PHPStan level max issues with proper type handling and
+  assertions ([901a92d](https://github.com/akira-io/laravel-pdf-invoices/commit/901a92d534faf8dc6d8fe7d3170e92f8e004a4c5))
+* update issuedAt and dueAt methods to support Carbon and DateTime interfaces in
+  documentation ([e7030db](https://github.com/akira-io/laravel-pdf-invoices/commit/e7030db11f04efc07eb2cd0edbaea8d6582367ad))
 
 ## [1.1.2](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.1.1...v1.1.2) (2025-11-04)
 
