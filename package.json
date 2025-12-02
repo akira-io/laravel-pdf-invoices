@@ -14,14 +14,16 @@
     "puppeteer": "^24.0.0"
   },
   "devDependencies": {
-    "@release-it/conventional-changelog": "^7.0.0",
     "@tailwindcss/cli": "^4.1.16",
     "@tailwindcss/typography": "^0.5.15",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
-    "release-it": "^17.0.0",
     "tailwindcss": "^4.1.16",
-    "vite": "^7.1.12"
+    "vite": "^7.1.12",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "release-it": "^17.0.3"
   },
   "release-it": {
     "plugins": {
