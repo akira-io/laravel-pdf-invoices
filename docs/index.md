@@ -11,7 +11,7 @@ This package provides a clean builder pattern API, immutable data objects, and m
 - **Custom Attributes**: Extensible system for adding custom fields to any entity
 - **Multiple Templates**: Built-in minimal, modern, and branded Blade templates
 - **Currency Formatting**: Flexible currency system with Laravel integration and custom formatters
-- **PDF Generation**: Powered by Spatie's laravel-pdf with easy customization
+- **Multiple PDF Engines**: Choose between Spatie (Puppeteer) or DomPDF generators
 - **Storage Abstraction**: Pluggable storage drivers for saving invoices
 - **Quality Tools**: PHPStan level max, Laravel Pint, and Rector integration
 - **Well Tested**: Comprehensive PestPHP test suite
@@ -81,6 +81,7 @@ $invoice = InvoiceBuilder::make()
 ## Documentation
 
 - [Usage](./usage.md) - Installation and usage examples
+- [PDF Generators](./pdf-generators.md) - Spatie vs DomPDF comparison and configuration
 - [Builders](./builders.md) - Explanation of builder pattern
 - [Custom Attributes](./attributes.md) - Handling custom attributes
 - [Templates](./templates.md) - Template customization

@@ -19,7 +19,7 @@ and multi-language support.
 - **Multi-Language** - English, Portuguese (easily extensible)
 - **Custom Fields** - Add any custom attributes to entities
 - **Currency Support** - Flexible formatting with Laravel integration
-- **PDF Generation** - Powered by Spatie's laravel-pdf with `puppeteer` integration
+- **Multiple PDF Engines** - Choose between Spatie (Puppeteer) or DomPDF
 - **Fully Tested** - Comprehensive PestPHP test suite
 - **Quality Tools** - PHPStan level max, Laravel Pint, Rector
 
@@ -31,17 +31,38 @@ Install via Composer:
 composer require akira/laravel-pdf-invoices
 ```
 
-Install peer dependency (Puppeteer for PDF generation):
+Choose your PDF generation engine:
+
+### Option 1: Spatie (Puppeteer) - Default
+
+Best for complex layouts and JavaScript rendering:
 
 ```bash
 npm install puppeteer
 ```
 
-Publish assets:
+### Option 2: DomPDF
+
+Pure PHP solution, no Node.js required:
+
+```bash
+# DomPDF is included as a dependency, no additional steps needed
+```
+
+Then publish assets:
 
 ```bash
 php artisan vendor:publish --provider="Akira\PdfInvoices\PdfInvoicesServiceProvider"
 ```
+
+Configure your PDF engine in `.env`:
+
+```env
+# Use 'spatie' (default) or 'dompdf'
+INVOICES_PDF_DRIVER=spatie
+```
+
+[Learn more about PDF generators →](docs/pdf-generators.md)
 
 ## Quick Start
 
@@ -240,6 +261,7 @@ composer test -- --coverage
 ## Documentation
 
 - [Full Documentation](docs/index.md)
+- [PDF Generators](docs/pdf-generators.md)
 - [Builder Pattern](docs/builders.md)
 - [Custom Attributes](docs/attributes.md)
 - [Templates Guide](docs/templates.md)

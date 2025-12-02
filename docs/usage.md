@@ -77,6 +77,20 @@ $path = app(\Akira\PdfInvoices\Contracts\PdfGeneratorContract::class)
     ->save($invoice, 'invoices/INV-2024-001.pdf', 'modern');
 ```
 
+### Choosing a PDF Generator
+
+Choose between Spatie (Puppeteer) or DomPDF in your `.env`:
+
+```env
+# Use Spatie (default) - requires Node.js and Puppeteer
+INVOICES_PDF_DRIVER=spatie
+
+# Or use DomPDF - pure PHP, no Node.js required
+INVOICES_PDF_DRIVER=dompdf
+```
+
+The code remains the same regardless of which driver you use. See [PDF Generators documentation](./pdf-generators.md) for comparison and detailed setup instructions.
+
 ### Saving to Storage
 
 ```php
@@ -119,12 +133,26 @@ return [
 ### Environment Variables
 
 ```env
+# PDF Generation Driver (spatie or dompdf)
+INVOICES_PDF_DRIVER=spatie
+
+# Template selection
 INVOICES_TEMPLATE=modern
+
+# PDF file path
 INVOICES_PDF_PATH=invoices
+
+# Storage configuration
 INVOICES_STORAGE_DISK=local
+
+# Currency settings
 INVOICES_CURRENCY_CODE=EUR
 INVOICES_CURRENCY_SYMBOL=€
+
+# Localization
 INVOICES_LOCALE=en
+
+# Feature flags
 INVOICES_ALLOW_CUSTOM_ATTRIBUTES=true
 ```
 
