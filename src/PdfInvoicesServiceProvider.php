@@ -7,6 +7,7 @@ namespace Akira\PdfInvoices;
 use Akira\PdfInvoices\Contracts\CurrencyFormatterContract;
 use Akira\PdfInvoices\Contracts\PdfGeneratorContract;
 use Akira\PdfInvoices\Contracts\StorageDriverContract;
+use Akira\PdfInvoices\Pdf\DompdfPdfGenerator;
 use Akira\PdfInvoices\Pdf\SpatiePdfGenerator;
 use Akira\PdfInvoices\Storage\LaravelStorageDriver;
 use Akira\PdfInvoices\Support\LaravelCurrencyFormatter;
@@ -34,9 +35,13 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
         });
 
         $this->app->singleton(PdfGeneratorContract::class, function (mixed $app): PdfGeneratorContract {
+            $driver = config('pdf-invoices.pdf.driver', 'spatie');
             $basePath = config('pdf-invoices.pdf.base_path', 'invoices');
 
-            return new SpatiePdfGenerator($basePath);
+            return match ($driver) {
+                'dompdf' => new DompdfPdfGenerator($basePath),
+                default => new SpatiePdfGenerator($basePath),
+            };
         });
 
         $this->app->singleton(StorageDriverContract::class, function (mixed $app): StorageDriverContract {
