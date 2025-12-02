@@ -19,10 +19,11 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
     {
         $tempFile = tempnam(sys_get_temp_dir(), 'pdf_').'.pdf';
         $compiledCss = $this->getCompiledCss();
-        $locale = config('pdf-invoices.localization.locale', 'en');
+        $locale = (string) config('pdf-invoices.localization.locale', 'en');
         $translator = new InvoiceTranslator($locale);
 
-        Pdf::view("pdf-invoices::pdf.templates.{$template}", [
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+        Pdf::view($viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,
@@ -31,17 +32,18 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         $content = file_get_contents($tempFile);
         unlink($tempFile);
 
-        return $content;
+        return is_string($content) ? $content : '';
     }
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
         $fullPath = $this->basePath.'/'.$path;
         $compiledCss = $this->getCompiledCss();
-        $locale = config('pdf-invoices.localization.locale', 'en');
+        $locale = (string) config('pdf-invoices.localization.locale', 'en');
         $translator = new InvoiceTranslator($locale);
 
-        Pdf::view("pdf-invoices::pdf.templates.{$template}", [
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+        Pdf::view($viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,
@@ -61,6 +63,8 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
             return '';
         }
 
-        return file_get_contents($cssPath);
+        $content = file_get_contents($cssPath);
+
+        return is_string($content) ? $content : '';
     }
 }

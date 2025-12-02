@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices;
 
+use Akira\PdfInvoices\Config\ConfigManager;
 use Akira\PdfInvoices\Contracts\CurrencyFormatterContract;
 use Akira\PdfInvoices\Contracts\PdfGeneratorContract;
 use Akira\PdfInvoices\Contracts\StorageDriverContract;
@@ -27,15 +28,19 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->singleton(function (mixed $app): CurrencyFormatterContract {
-            $driver = config('pdf-invoices.currency.driver', LaravelCurrencyFormatter::class);
+        $this->app->singleton(ConfigManager::class);
 
-            return $app->make($driver);
+        $this->app->singleton(CurrencyFormatterContract::class, function (): CurrencyFormatterContract {
+            $configManager = $this->app->make(ConfigManager::class);
+            $driver = $configManager->currencyDriver();
+
+            return $this->app->make($driver);
         });
 
-        $this->app->singleton(function (mixed $app): PdfGeneratorContract {
-            $driver = config('pdf-invoices.pdf.driver', 'spatie');
-            $basePath = config('pdf-invoices.pdf.base_path', 'invoices');
+        $this->app->singleton(PdfGeneratorContract::class, function (): PdfGeneratorContract {
+            $configManager = $this->app->make(ConfigManager::class);
+            $driver = $configManager->pdfDriver();
+            $basePath = $configManager->pdfBasePath();
 
             return match ($driver) {
                 'dompdf' => new DompdfPdfGenerator($basePath),
@@ -43,10 +48,11 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
             };
         });
 
-        $this->app->singleton(function (mixed $app): StorageDriverContract {
-            $disk = config('pdf-invoices.storage.disk', 'local');
+        $this->app->singleton(StorageDriverContract::class, function (): StorageDriverContract {
+            $configManager = $this->app->make(ConfigManager::class);
+            $disk = $configManager->storageDisk();
 
-            return new LaravelStorageDriver($app['filesystem']->disk($disk));
+            return new LaravelStorageDriver($this->app['filesystem']->disk($disk));
         });
     }
 }

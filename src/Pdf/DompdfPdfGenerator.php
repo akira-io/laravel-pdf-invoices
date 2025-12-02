@@ -18,10 +18,11 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
     {
         $compiledCss = $this->getCompiledCss();
-        $locale = config('pdf-invoices.localization.locale', 'en');
+        $locale = (string) config('pdf-invoices.localization.locale', 'en');
         $translator = new InvoiceTranslator($locale);
 
-        $html = view("pdf-invoices::pdf.templates.{$template}", [
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+        $html = view($viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,
@@ -35,10 +36,11 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
     {
         $fullPath = $this->basePath.'/'.$path;
         $compiledCss = $this->getCompiledCss();
-        $locale = config('pdf-invoices.localization.locale', 'en');
+        $locale = (string) config('pdf-invoices.localization.locale', 'en');
         $translator = new InvoiceTranslator($locale);
 
-        $html = view("pdf-invoices::pdf.templates.{$template}", [
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+        $html = view($viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,
@@ -61,6 +63,8 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
             return '';
         }
 
-        return file_get_contents($cssPath);
+        $content = file_get_contents($cssPath);
+
+        return is_string($content) ? $content : '';
     }
 }
