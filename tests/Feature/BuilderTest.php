@@ -138,7 +138,7 @@ describe('InvoiceBuilder', function () {
     it('requires buyer', function () {
         $seller = EntityBuilder::make()->name('Seller')->build();
 
-        expect(function () {
+        expect(function () use ($seller){
             InvoiceBuilder::make()->seller($seller)->build();
         })->toThrow(InvalidArgumentException::class);
     });
@@ -207,7 +207,7 @@ describe('InvoiceBuilder', function () {
 
         expect($invoice->getSubtotal())->toBe(250.0)
             ->and($invoice->getTotalDiscount())->toBe(10.0)
-            ->and($invoice->getTotalTax())->toBeCloseTo(24.0, 1);
+            ->and($invoice->getTotalTax())->toBeBetween(23.9, 24.1);
     });
 
     it('supports custom attributes', function () {
