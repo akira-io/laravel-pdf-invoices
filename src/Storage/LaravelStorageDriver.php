@@ -6,6 +6,7 @@ namespace Akira\PdfInvoices\Storage;
 
 use Akira\PdfInvoices\Contracts\StorageDriverContract;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use RuntimeException;
 
 final readonly class LaravelStorageDriver implements StorageDriverContract
 {
@@ -28,9 +29,7 @@ final readonly class LaravelStorageDriver implements StorageDriverContract
     public function get(string $path): string
     {
         $content = $this->disk->get($path);
-        if ($content === null) {
-            throw new \RuntimeException("File not found at path: {$path}");
-        }
+        throw_if($content === null, RuntimeException::class, "File not found at path: {$path}");
 
         return $content;
     }

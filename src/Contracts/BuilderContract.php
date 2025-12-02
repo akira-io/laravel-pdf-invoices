@@ -9,7 +9,7 @@ interface BuilderContract
     public static function make(): static;
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function withAttributes(array $data): static;
 

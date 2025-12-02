@@ -20,7 +20,7 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         $tempFile = tempnam(sys_get_temp_dir(), 'pdf_').'.pdf';
         $compiledCss = $this->getCompiledCss();
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (!is_string($locale)) {
+        if (! is_string($locale)) {
             $locale = 'en';
         }
         $translator = new InvoiceTranslator($locale);
@@ -43,7 +43,7 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         $fullPath = $this->basePath.'/'.$path;
         $compiledCss = $this->getCompiledCss();
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (!is_string($locale)) {
+        if (! is_string($locale)) {
             $locale = 'en';
         }
         $translator = new InvoiceTranslator($locale);

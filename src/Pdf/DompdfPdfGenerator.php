@@ -19,13 +19,14 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
     {
         $compiledCss = $this->getCompiledCss();
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (!is_string($locale)) {
+        if (! is_string($locale)) {
             $locale = 'en';
         }
         $translator = new InvoiceTranslator($locale);
 
         $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        $html = view($viewPath, [
+        /** @var string $html */
+        $html = view(/** @phpstan-ignore-line */ $viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,
@@ -40,13 +41,14 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
         $fullPath = $this->basePath.'/'.$path;
         $compiledCss = $this->getCompiledCss();
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (!is_string($locale)) {
+        if (! is_string($locale)) {
             $locale = 'en';
         }
         $translator = new InvoiceTranslator($locale);
 
         $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        $html = view($viewPath, [
+        /** @var string $html */
+        $html = view(/** @phpstan-ignore-line */ $viewPath, [
             'invoice' => $invoice,
             'compiledCss' => $compiledCss,
             'translator' => $translator,

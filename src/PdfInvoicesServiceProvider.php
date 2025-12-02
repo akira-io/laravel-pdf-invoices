@@ -11,7 +11,7 @@ use Akira\PdfInvoices\Contracts\StorageDriverContract;
 use Akira\PdfInvoices\Pdf\DompdfPdfGenerator;
 use Akira\PdfInvoices\Pdf\SpatiePdfGenerator;
 use Akira\PdfInvoices\Storage\LaravelStorageDriver;
-use Akira\PdfInvoices\Support\LaravelCurrencyFormatter;
+use InvalidArgumentException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -31,22 +31,18 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
         $this->app->singleton(ConfigManager::class);
 
         $this->app->singleton(
-            CurrencyFormatterContract::class,
             function (): CurrencyFormatterContract {
                 $configManager = $this->app->make(ConfigManager::class);
                 $driver = $configManager->currencyDriver();
 
                 $instance = $this->app->make($driver);
-                if (!$instance instanceof CurrencyFormatterContract) {
-                    throw new \InvalidArgumentException("Currency driver {$driver} must implement CurrencyFormatterContract");
-                }
+                throw_unless($instance instanceof CurrencyFormatterContract, InvalidArgumentException::class, "Currency driver {$driver} must implement CurrencyFormatterContract");
 
                 return $instance;
             }
         );
 
         $this->app->singleton(
-            PdfGeneratorContract::class,
             function (): PdfGeneratorContract {
                 $configManager = $this->app->make(ConfigManager::class);
                 $driver = $configManager->pdfDriver();
@@ -60,11 +56,10 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
         );
 
         $this->app->singleton(
-            StorageDriverContract::class,
             function (): StorageDriverContract {
                 $configManager = $this->app->make(ConfigManager::class);
                 $disk = $configManager->storageDisk();
-                $filesystem = $this->app->make('filesystem');
+                $filesystem = $this->app->make(\Illuminate\Contracts\Filesystem\Factory::class);
 
                 return new LaravelStorageDriver($filesystem->disk($disk));
             }

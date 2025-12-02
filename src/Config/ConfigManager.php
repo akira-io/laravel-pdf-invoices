@@ -6,12 +6,10 @@ namespace Akira\PdfInvoices\Config;
 
 final readonly class ConfigManager
 {
-    public function __construct() {}
-
     public function pdfDriver(): string
     {
         $driver = config('pdf-invoices.pdf.driver', 'spatie');
-        if (!is_string($driver)) {
+        if (! is_string($driver)) {
             return 'spatie';
         }
 
@@ -21,7 +19,7 @@ final readonly class ConfigManager
     public function pdfTemplate(): string
     {
         $template = config('pdf-invoices.pdf.template', 'modern');
-        if (!is_string($template)) {
+        if (! is_string($template)) {
             return 'modern';
         }
 
@@ -31,7 +29,7 @@ final readonly class ConfigManager
     public function pdfBasePath(): string
     {
         $path = config('pdf-invoices.pdf.base_path', 'invoices');
-        if (!is_string($path)) {
+        if (! is_string($path)) {
             return 'invoices';
         }
 
@@ -41,7 +39,7 @@ final readonly class ConfigManager
     public function storageDriver(): string
     {
         $driver = config('pdf-invoices.storage.driver', 'laravel');
-        if (!is_string($driver)) {
+        if (! is_string($driver)) {
             return 'laravel';
         }
 
@@ -51,7 +49,7 @@ final readonly class ConfigManager
     public function storageDisk(): string
     {
         $disk = config('pdf-invoices.storage.disk', 'local');
-        if (!is_string($disk)) {
+        if (! is_string($disk)) {
             return 'local';
         }
 
@@ -60,9 +58,9 @@ final readonly class ConfigManager
 
     public function currencyDriver(): string
     {
-        $driver = config('pdf-invoices.currency.driver', 'Akira\PdfInvoices\Support\LaravelCurrencyFormatter');
-        if (!is_string($driver)) {
-            return 'Akira\PdfInvoices\Support\LaravelCurrencyFormatter';
+        $driver = config('pdf-invoices.currency.driver', \Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class);
+        if (! is_string($driver)) {
+            return \Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class;
         }
 
         return $driver;
@@ -71,7 +69,7 @@ final readonly class ConfigManager
     public function currencyCode(): string
     {
         $code = config('pdf-invoices.currency.code', 'EUR');
-        if (!is_string($code)) {
+        if (! is_string($code)) {
             return 'EUR';
         }
 
@@ -81,7 +79,7 @@ final readonly class ConfigManager
     public function currencySymbol(): string
     {
         $symbol = config('pdf-invoices.currency.symbol', '€');
-        if (!is_string($symbol)) {
+        if (! is_string($symbol)) {
             return '€';
         }
 
@@ -91,7 +89,7 @@ final readonly class ConfigManager
     public function locale(): string
     {
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (!is_string($locale)) {
+        if (! is_string($locale)) {
             return 'en';
         }
 
@@ -105,7 +103,7 @@ final readonly class ConfigManager
     {
         $locales = config('pdf-invoices.localization.supported_locales', ['en']);
 
-        if (!is_array($locales)) {
+        if (! is_array($locales)) {
             return ['en'];
         }
 
@@ -116,13 +114,13 @@ final readonly class ConfigManager
             }
         }
 
-        return !empty($stringLocales) ? $stringLocales : ['en'];
+        return $stringLocales === [] ? ['en'] : $stringLocales;
     }
 
     public function allowCustomAttributes(): bool
     {
         $allow = config('pdf-invoices.allow_custom_attributes', true);
-        if (!is_bool($allow)) {
+        if (! is_bool($allow)) {
             return true;
         }
 
@@ -137,10 +135,17 @@ final readonly class ConfigManager
     public function all(): array
     {
         $config = config('pdf-invoices', []);
-        if (!is_array($config)) {
+        if (! is_array($config)) {
             return [];
         }
 
-        return $config;
+        $result = [];
+        foreach ($config as $key => $value) {
+            if (is_string($key)) {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 }

@@ -45,7 +45,10 @@ final readonly class InvoiceTranslator
             if (is_scalar($v) || $v === null) {
                 $transReplace[$k] = $v;
             } else {
-                $transReplace[$k] = (string) $v;
+                $transReplace[$k] = match (true) {
+                    is_object($v) && method_exists($v, '__toString') => (string) $v,
+                    default => '',
+                };
             }
         }
 

@@ -17,7 +17,7 @@ final class LaravelCurrencyFormatter implements CurrencyFormatterContract
             $result = Number::currency($amount, $currency, locale: $locale);
         }
 
-        if (!is_string($result)) {
+        if (! is_string($result)) {
             return (string) $amount;
         }
 
