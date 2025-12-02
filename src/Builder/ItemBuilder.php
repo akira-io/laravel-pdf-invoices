@@ -24,7 +24,7 @@ final class ItemBuilder implements BuilderContract
 
     public static function make(): static
     {
-        return new static();
+        return new self();
     }
 
     public function description(string $description): static

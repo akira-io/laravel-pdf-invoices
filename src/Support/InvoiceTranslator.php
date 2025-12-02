@@ -12,29 +12,17 @@ namespace Akira\PdfInvoices\Support;
 final readonly class InvoiceTranslator
 {
     /**
-     * @param string $locale The locale to use for translations (e.g., 'en', 'pt')
+     * @param  string  $locale  The locale to use for translations (e.g., 'en', 'pt')
      */
     public function __construct(
         private string $locale = 'en',
     ) {}
 
     /**
-     * Translate an invoice key.
-     *
-     * @param string $key The translation key (e.g., 'invoice', 'subtotal')
-     * @param array<string, mixed> $replace Replacements for the translation
-     * @return string The translated string
-     */
-    public function translate(string $key, array $replace = []): string
-    {
-        return trans("pdf-invoices::invoice.{$key}", $replace, $this->locale);
-    }
-
-    /**
      * Alias for translate() method.
      *
-     * @param string $key The translation key
-     * @param array<string, mixed> $replace Replacements for the translation
+     * @param  string  $key  The translation key
+     * @param  array<string, mixed>  $replace  Replacements for the translation
      * @return string The translated string
      */
     public function __(string $key, array $replace = []): string
@@ -43,9 +31,19 @@ final readonly class InvoiceTranslator
     }
 
     /**
-     * Get the current locale.
+     * Translate an invoice key.
      *
-     * @return string
+     * @param  string  $key  The translation key (e.g., 'invoice', 'subtotal')
+     * @param  array<string, mixed>  $replace  Replacements for the translation
+     * @return string The translated string
+     */
+    public function translate(string $key, array $replace = []): string
+    {
+        return trans("pdf-invoices::invoice.{$key}", $replace, $this->locale);
+    }
+
+    /**
+     * Get the current locale.
      */
     public function getLocale(): string
     {
@@ -54,9 +52,6 @@ final readonly class InvoiceTranslator
 
     /**
      * Create a new instance with a different locale.
-     *
-     * @param string $locale
-     * @return self
      */
     public function withLocale(string $locale): self
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akira\PdfInvoices\Facades;
 
 use Illuminate\Support\Facades\Facade;
@@ -7,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Akira\PdfInvoices\PdfInvoices
  */
-class PdfInvoices extends Facade
+final class PdfInvoices extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

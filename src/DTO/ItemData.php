@@ -7,11 +7,6 @@ namespace Akira\PdfInvoices\DTO;
 final readonly class ItemData
 {
     /**
-     * @param  string  $description
-     * @param  float  $unitPrice
-     * @param  int  $quantity
-     * @param  float  $tax
-     * @param  float  $discount
      * @param  array<string, mixed>  $attributes
      */
     public function __construct(

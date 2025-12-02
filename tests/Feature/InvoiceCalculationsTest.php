@@ -6,8 +6,8 @@ use Akira\PdfInvoices\Builder\EntityBuilder;
 use Akira\PdfInvoices\Builder\InvoiceBuilder;
 use Akira\PdfInvoices\Builder\ItemBuilder;
 
-describe('Invoice Calculations', function () {
-    it('calculates subtotal correctly', function () {
+describe('Invoice Calculations', function (): void {
+    it('calculates subtotal correctly', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -21,7 +21,7 @@ describe('Invoice Calculations', function () {
         expect($invoice->getSubtotal())->toBe(250.0);
     });
 
-    it('calculates discount correctly', function () {
+    it('calculates discount correctly', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -39,7 +39,7 @@ describe('Invoice Calculations', function () {
         expect($invoice->getTotalDiscount())->toBe(10.0);
     });
 
-    it('calculates tax correctly', function () {
+    it('calculates tax correctly', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -57,7 +57,7 @@ describe('Invoice Calculations', function () {
         expect($invoice->getTotalTax())->toBe(20.0);
     });
 
-    it('calculates complex invoice totals', function () {
+    it('calculates complex invoice totals', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -86,7 +86,7 @@ describe('Invoice Calculations', function () {
             ->and($invoice->getTotal())->toBe(396.0);
     });
 
-    it('handles empty item list', function () {
+    it('handles empty item list', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 

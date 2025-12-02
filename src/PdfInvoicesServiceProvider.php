@@ -11,7 +11,6 @@ use Akira\PdfInvoices\Pdf\DompdfPdfGenerator;
 use Akira\PdfInvoices\Pdf\SpatiePdfGenerator;
 use Akira\PdfInvoices\Storage\LaravelStorageDriver;
 use Akira\PdfInvoices\Support\LaravelCurrencyFormatter;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -28,13 +27,13 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->singleton(CurrencyFormatterContract::class, function (mixed $app): CurrencyFormatterContract {
+        $this->app->singleton(function (mixed $app): CurrencyFormatterContract {
             $driver = config('pdf-invoices.currency.driver', LaravelCurrencyFormatter::class);
 
             return $app->make($driver);
         });
 
-        $this->app->singleton(PdfGeneratorContract::class, function (mixed $app): PdfGeneratorContract {
+        $this->app->singleton(function (mixed $app): PdfGeneratorContract {
             $driver = config('pdf-invoices.pdf.driver', 'spatie');
             $basePath = config('pdf-invoices.pdf.base_path', 'invoices');
 
@@ -44,7 +43,7 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
             };
         });
 
-        $this->app->singleton(StorageDriverContract::class, function (mixed $app): StorageDriverContract {
+        $this->app->singleton(function (mixed $app): StorageDriverContract {
             $disk = config('pdf-invoices.storage.disk', 'local');
 
             return new LaravelStorageDriver($app['filesystem']->disk($disk));

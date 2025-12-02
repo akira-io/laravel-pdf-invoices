@@ -7,11 +7,6 @@ namespace Akira\PdfInvoices\DTO;
 final readonly class EntityData
 {
     /**
-     * @param  string  $name
-     * @param  string|null  $address
-     * @param  string|null  $vatNumber
-     * @param  string|null  $logoUrl
-     * @param  string|null  $email
      * @param  array<string, mixed>  $attributes
      */
     public function __construct(

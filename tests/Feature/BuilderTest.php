@@ -9,8 +9,8 @@ use Akira\PdfInvoices\DTO\EntityData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\DTO\ItemData;
 
-describe('EntityBuilder', function () {
-    it('creates an entity with required data', function () {
+describe('EntityBuilder', function (): void {
+    it('creates an entity with required data', function (): void {
         $entity = EntityBuilder::make()
             ->name('Acme Corp')
             ->build();
@@ -21,7 +21,7 @@ describe('EntityBuilder', function () {
             ->address->toBeNull();
     });
 
-    it('creates an entity with all data', function () {
+    it('creates an entity with all data', function (): void {
         $entity = EntityBuilder::make()
             ->name('Acme Corp')
             ->address('123 Main St')
@@ -38,7 +38,7 @@ describe('EntityBuilder', function () {
             ->logoUrl->toBe('https://example.com/logo.png');
     });
 
-    it('supports custom attributes', function () {
+    it('supports custom attributes', function (): void {
         $entity = EntityBuilder::make()
             ->name('Acme Corp')
             ->set('country', 'USA')
@@ -51,7 +51,7 @@ describe('EntityBuilder', function () {
             ->and($entity->has('missing'))->toBeFalse();
     });
 
-    it('supports bulk attribute assignment', function () {
+    it('supports bulk attribute assignment', function (): void {
         $entity = EntityBuilder::make()
             ->name('Acme Corp')
             ->withAttributes([
@@ -68,8 +68,8 @@ describe('EntityBuilder', function () {
     });
 });
 
-describe('ItemBuilder', function () {
-    it('creates an item with required data', function () {
+describe('ItemBuilder', function (): void {
+    it('creates an item with required data', function (): void {
         $item = ItemBuilder::make()
             ->description('Consulting Service')
             ->unitPrice(100.0)
@@ -82,7 +82,7 @@ describe('ItemBuilder', function () {
             ->quantity->toBe(1);
     });
 
-    it('creates an item with complete data', function () {
+    it('creates an item with complete data', function (): void {
         $item = ItemBuilder::make()
             ->description('Consulting Service')
             ->unitPrice(100.0)
@@ -99,7 +99,7 @@ describe('ItemBuilder', function () {
             ->discount->toBe(0.10);
     });
 
-    it('calculates totals correctly', function () {
+    it('calculates totals correctly', function (): void {
         $item = ItemBuilder::make()
             ->description('Service')
             ->unitPrice(100.0)
@@ -115,7 +115,7 @@ describe('ItemBuilder', function () {
             ->and($item->getTotal())->toBe(517.5);
     });
 
-    it('supports custom attributes', function () {
+    it('supports custom attributes', function (): void {
         $item = ItemBuilder::make()
             ->description('Service')
             ->unitPrice(100.0)
@@ -128,22 +128,22 @@ describe('ItemBuilder', function () {
     });
 });
 
-describe('InvoiceBuilder', function () {
-    it('requires seller and buyer', function () {
-        expect(function () {
+describe('InvoiceBuilder', function (): void {
+    it('requires seller and buyer', function (): void {
+        expect(function (): void {
             InvoiceBuilder::make()->build();
         })->toThrow(InvalidArgumentException::class);
     });
 
-    it('requires buyer', function () {
+    it('requires buyer', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
 
-        expect(function () use ($seller){
+        expect(function () use ($seller): void {
             InvoiceBuilder::make()->seller($seller)->build();
         })->toThrow(InvalidArgumentException::class);
     });
 
-    it('creates a complete invoice', function () {
+    it('creates a complete invoice', function (): void {
         $seller = EntityBuilder::make()->name('Acme Corp')->build();
         $buyer = EntityBuilder::make()->name('Client Inc')->build();
         $item = ItemBuilder::make()
@@ -169,7 +169,7 @@ describe('InvoiceBuilder', function () {
             ->currency->toBe('USD');
     });
 
-    it('adds multiple items', function () {
+    it('adds multiple items', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -183,7 +183,7 @@ describe('InvoiceBuilder', function () {
         expect($invoice->items)->toHaveCount(2);
     });
 
-    it('calculates invoice totals', function () {
+    it('calculates invoice totals', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 
@@ -210,7 +210,7 @@ describe('InvoiceBuilder', function () {
             ->and($invoice->getTotalTax())->toBeBetween(23.9, 24.1);
     });
 
-    it('supports custom attributes', function () {
+    it('supports custom attributes', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
 

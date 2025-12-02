@@ -15,7 +15,7 @@ final readonly class SimpleCurrencyFormatter implements CurrencyFormatterContrac
     public function format(float $amount, string $currency = '', string $locale = 'en'): string
     {
         $formatted = number_format($amount, 2, '.', ',');
-        $symbol = empty($currency) ? $this->symbol : $currency;
+        $symbol = $currency === '' || $currency === '0' ? $this->symbol : $currency;
 
         return "{$symbol} {$formatted}";
     }

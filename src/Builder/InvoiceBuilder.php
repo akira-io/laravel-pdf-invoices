@@ -8,9 +8,9 @@ use Akira\PdfInvoices\Contracts\BuilderContract;
 use Akira\PdfInvoices\DTO\EntityData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\DTO\ItemData;
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use DateTimeInterface;
+use InvalidArgumentException;
 
 final class InvoiceBuilder implements BuilderContract
 {
@@ -36,7 +36,7 @@ final class InvoiceBuilder implements BuilderContract
 
     public static function make(): static
     {
-        return new static();
+        return new self();
     }
 
     public function seller(EntityData $seller): static
@@ -70,16 +70,16 @@ final class InvoiceBuilder implements BuilderContract
         return $this;
     }
 
-    public function issuedAt(CarbonInterface | DateTimeInterface $date): static
+    public function issuedAt(CarbonInterface|DateTimeInterface $date): static
     {
-        $this->issuedAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
+        $this->issuedAt = $date instanceof CarbonInterface ? $date : \Illuminate\Support\Facades\Date::instance($date);
 
         return $this;
     }
 
-    public function dueAt(CarbonInterface | DateTimeInterface $date): static
+    public function dueAt(CarbonInterface|DateTimeInterface $date): static
     {
-        $this->dueAt = $date instanceof CarbonInterface ? $date : Carbon::instance($date);
+        $this->dueAt = $date instanceof CarbonInterface ? $date : \Illuminate\Support\Facades\Date::instance($date);
 
         return $this;
     }
@@ -126,13 +126,9 @@ final class InvoiceBuilder implements BuilderContract
 
     public function build(): InvoiceData
     {
-        if ($this->seller === null) {
-            throw new \InvalidArgumentException('Seller is required.');
-        }
+        throw_if(! $this->seller instanceof EntityData, InvalidArgumentException::class, 'Seller is required.');
 
-        if ($this->buyer === null) {
-            throw new \InvalidArgumentException('Buyer is required.');
-        }
+        throw_if(! $this->buyer instanceof EntityData, InvalidArgumentException::class, 'Buyer is required.');
 
         return new InvoiceData(
             seller: $this->seller,

@@ -45,7 +45,7 @@ return [
     |
     */
     'currency' => [
-        'driver' => env('INVOICES_CURRENCY_DRIVER', \Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class),
+        'driver' => env('INVOICES_CURRENCY_DRIVER', Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class),
 
         'code' => env('INVOICES_CURRENCY_CODE', 'EUR'),
 

@@ -1,31 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akira\PdfInvoices\Tests;
 
 use Akira\Debugger\DebuggerServiceProvider;
 use Akira\PdfInvoices\PdfInvoicesServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-//        Factory::guessFactoryNamesUsing(
-//            fn (string $modelName) => 'Akira\\PdfInvoices\\Database\\Factories\\'.class_basename($modelName).'Factory'
-//        );
+        //        Factory::guessFactoryNamesUsing(
+        //            fn (string $modelName) => 'Akira\\PdfInvoices\\Database\\Factories\\'.class_basename($modelName).'Factory'
+        //        );
     }
 
-    protected function getPackageProviders($app): array
-    {
-        return [
-            PdfInvoicesServiceProvider::class,
-            DebuggerServiceProvider::class
-        ];
-    }
-
-    public function getEnvironmentSetUp($app)
+    final public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
 
@@ -34,5 +28,13 @@ class TestCase extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            PdfInvoicesServiceProvider::class,
+            DebuggerServiceProvider::class,
+        ];
     }
 }

@@ -1,0 +1,12 @@
+{
+    "preset": "laravel",
+    "ignore": {
+        "words": [
+            "php",
+            "pnpm",
+            "dto",
+            "dompdf"
+        ],
+        "paths": []
+    }
+}

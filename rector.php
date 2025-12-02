@@ -2,36 +2,45 @@
 
 declare(strict_types=1);
 
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
-use Rector\Set\ValueObject\SetList;
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
+use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use RectorLaravel\Set\LaravelSetList;
+use RectorLaravel\Set\LaravelSetProvider;
 
 return RectorConfig::configure()
-    ->withPhpVersion(\Rector\ValueObject\PhpVersion::PHP_84)
+    ->withSetProviders(LaravelSetProvider::class)
     ->withSets([
-        SetList::CODE_QUALITY,
-        SetList::DEAD_CODE,
-        SetList::NAMING,
-        SetList::STRICT_BOOLEANS,
-        SetList::TYPE_DECLARATION,
-        SetList::INSTANCEOF_TO_STATIC_PROPERTY,
-        LevelSetList::UP_TO_PHP_84,
+        LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
+        LaravelSetList::LARAVEL_ARRAY_STR_FUNCTION_TO_STATIC_CALL,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
+        LaravelSetList::LARAVEL_COLLECTION,
+        LaravelSetList::LARAVEL_CONTAINER_STRING_TO_FULLY_QUALIFIED_NAME,
+        LaravelSetList::LARAVEL_ELOQUENT_MAGIC_METHOD_TO_QUERY_BUILDER,
+        LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
+        LaravelSetList::LARAVEL_FACTORIES,
+        LaravelSetList::LARAVEL_IF_HELPERS,
+        LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
     ])
+    ->withComposerBased(laravel: true)
+    ->withCache(
+        cacheDirectory: '/tmp/rector',
+        cacheClass: FileCacheStorage::class,
+    )
     ->withPaths([
         __DIR__.'/src',
         __DIR__.'/config',
+        __DIR__.'/database',
         __DIR__.'/tests',
     ])
     ->withSkip([
-        __DIR__.'/vendor',
-        __DIR__.'/build',
-        __DIR__.'/node_modules',
+        AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
-    ->withRules([
-        ExplicitNullableParamTypeRector::class,
-    ])
-    ->withImportNames(
-        importShortClasses: false,
-        importDocBlockNames: false,
-    );
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        typeDeclarations: true,
+        privatization: true,
+        earlyReturn: true,
+    )
+    ->withPhpSets();

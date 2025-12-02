@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akira\PdfInvoices\Commands;
 
 use Illuminate\Console\Command;
 
-class PdfInvoicesCommand extends Command
+final class PdfInvoicesCommand extends Command
 {
     public $signature = 'laravel-pdf-invoices';
 

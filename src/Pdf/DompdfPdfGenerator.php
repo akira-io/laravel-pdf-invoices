@@ -33,7 +33,7 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
-        $fullPath = $this->basePath . '/' . $path;
+        $fullPath = $this->basePath.'/'.$path;
         $compiledCss = $this->getCompiledCss();
         $locale = config('pdf-invoices.localization.locale', 'en');
         $translator = new InvoiceTranslator($locale);
@@ -55,9 +55,9 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
      */
     private function getCompiledCss(): string
     {
-        $cssPath = __DIR__ . '/../../resources/css/compiled.css';
+        $cssPath = __DIR__.'/../../resources/css/compiled.css';
 
-        if (!file_exists($cssPath)) {
+        if (! file_exists($cssPath)) {
             return '';
         }
 
