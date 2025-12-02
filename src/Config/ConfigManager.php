@@ -10,47 +10,92 @@ final readonly class ConfigManager
 
     public function pdfDriver(): string
     {
-        return (string) config('pdf-invoices.pdf.driver', 'spatie');
+        $driver = config('pdf-invoices.pdf.driver', 'spatie');
+        if (!is_string($driver)) {
+            return 'spatie';
+        }
+
+        return $driver;
     }
 
     public function pdfTemplate(): string
     {
-        return (string) config('pdf-invoices.pdf.template', 'modern');
+        $template = config('pdf-invoices.pdf.template', 'modern');
+        if (!is_string($template)) {
+            return 'modern';
+        }
+
+        return $template;
     }
 
     public function pdfBasePath(): string
     {
-        return (string) config('pdf-invoices.pdf.base_path', 'invoices');
+        $path = config('pdf-invoices.pdf.base_path', 'invoices');
+        if (!is_string($path)) {
+            return 'invoices';
+        }
+
+        return $path;
     }
 
     public function storageDriver(): string
     {
-        return (string) config('pdf-invoices.storage.driver', 'laravel');
+        $driver = config('pdf-invoices.storage.driver', 'laravel');
+        if (!is_string($driver)) {
+            return 'laravel';
+        }
+
+        return $driver;
     }
 
     public function storageDisk(): string
     {
-        return (string) config('pdf-invoices.storage.disk', 'local');
+        $disk = config('pdf-invoices.storage.disk', 'local');
+        if (!is_string($disk)) {
+            return 'local';
+        }
+
+        return $disk;
     }
 
     public function currencyDriver(): string
     {
-        return (string) config('pdf-invoices.currency.driver', 'Akira\PdfInvoices\Support\LaravelCurrencyFormatter');
+        $driver = config('pdf-invoices.currency.driver', 'Akira\PdfInvoices\Support\LaravelCurrencyFormatter');
+        if (!is_string($driver)) {
+            return 'Akira\PdfInvoices\Support\LaravelCurrencyFormatter';
+        }
+
+        return $driver;
     }
 
     public function currencyCode(): string
     {
-        return (string) config('pdf-invoices.currency.code', 'EUR');
+        $code = config('pdf-invoices.currency.code', 'EUR');
+        if (!is_string($code)) {
+            return 'EUR';
+        }
+
+        return $code;
     }
 
     public function currencySymbol(): string
     {
-        return (string) config('pdf-invoices.currency.symbol', '€');
+        $symbol = config('pdf-invoices.currency.symbol', '€');
+        if (!is_string($symbol)) {
+            return '€';
+        }
+
+        return $symbol;
     }
 
     public function locale(): string
     {
-        return (string) config('pdf-invoices.localization.locale', 'en');
+        $locale = config('pdf-invoices.localization.locale', 'en');
+        if (!is_string($locale)) {
+            return 'en';
+        }
+
+        return $locale;
     }
 
     /**
@@ -60,12 +105,28 @@ final readonly class ConfigManager
     {
         $locales = config('pdf-invoices.localization.supported_locales', ['en']);
 
-        return is_array($locales) ? $locales : ['en'];
+        if (!is_array($locales)) {
+            return ['en'];
+        }
+
+        $stringLocales = [];
+        foreach ($locales as $locale) {
+            if (is_string($locale)) {
+                $stringLocales[] = $locale;
+            }
+        }
+
+        return !empty($stringLocales) ? $stringLocales : ['en'];
     }
 
     public function allowCustomAttributes(): bool
     {
-        return (bool) config('pdf-invoices.allow_custom_attributes', true);
+        $allow = config('pdf-invoices.allow_custom_attributes', true);
+        if (!is_bool($allow)) {
+            return true;
+        }
+
+        return $allow;
     }
 
     /**
@@ -75,6 +136,11 @@ final readonly class ConfigManager
      */
     public function all(): array
     {
-        return (array) config('pdf-invoices', []);
+        $config = config('pdf-invoices', []);
+        if (!is_array($config)) {
+            return [];
+        }
+
+        return $config;
     }
 }

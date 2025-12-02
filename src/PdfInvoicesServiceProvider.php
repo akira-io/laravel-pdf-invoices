@@ -30,29 +30,44 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(ConfigManager::class);
 
-        $this->app->singleton(CurrencyFormatterContract::class, function (): CurrencyFormatterContract {
-            $configManager = $this->app->make(ConfigManager::class);
-            $driver = $configManager->currencyDriver();
+        $this->app->singleton(
+            CurrencyFormatterContract::class,
+            function (): CurrencyFormatterContract {
+                $configManager = $this->app->make(ConfigManager::class);
+                $driver = $configManager->currencyDriver();
 
-            return $this->app->make($driver);
-        });
+                $instance = $this->app->make($driver);
+                if (!$instance instanceof CurrencyFormatterContract) {
+                    throw new \InvalidArgumentException("Currency driver {$driver} must implement CurrencyFormatterContract");
+                }
 
-        $this->app->singleton(PdfGeneratorContract::class, function (): PdfGeneratorContract {
-            $configManager = $this->app->make(ConfigManager::class);
-            $driver = $configManager->pdfDriver();
-            $basePath = $configManager->pdfBasePath();
+                return $instance;
+            }
+        );
 
-            return match ($driver) {
-                'dompdf' => new DompdfPdfGenerator($basePath),
-                default => new SpatiePdfGenerator($basePath),
-            };
-        });
+        $this->app->singleton(
+            PdfGeneratorContract::class,
+            function (): PdfGeneratorContract {
+                $configManager = $this->app->make(ConfigManager::class);
+                $driver = $configManager->pdfDriver();
+                $basePath = $configManager->pdfBasePath();
 
-        $this->app->singleton(StorageDriverContract::class, function (): StorageDriverContract {
-            $configManager = $this->app->make(ConfigManager::class);
-            $disk = $configManager->storageDisk();
+                return match ($driver) {
+                    'dompdf' => new DompdfPdfGenerator($basePath),
+                    default => new SpatiePdfGenerator($basePath),
+                };
+            }
+        );
 
-            return new LaravelStorageDriver($this->app['filesystem']->disk($disk));
-        });
+        $this->app->singleton(
+            StorageDriverContract::class,
+            function (): StorageDriverContract {
+                $configManager = $this->app->make(ConfigManager::class);
+                $disk = $configManager->storageDisk();
+                $filesystem = $this->app->make('filesystem');
+
+                return new LaravelStorageDriver($filesystem->disk($disk));
+            }
+        );
     }
 }

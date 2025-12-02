@@ -39,7 +39,17 @@ final readonly class InvoiceTranslator
      */
     public function translate(string $key, array $replace = []): string
     {
-        return trans("pdf-invoices::invoice.{$key}", $replace, $this->locale);
+        /** @var array<string, bool|float|int|string|null> $transReplace */
+        $transReplace = [];
+        foreach ($replace as $k => $v) {
+            if (is_scalar($v) || $v === null) {
+                $transReplace[$k] = $v;
+            } else {
+                $transReplace[$k] = (string) $v;
+            }
+        }
+
+        return trans("pdf-invoices::invoice.{$key}", $transReplace, $this->locale);
     }
 
     /**

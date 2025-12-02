@@ -27,7 +27,12 @@ final readonly class LaravelStorageDriver implements StorageDriverContract
 
     public function get(string $path): string
     {
-        return $this->disk->get($path);
+        $content = $this->disk->get($path);
+        if ($content === null) {
+            throw new \RuntimeException("File not found at path: {$path}");
+        }
+
+        return $content;
     }
 
     public function delete(string $path): bool
