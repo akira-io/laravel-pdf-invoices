@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'invoice' => 'FACTURE',
+    'invoice_number' => 'Numéro de facture',
+    'invoice_date' => 'Date de facture',
+    'due_date' => "Date d'échéance",
+    'invoice_from' => 'Facture émise par',
+    'invoice_to' => 'Facture destinée à',
+    'bill_from' => 'Facturé par',
+    'bill_to' => 'Facturé à',
+    'from' => 'De',
+    'to' => 'À',
+    'description' => 'Description',
+    'unit_price' => 'Prix unitaire',
+    'quantity' => 'Quantité',
+    'qty' => 'Qté',
+    'tax' => 'Taxe',
+    'tax_rate' => 'Taux de taxe',
+    'amount' => 'Montant',
+    'subtotal' => 'Sous-total',
+    'discount' => 'Remise',
+    'total' => 'Total',
+    'total_due' => 'Total dû',
+    'terms_and_notes' => 'Conditions et notes',
+    'notes' => 'Notes',
+    'thank_you' => 'Merci de votre confiance !',
+    'all_rights_reserved' => 'Tous droits réservés',
+    'vat_id' => 'Numéro de TVA',
+    'vat' => 'TVA',
+    'issued' => 'Émise',
+    'due' => 'Échéance',
+];
+
