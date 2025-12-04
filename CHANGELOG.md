@@ -1,3 +1,13 @@
+
+
+## [1.3.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.2.0...v1.3.0) (2025-12-04)
+
+
+### Features
+
+* add French to supported locales for invoice localization ([cba3d95](https://github.com/akira-io/laravel-pdf-invoices/commit/cba3d95e1a469a7161e1a4b013bec1813e8ba2af))
+* add French translations for invoice-related terms ([d7368cf](https://github.com/akira-io/laravel-pdf-invoices/commit/d7368cfbb4b0404dcb5d89984e44e01b66469173))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
