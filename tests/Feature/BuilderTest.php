@@ -224,4 +224,71 @@ describe('InvoiceBuilder', function (): void {
         expect($invoice->get('po_number'))->toBe('PO-9001')
             ->and($invoice->get('project_code'))->toBe('PROJ-001');
     });
+
+    it('can set locale', function (): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->locale('pt')
+            ->build();
+
+        expect($invoice->locale)->toBe('pt');
+    });
+
+    it('has null locale by default', function (): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->build();
+
+        expect($invoice->locale)->toBeNull();
+    });
+
+    it('can set different locales', function (string $locale): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->locale($locale)
+            ->build();
+
+        expect($invoice->locale)->toBe($locale);
+    })->with(['en', 'pt', 'fr']);
+
+    it('builds complete invoice with locale', function (): void {
+        $seller = EntityBuilder::make()->name('Empresa')->build();
+        $buyer = EntityBuilder::make()->name('Cliente')->build();
+        $item = ItemBuilder::make()
+            ->description('Serviço')
+            ->unitPrice(150.0)
+            ->quantity(2)
+            ->build();
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->addItem($item)
+            ->invoiceNumber('FAT-001')
+            ->currency('EUR')
+            ->locale('pt')
+            ->notes('Pagamento em 30 dias.')
+            ->build();
+
+        expect($invoice)
+            ->toBeInstanceOf(InvoiceData::class)
+            ->seller->name->toBe('Empresa')
+            ->and($invoice->buyer->name)->toBe('Cliente')
+            ->and($invoice->locale)->toBe('pt')
+            ->and($invoice->currency)->toBe('EUR')
+            ->and($invoice->invoiceNumber)->toBe('FAT-001')
+            ->and($invoice->notes)->toBe('Pagamento em 30 dias.');
+    });
 });
