@@ -65,7 +65,7 @@ return [
     'localization' => [
         'locale' => env('INVOICES_LOCALE', 'en'),
 
-        'supported_locales' => ['en', 'pt'],
+        'supported_locales' => ['en', 'pt', 'fr'],
     ],
 
     /*
