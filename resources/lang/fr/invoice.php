@@ -33,4 +33,3 @@ return [
     'issued' => 'Émise',
     'due' => 'Échéance',
 ];
-
