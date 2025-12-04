@@ -1,5 +1,13 @@
 
 
+## [1.4.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.3.0...v1.4.0) (2025-12-04)
+
+
+### Features
+
+* add locale support to invoice builder tests ([b13a133](https://github.com/akira-io/laravel-pdf-invoices/commit/b13a1335e5afd5e976c27bf2e380a59927ccd833))
+* enhance invoice functionality with locale support and refactor currency handling ([b5c9e13](https://github.com/akira-io/laravel-pdf-invoices/commit/b5c9e13cacfcb237aa261b81c0b2875433e64a57))
+
 ## [1.3.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.2.0...v1.3.0) (2025-12-04)
 
 
