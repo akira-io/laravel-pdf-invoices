@@ -1,5 +1,12 @@
 
 
+## [1.4.1](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.4.0...v1.4.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* fixed locale handling in PDF generators to support invoice-specific locales ([84416ec](https://github.com/akira-io/laravel-pdf-invoices/commit/84416ecaefff89f36d9ae986b018014852cb98e0))
+
 ## [1.4.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.3.0...v1.4.0) (2025-12-04)
 
 
