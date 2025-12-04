@@ -21,6 +21,7 @@ final readonly class InvoiceData
         public CarbonInterface|DateTimeInterface|null $dueAt = null,
         public string $invoiceNumber = '',
         public string $currency = 'EUR',
+        public ?string $locale = null,
         public ?string $notes = null,
         public array $attributes = [],
     ) {}

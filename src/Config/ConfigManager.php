@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices\Config;
 
+use Akira\PdfInvoices\Support\LaravelCurrencyFormatter;
+
 final readonly class ConfigManager
 {
     public function pdfDriver(): string
@@ -58,9 +60,9 @@ final readonly class ConfigManager
 
     public function currencyDriver(): string
     {
-        $driver = config('pdf-invoices.currency.driver', \Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class);
+        $driver = config('pdf-invoices.currency.driver', LaravelCurrencyFormatter::class);
         if (! is_string($driver)) {
-            return \Akira\PdfInvoices\Support\LaravelCurrencyFormatter::class;
+            return LaravelCurrencyFormatter::class;
         }
 
         return $driver;
@@ -139,13 +141,6 @@ final readonly class ConfigManager
             return [];
         }
 
-        $result = [];
-        foreach ($config as $key => $value) {
-            if (is_string($key)) {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
+        return array_filter($config, is_string(...), ARRAY_FILTER_USE_KEY);
     }
 }

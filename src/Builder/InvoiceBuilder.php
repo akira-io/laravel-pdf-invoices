@@ -10,6 +10,7 @@ use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\DTO\ItemData;
 use Carbon\CarbonInterface;
 use DateTimeInterface;
+use Illuminate\Support\Facades\Date;
 use InvalidArgumentException;
 
 final class InvoiceBuilder implements BuilderContract
@@ -29,6 +30,8 @@ final class InvoiceBuilder implements BuilderContract
 
     private string $currency = 'EUR';
 
+    private ?string $locale = null;
+
     private ?string $notes = null;
 
     /** @var array<string, mixed> */
@@ -37,72 +40,6 @@ final class InvoiceBuilder implements BuilderContract
     public static function make(): static
     {
         return new self();
-    }
-
-    public function seller(EntityData $seller): static
-    {
-        $this->seller = $seller;
-
-        return $this;
-    }
-
-    public function buyer(EntityData $buyer): static
-    {
-        $this->buyer = $buyer;
-
-        return $this;
-    }
-
-    public function addItem(ItemData $item): static
-    {
-        $this->items[] = $item;
-
-        return $this;
-    }
-
-    /**
-     * @param  array<int, ItemData>  $items
-     */
-    public function items(array $items): static
-    {
-        $this->items = $items;
-
-        return $this;
-    }
-
-    public function issuedAt(CarbonInterface|DateTimeInterface $date): static
-    {
-        $this->issuedAt = $date instanceof CarbonInterface ? $date : \Illuminate\Support\Facades\Date::instance($date);
-
-        return $this;
-    }
-
-    public function dueAt(CarbonInterface|DateTimeInterface $date): static
-    {
-        $this->dueAt = $date instanceof CarbonInterface ? $date : \Illuminate\Support\Facades\Date::instance($date);
-
-        return $this;
-    }
-
-    public function invoiceNumber(string $number): static
-    {
-        $this->invoiceNumber = $number;
-
-        return $this;
-    }
-
-    public function currency(string $currency): static
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    public function notes(string $notes): static
-    {
-        $this->notes = $notes;
-
-        return $this;
     }
 
     public function set(string $key, mixed $value): static
@@ -138,8 +75,82 @@ final class InvoiceBuilder implements BuilderContract
             dueAt: $this->dueAt,
             invoiceNumber: $this->invoiceNumber,
             currency: $this->currency,
+            locale: $this->locale,
             notes: $this->notes,
             attributes: $this->attributes,
         );
+    }
+
+    public function seller(EntityData $seller): static
+    {
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    public function buyer(EntityData $buyer): static
+    {
+        $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    public function addItem(ItemData $item): static
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<int, ItemData>  $items
+     */
+    public function items(array $items): static
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function issuedAt(CarbonInterface|DateTimeInterface $date): static
+    {
+        $this->issuedAt = $date instanceof CarbonInterface ? $date : Date::instance($date);
+
+        return $this;
+    }
+
+    public function dueAt(CarbonInterface|DateTimeInterface $date): static
+    {
+        $this->dueAt = $date instanceof CarbonInterface ? $date : Date::instance($date);
+
+        return $this;
+    }
+
+    public function invoiceNumber(string $number): static
+    {
+        $this->invoiceNumber = $number;
+
+        return $this;
+    }
+
+    public function currency(string $currency): static
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function locale(string $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function notes(string $notes): static
+    {
+        $this->notes = $notes;
+
+        return $this;
     }
 }
