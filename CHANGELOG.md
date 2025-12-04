@@ -1,5 +1,12 @@
 
 
+## [1.4.2](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.4.1...v1.4.2) (2025-12-04)
+
+
+### Bug Fixes
+
+* fixed 'page' label localization for invoices in English, French, and Spanish ([debe5b9](https://github.com/akira-io/laravel-pdf-invoices/commit/debe5b94a4f040c6bb14b6e62753a99ebbe90f0c))
+
 ## [1.4.1](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.4.0...v1.4.1) (2025-12-04)
 
 
