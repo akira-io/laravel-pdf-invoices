@@ -2,7 +2,8 @@
 
 ## Overview
 
-The Laravel PDF Invoices package uses compiled Tailwind CSS that is injected directly into Blade templates during PDF generation. This ensures that all styling is properly rendered in the generated PDF files.
+The Laravel PDF Invoices package uses compiled Tailwind CSS that is injected directly into Blade templates during PDF
+generation. This ensures that all styling is properly rendered in the generated PDF files.
 
 ## Architecture
 
@@ -24,7 +25,8 @@ The Laravel PDF Invoices package uses compiled Tailwind CSS that is injected dir
 
 ### In the Host Application
 
-The package expects Tailwind CSS to be compiled by the consuming application. This is typically already configured in Laravel 12+ applications.
+The package expects Tailwind CSS to be compiled by the consuming application. This is typically already configured in
+Laravel 12+ applications.
 
 #### 1. Update `app.css` to include invoice templates
 
@@ -54,6 +56,7 @@ This generates the compiled CSS file that will be used by the PDF generator.
 #### 3. Locate the compiled file
 
 The compiled CSS will be generated at:
+
 ```
 public/build/assets/app-[hash].css
 ```
@@ -94,6 +97,7 @@ private function getCompiledCss(): string
 The invoice templates use the following Tailwind CSS utilities:
 
 ### Layout
+
 - `w-full` - Full width layout
 - `max-w-*` - Max-width constraints
 - `px-*`, `py-*` - Padding utilities
@@ -102,6 +106,7 @@ The invoice templates use the following Tailwind CSS utilities:
 - `gap-*` - Gap between items
 
 ### Typography
+
 - `text-*` - Font sizes (xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 6xl)
 - `font-bold`, `font-semibold`, `font-light` - Font weights
 - `text-gray-*` - Text colors
@@ -109,12 +114,14 @@ The invoice templates use the following Tailwind CSS utilities:
 - `leading-*` - Line height
 
 ### Colors & Styling
+
 - `bg-white`, `bg-gray-*` - Background colors
 - `border-*` - Border utilities
 - `shadow-*` - Shadow effects
 - `rounded` - Border radius
 
 ### Responsive
+
 Templates are optimized for PDF rendering and use absolute sizing (no breakpoints).
 
 ## Customization
@@ -146,11 +153,13 @@ Add custom utilities in `resources/css/app.css`:
 
 ### Override Template Styles
 
-Extend invoice templates by modifying the Blade files in your resources directory or by creating a service provider that publishes the package views.
+Extend invoice templates by modifying the Blade files in your resources directory or by creating a service provider that
+publishes the package views.
 
 ## CSS File Size
 
-The compiled CSS file typically ranges from 40-50 KB (minified). This is embedded directly in each PDF, making individual PDF files larger than with external CSS references, but ensuring complete styling independence.
+The compiled CSS file typically ranges from 40-50 KB (minified). This is embedded directly in each PDF, making
+individual PDF files larger than with external CSS references, but ensuring complete styling independence.
 
 ### Size Optimization
 
@@ -172,6 +181,7 @@ To minimize the compiled CSS size:
 ### Larger PDF file sizes
 
 This is expected as the entire compiled CSS (40-50 KB) is embedded in each PDF. This trade-off ensures:
+
 - Complete styling independence
 - No external dependencies during PDF viewing
 - Consistent rendering across all systems
@@ -190,8 +200,6 @@ Potential optimizations being considered:
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Vite CSS Processing](https://vitejs.dev/guide/features.html#css)
 - [Spatie Laravel PDF](https://spatie.be/docs/laravel-pdf)---
-
-**← Previous:** [08 - ](./08-localization.md) | **Next:** [10 -  →](./10-contributing.md)
 
 ---
 

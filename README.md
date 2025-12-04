@@ -16,7 +16,7 @@ and multi-language support.
 - **Type-Safe** - Strict types, readonly DTOs, zero magic
 - **Carbon Support** - Seamless `Carbon` and `CarbonImmutable` integration for Laravel 11+
 - **3 Templates** - Minimal, modern, and branded designs (Tailwind CSS)
-- **Multi-Language** - English, Portuguese (easily extensible)
+- **Multi-Language** - English, Portuguese, French (easily extensible)
 - **Custom Fields** - Add any custom attributes to entities
 - **Currency Support** - Flexible formatting with Laravel integration
 - **Multiple PDF Engines** - Choose between Spatie (Puppeteer) or DomPDF
@@ -150,9 +150,12 @@ $pdf = $invoice->generatePdf(locale: 'pt');
 
 // English (default)
 $pdf = $invoice->generatePdf(locale: 'en');
+
+// French
+$pdf = $invoice->generatePdf(locale: 'fr');
 ```
 
-Supported: English (`en`), Portuguese (`pt`)
+Supported: English (`en`), Portuguese (`pt`), French (`fr`)
 
 [View all translation keys →](docs/08-localization.md)
 

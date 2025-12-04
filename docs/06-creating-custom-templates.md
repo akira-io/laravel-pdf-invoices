@@ -5,6 +5,7 @@ This guide explains how to create custom invoice templates for the Laravel PDF I
 ## Overview
 
 The PDF Invoices package comes with three built-in templates:
+
 - **modern** - Clean, professional design with primary color accents
 - **minimal** - Minimalist style with subtle borders
 - **branded** - Executive design with gradient header and white text
@@ -213,8 +214,8 @@ The compiled CSS includes all standard Tailwind utilities:
 - **Spacing**: `px-{n}`, `py-{n}`, `mb-{n}`, `mt-{n}`, etc.
 - **Typography**: `text-{size}`, `font-{weight}`, `uppercase`, `text-{color}`, etc.
 - **Colors**: `bg-{color}`, `text-{color}`, `border-{color}`
-  - Available colors: `gray`, `indigo`, `slate`, `red`, `blue`, `green`, `purple`, etc.
-  - Color variants: `50`, `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`
+- Available colors: `gray`, `indigo`, `slate`, `red`, `blue`, `green`, `purple`, etc.
+- Color variants: `50`, `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`
 - **Borders**: `border`, `border-{side}`, `border-{width}`, `rounded`, `rounded-{size}`
 - **Effects**: `shadow`, `shadow-{size}`, `opacity-{value}`
 
@@ -264,21 +265,22 @@ See the package's language files for all available translations.
 ## Troubleshooting
 
 ### CSS Not Applied
+
 - Ensure you're using Tailwind utility classes
 - Check that `{!! $compiledCss !!}` is included in your `<style>` tag
 - Verify the compiled CSS file exists
 
 ### Layout Issues
+
 - PDFs render with fixed dimensions, adjust padding/margins accordingly
 - Test with actual data to see how content flows
 - Use `overflow: hidden` on containers to prevent content overflow
 
 ### Missing Fonts
+
 - The PDF generator uses system fonts by default
 - Consider the fonts available in the rendering environment
 - Stick to web-safe fonts: Arial, Helvetica, Times New Roman, etc.---
-
-**← Previous:** [05 - ](./05-templates.md) | **Next:** [07 -  →](./07-customization.md)
 
 ---
 

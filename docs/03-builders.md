@@ -5,6 +5,7 @@ This package uses the Builder Pattern to create invoice-related objects in a cle
 ## Overview
 
 All builders:
+
 - Implement the `BuilderContract`
 - Provide a static `make()` factory method
 - Support method chaining for fluent API
@@ -148,7 +149,8 @@ $invoice = InvoiceBuilder::make()
 
 #### Date Handling
 
-The `issuedAt()` and `dueAt()` methods accept both `Carbon` and `CarbonImmutable` instances (via `CarbonInterface`), as well as any `DateTimeInterface` implementation. This makes it seamless to work with Laravel's date handling:
+The `issuedAt()` and `dueAt()` methods accept both `Carbon` and `CarbonImmutable` instances (via `CarbonInterface`), as
+well as any `DateTimeInterface` implementation. This makes it seamless to work with Laravel's date handling:
 
 ```php
 // Using Carbon (mutable)
@@ -167,6 +169,7 @@ $invoice->issuedAt($model->created_at);
 ### Validations
 
 The `build()` method requires:
+
 - Seller entity
 - Buyer entity
 
@@ -302,9 +305,8 @@ All DTOs are immutable and cannot be modified after creation. Create a new insta
 
 #### Date Properties in InvoiceData
 
-The `issuedAt` and `dueAt` properties in the returned `InvoiceData` DTO will be stored as `CarbonInterface` instances for consistency, regardless of the input type (Carbon, CarbonImmutable, or DateTime).---
-
-**← Previous:** [02 - ](./02-pdf-generators.md) | **Next:** [04 -  →](./04-attributes.md)
+The `issuedAt` and `dueAt` properties in the returned `InvoiceData` DTO will be stored as `CarbonInterface` instances
+for consistency, regardless of the input type (Carbon, CarbonImmutable, or DateTime).---
 
 ---
 

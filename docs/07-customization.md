@@ -397,8 +397,7 @@ final class InvoiceService
 5. **Test Your Extensions**: Add tests for custom implementations
 6. **Follow SOLID Principles**: Keep code modular and maintainable---
 
-**← Previous:** [06 - ](./06-creating-custom-templates.md) | **Next:** [08 -  →](./08-localization.md)
-
 ---
 
-**← Previous:** [06 - Creating Custom Templates](./06-creating-custom-templates.md) | **Next:** [08 - Localization →](./08-localization.md)
+**← Previous:** [06 - Creating Custom Templates](./06-creating-custom-templates.md) | **Next:
+** [08 - Localization →](./08-localization.md)

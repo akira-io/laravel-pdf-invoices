@@ -113,9 +113,9 @@ Add examples and clear explanations.
 
 2. **Make Changes**
 
-   - Write code following standards
-   - Add tests
-   - Update documentation
+- Write code following standards
+- Add tests
+- Update documentation
 
 3. **Run Quality Checks**
 
@@ -141,9 +141,9 @@ Add examples and clear explanations.
 
 6. **Open Pull Request**
 
-   - Clear title and description
-   - Reference issues (Closes #123)
-   - Explain changes and reasoning
+- Clear title and description
+- Reference issues (Closes #123)
+- Explain changes and reasoning
 
 ### PR Description Template
 
@@ -224,6 +224,7 @@ npm run release
 ```
 
 This:
+
 - Updates version in package.json
 - Generates CHANGELOG
 - Creates git tag
@@ -248,8 +249,6 @@ Contributors are recognized in:
 - GitHub contributors page
 
 Thank you for contributing!---
-
-**← Previous:** [09 - ](./09-css-compilation.md)
 
 ---
 
