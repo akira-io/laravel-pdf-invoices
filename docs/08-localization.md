@@ -31,6 +31,45 @@ In `config/pdf-invoices.php`:
 ],
 ```
 
+## Setting Locale in InvoiceBuilder
+
+You can set the locale directly when building an invoice using the `locale()` method:
+
+```php
+use Akira\PdfInvoices\Builder\InvoiceBuilder;
+
+$invoice = InvoiceBuilder::make()
+    ->seller($seller)
+    ->buyer($buyer)
+    ->addItem($item)
+    ->locale('pt')
+    ->build();
+```
+
+This allows you to generate invoices in different languages for different customers:
+
+```php
+// Portuguese invoice
+$invoicePt = InvoiceBuilder::make()
+    ->locale('pt')
+    // ... other methods
+    ->build();
+
+// French invoice
+$invoiceFr = InvoiceBuilder::make()
+    ->locale('fr')
+    // ... other methods
+    ->build();
+
+// English invoice (default)
+$invoiceEn = InvoiceBuilder::make()
+    ->locale('en')
+    // ... other methods
+    ->build();
+```
+
+The locale set in the builder will be used for translations in the generated PDF.
+
 ## Using the Translator
 
 ### In Blade Templates

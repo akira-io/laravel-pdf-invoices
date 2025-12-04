@@ -142,6 +142,7 @@ $invoice = InvoiceBuilder::make()
 - `issuedAt(CarbonInterface | DateTimeInterface $date)`: Set issue date
 - `dueAt(CarbonInterface | DateTimeInterface $date)`: Set due date
 - `currency(string $currency)`: Set currency code (default: 'EUR')
+- `locale(string $locale)`: Set invoice locale for translations (e.g., 'en', 'pt', 'fr')
 - `notes(string $notes)`: Set payment/delivery notes
 - `set(string $key, mixed $value)`: Add custom attribute
 - `withAttributes(array $data)`: Add multiple custom attributes
@@ -250,6 +251,7 @@ $invoice = InvoiceBuilder::make()
     ->issuedAt(now())
     ->dueAt(now()->addDays(30))
     ->currency('EUR')
+    ->locale('pt')
     ->notes('Payment terms: Net 30')
     ->set('po_number', 'PO-ABC-123')
     ->build();
@@ -297,6 +299,7 @@ $invoice = InvoiceBuilder::make()->seller($s)->buyer($b)->build();
 // - dueAt: ?CarbonInterface|?DateTimeInterface
 // - invoiceNumber: string
 // - currency: string
+// - locale: ?string
 // - notes: ?string
 // - attributes: array
 ```

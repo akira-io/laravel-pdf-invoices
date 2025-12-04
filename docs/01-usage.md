@@ -61,6 +61,7 @@ $invoice = InvoiceBuilder::make()
     ->issuedAt(now())
     ->dueAt(now()->addDays(30))
     ->currency('EUR')
+    ->locale('en')
     ->notes('Payment due within 30 days. Please include invoice number with payment.')
     ->build();
 ```
@@ -170,6 +171,40 @@ Switch templates in configuration or per-invoice:
 $pdfContent = app(\Akira\PdfInvoices\Contracts\PdfGeneratorContract::class)
     ->generate($invoice, 'minimal');
 ```
+
+## Localization
+
+Generate invoices in different languages by setting the locale in the builder:
+
+```php
+// Portuguese invoice
+$invoice = InvoiceBuilder::make()
+    ->seller($seller)
+    ->buyer($buyer)
+    ->addItem($item)
+    ->locale('pt')
+    ->build();
+
+// French invoice
+$invoice = InvoiceBuilder::make()
+    ->seller($seller)
+    ->buyer($buyer)
+    ->addItem($item)
+    ->locale('fr')
+    ->build();
+
+// English invoice (default)
+$invoice = InvoiceBuilder::make()
+    ->seller($seller)
+    ->buyer($buyer)
+    ->addItem($item)
+    ->locale('en')
+    ->build();
+```
+
+Supported locales: `en` (English), `pt` (Portuguese), `fr` (French)
+
+See [Localization documentation](./08-localization.md) for more details.
 
 ## Invoice Totals
 

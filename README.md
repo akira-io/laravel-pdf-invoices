@@ -105,6 +105,7 @@ $invoice = InvoiceBuilder::make()
             ->discount(0.10)
             ->build()
     )
+    ->locale('en')
     ->notes('Payment due within 30 days.')
     ->build();
 
@@ -142,17 +143,26 @@ $pdf = $invoice->generatePdf(template: 'branded');
 
 ## Localization
 
-Generate invoices in different languages:
+Generate invoices in different languages by setting the locale in the builder:
 
 ```php
-// Portuguese
-$pdf = $invoice->generatePdf(locale: 'pt');
+// Portuguese invoice
+$invoice = InvoiceBuilder::make()
+    ->locale('pt')
+    // ... other methods
+    ->build();
 
-// English (default)
-$pdf = $invoice->generatePdf(locale: 'en');
+// French invoice
+$invoice = InvoiceBuilder::make()
+    ->locale('fr')
+    // ... other methods
+    ->build();
 
-// French
-$pdf = $invoice->generatePdf(locale: 'fr');
+// English invoice (default)
+$invoice = InvoiceBuilder::make()
+    ->locale('en')
+    // ... other methods
+    ->build();
 ```
 
 Supported: English (`en`), Portuguese (`pt`), French (`fr`)
