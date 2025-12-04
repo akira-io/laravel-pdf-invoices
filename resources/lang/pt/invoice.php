@@ -32,4 +32,5 @@ return [
     'vat' => 'IVA',
     'issued' => 'Emitido',
     'due' => 'Vence',
+    'page' => 'Página',
 ];

@@ -32,4 +32,5 @@ return [
     'vat' => 'VAT',
     'issued' => 'Issued',
     'due' => 'Due',
+    'page' => 'Page',
 ];
