@@ -5,7 +5,8 @@
             "php",
             "pnpm",
             "dto",
-            "dompdf"
+            "dompdf",
+            "roadmap"
         ],
         "paths": []
     }
