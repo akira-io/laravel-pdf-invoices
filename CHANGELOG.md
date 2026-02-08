@@ -1,5 +1,12 @@
 
 
+## [1.5.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.4.2...v1.5.0) (2026-02-08)
+
+
+### Features
+
+* add Portuguese localization for invoice labels ([2c85473](https://github.com/akira-io/laravel-pdf-invoices/commit/2c8547328f482f975f4d4eaabecbf09b78e37aa8))
+
 ## [1.4.2](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.4.1...v1.4.2) (2025-12-04)
 
 

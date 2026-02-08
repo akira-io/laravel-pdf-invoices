@@ -1,6 +1,6 @@
 {
   "name": "akira-laravel-pdf-invoices",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "A modern, strictly typed invoice generator for Laravel 12+",
   "private": true,
   "scripts": {
