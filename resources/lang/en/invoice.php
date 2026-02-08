@@ -26,7 +26,7 @@ return [
     'total_due' => 'Total Due',
     'terms_and_notes' => 'Terms & Notes',
     'notes' => 'Notes',
-    'thank_you' => 'Thank you for your business!',
+    'thank_you' => 'Thank you for your preference!',
     'all_rights_reserved' => 'All rights reserved',
     'vat_id' => 'VAT ID',
     'vat' => 'VAT',
