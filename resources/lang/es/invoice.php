@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'invoice' => 'FACTURA',
+    'invoice_number' => 'Número de factura',
+    'invoice_date' => 'Fecha de la factura',
+    'due_date' => 'Fecha de vencimiento',
+    'invoice_from' => 'Factura de',
+    'invoice_to' => 'Factura para',
+    'bill_from' => 'Cobro de',
+    'bill_to' => 'Cobro para',
+    'from' => 'De',
+    'to' => 'Para',
+    'description' => 'Descripción',
+    'unit_price' => 'Precio unitario',
+    'quantity' => 'Cantidad',
+    'qty' => 'Cant.',
+    'tax' => 'Impuesto',
+    'tax_rate' => 'Tipo impositivo',
+    'amount' => 'Importe',
+    'subtotal' => 'Subtotal',
+    'discount' => 'Descuento',
+    'total' => 'Total',
+    'total_due' => 'Total a pagar',
+    'terms_and_notes' => 'Términos y observaciones',
+    'notes' => 'Observaciones',
+    'thank_you' => '¡Gracias por su preferencia!',
+    'all_rights_reserved' => 'Todos los derechos reservados',
+    'vat_id' => 'NIF/CIF',
+    'vat' => 'IVA',
+    'issued' => 'Emitida',
+    'due' => 'Vencimiento',
+    'page' => 'Página',
+];
