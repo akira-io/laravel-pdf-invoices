@@ -134,4 +134,20 @@ describe('ConfigManager', function (): void {
         $manager = new ConfigManager();
         expect($manager->all())->toBe([]);
     });
+
+    it('all() ignores non-string keys', function (): void {
+        // Since Laravel config keys are usually strings, we manually override it in config repository
+        config()->set('pdf-invoices', [
+            'key1' => 'value1',
+            123 => 'value2',
+        ]);
+
+        $manager = new ConfigManager();
+        $all = $manager->all();
+
+        expect($all)->toBeArray()
+            ->toHaveKey('key1')
+            ->not->toHaveKey(123)
+            ->and($all['key1'])->toBe('value1');
+    });
 });

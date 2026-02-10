@@ -13,6 +13,7 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
 {
     public function __construct(
         private string $basePath = 'invoices',
+        private ?string $cssPath = null,
     ) {}
 
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
@@ -71,7 +72,7 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
      */
     private function getCompiledCss(): string
     {
-        $cssPath = __DIR__.'/../../resources/css/compiled.css';
+        $cssPath = $this->cssPath ?? __DIR__.'/../../resources/css/compiled.css';
 
         if (! file_exists($cssPath)) {
             return '';

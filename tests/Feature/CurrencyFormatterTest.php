@@ -37,6 +37,15 @@ describe('LaravelCurrencyFormatter', function (): void {
         // But more reliably, we just test that it returns a string for varied inputs.
         expect($formatter->format(123.45, 'ANY', 'invalid-locale'))->toBeString();
     });
+
+    it('handles unexpected throwables during formatting', function (): void {
+        $formatter = new LaravelCurrencyFormatter();
+
+        // Use a extremely long locale string to trigger a potential error in underlying Intl/PHP
+        $result = $formatter->format(123.45, 'USD', str_repeat('a', 512));
+
+        expect($result)->toBe('123.45');
+    });
 });
 
 describe('SimpleCurrencyFormatter', function (): void {

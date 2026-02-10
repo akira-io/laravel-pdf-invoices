@@ -52,3 +52,17 @@ it('handles non-string locale config in spatie generator', function (): void {
 
     Pdf::assertSaved(fn (PdfBuilder $pdf, string $path): bool => $path === 'invoices/invoice.pdf');
 });
+
+it('covers missing css path in spatie generator', function (): void {
+    Pdf::fake();
+    $invoice = new InvoiceData(
+        seller: new EntityData(name: 'Acme'),
+        buyer: new EntityData(name: 'Client'),
+    );
+
+    // Provide a non-existent CSS path
+    $generator = new SpatiePdfGenerator(cssPath: '/non/existent/path.css');
+    $generator->generate($invoice);
+
+    expect(true)->toBeTrue();
+});

@@ -6,7 +6,7 @@ namespace Akira\PdfInvoices\Support;
 
 use Akira\PdfInvoices\Contracts\CurrencyFormatterContract;
 use Illuminate\Support\Number;
-use ValueError;
+use Throwable;
 
 final class LaravelCurrencyFormatter implements CurrencyFormatterContract
 {
@@ -14,17 +14,11 @@ final class LaravelCurrencyFormatter implements CurrencyFormatterContract
     {
         try {
             if ($currency === '' || $currency === '0') {
-                $result = Number::format($amount, precision: 2, locale: $locale);
-            } else {
-                $result = Number::currency($amount, $currency, locale: $locale);
+                return Number::format($amount, precision: 2, locale: $locale);
             }
 
-            if (! is_string($result)) {
-                return (string) $amount;
-            }
-
-            return $result;
-        } catch (ValueError) {
+            return Number::currency($amount, $currency, locale: $locale);
+        } catch (Throwable) {
             return (string) $amount;
         }
     }
