@@ -42,7 +42,7 @@ The `path` parameter is relative to the configured `base_path` in `config/pdf-in
 
 ### Spatie PDF (Default)
 
-Uses Puppeteer (headless Chrome) via Node.js for rendering. Provides the best CSS support and most accurate rendering.
+Uses Browsershot (headless Chrome/Chromium) via Node.js for rendering. Provides the best CSS support and most accurate rendering.
 
 **Advantages:**
 - Excellent CSS3 support
@@ -52,7 +52,7 @@ Uses Puppeteer (headless Chrome) via Node.js for rendering. Provides the best CS
 
 **Requirements:**
 - Node.js installed
-- Puppeteer npm package: `npm install puppeteer`
+- Chromium/Chrome binary accessible from the runtime environment
 
 **Configuration:**
 

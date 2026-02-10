@@ -25,12 +25,15 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         }
         $translator = new InvoiceTranslator($locale);
 
-        $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        Pdf::view($viewPath, [
-            'invoice' => $invoice,
-            'compiledCss' => $compiledCss,
-            'translator' => $translator,
-        ])->save($tempFile);
+        $this->saveWithBrowsershotDriver(
+            $template,
+            [
+                'invoice' => $invoice,
+                'compiledCss' => $compiledCss,
+                'translator' => $translator,
+            ],
+            $tempFile,
+        );
 
         $content = file_get_contents($tempFile);
         unlink($tempFile);
@@ -48,12 +51,15 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         }
         $translator = new InvoiceTranslator($locale);
 
-        $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        Pdf::view($viewPath, [
-            'invoice' => $invoice,
-            'compiledCss' => $compiledCss,
-            'translator' => $translator,
-        ])->save($fullPath);
+        $this->saveWithBrowsershotDriver(
+            $template,
+            [
+                'invoice' => $invoice,
+                'compiledCss' => $compiledCss,
+                'translator' => $translator,
+            ],
+            $fullPath,
+        );
 
         return $fullPath;
     }
@@ -72,5 +78,22 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         $content = file_get_contents($cssPath);
 
         return is_string($content) ? $content : '';
+    }
+
+    /**
+     * @param  array{invoice: InvoiceData, compiledCss: string, translator: InvoiceTranslator}  $data
+     */
+    private function saveWithBrowsershotDriver(string $template, array $data, string $path): void
+    {
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+        $previousDriver = config('laravel-pdf.driver');
+
+        config(['laravel-pdf.driver' => 'browsershot']);
+
+        try {
+            Pdf::view($viewPath, $data)->save($path);
+        } finally {
+            config(['laravel-pdf.driver' => $previousDriver]);
+        }
     }
 }
