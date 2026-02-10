@@ -64,8 +64,10 @@
   "scripts": {
     "post-autoload-dump": "@composer run prepare",
     "prepare": "@php vendor/bin/testbench package:discover --ansi",
-    "lint": "pint",
-    "refactor": "rector",
+    "lint": [
+      "rector",
+      "pint"
+    ],
     "test:lint": "pint --test",
     "test:refactor": "rector --dry-run",
     "test:arch": "pest --filter=arch",
