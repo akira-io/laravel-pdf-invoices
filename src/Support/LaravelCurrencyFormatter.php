@@ -13,11 +13,11 @@ final class LaravelCurrencyFormatter implements CurrencyFormatterContract
     public function format(float $amount, string $currency = '', string $locale = 'en'): string
     {
         try {
-            if ($currency === '' || $currency === '0') {
-                return Number::format($amount, precision: 2, locale: $locale);
-            }
+            $result = ($currency === '' || $currency === '0')
+                ? Number::format($amount, precision: 2, locale: $locale)
+                : Number::currency($amount, $currency, locale: $locale);
 
-            return Number::currency($amount, $currency, locale: $locale);
+            return is_string($result) ? $result : (string) $amount;
         } catch (Throwable) {
             return (string) $amount;
         }

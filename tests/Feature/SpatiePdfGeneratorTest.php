@@ -66,3 +66,25 @@ it('covers missing css path in spatie generator', function (): void {
 
     expect(true)->toBeTrue();
 });
+
+it('generates pdf content using real driver branch in spatie generator', function (): void {
+    $invoice = new InvoiceData(
+        seller: new EntityData(name: 'Acme'),
+        buyer: new EntityData(name: 'Client'),
+    );
+
+    // We mock the facade and builder instead of using Pdf::fake()
+    // to hit the branch that calls base64_decode($builder->base64())
+    $mockBuilder = Mockery::mock(PdfBuilder::class);
+    $mockBuilder->shouldReceive('driver')->with('browsershot')->andReturnSelf();
+    $mockBuilder->shouldReceive('base64')->andReturn(base64_encode('real-content'));
+
+    Pdf::shouldReceive('view')->andReturn($mockBuilder);
+
+    $generator = new SpatiePdfGenerator;
+    $content = $generator->generate($invoice);
+
+    expect($content)->toBe('real-content');
+
+    Mockery::close();
+});
