@@ -39,6 +39,12 @@ final readonly class DompdfPdfGenerator implements PdfGeneratorContract
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
         $fullPath = $this->basePath.'/'.$path;
+
+        $directory = dirname($fullPath);
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
         $compiledCss = $this->getCompiledCss();
         $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
         if (! is_string($locale)) {

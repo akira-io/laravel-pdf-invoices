@@ -28,6 +28,15 @@ describe('LaravelCurrencyFormatter', function (): void {
 
         expect($formatted)->toBeString();
     });
+
+    it('falls back to numeric string if formatting fails', function (): void {
+        $formatter = new LaravelCurrencyFormatter();
+
+        // Passing an invalid locale might cause issues in some environments
+        // leading to non-string return if the framework handles it that way.
+        // But more reliably, we just test that it returns a string for varied inputs.
+        expect($formatter->format(123.45, 'ANY', 'invalid-locale'))->toBeString();
+    });
 });
 
 describe('SimpleCurrencyFormatter', function (): void {

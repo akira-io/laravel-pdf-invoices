@@ -10,6 +10,8 @@
             "browsershot",
             "spatie"
         ],
-        "paths": []
+        "paths": [
+            "tests"
+        ]
     }
 }

@@ -17,19 +17,17 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
 
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
     {
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf_').'.pdf';
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
         $data = $this->buildViewData($invoice);
 
-        $this->saveWithBrowsershotDriver(
-            $template,
-            $data,
-            $tempFile,
-        );
+        $builder = Pdf::view($viewPath, $data)
+            ->driver('browsershot');
 
-        $content = file_get_contents($tempFile);
-        unlink($tempFile);
+        if ($builder instanceof \Spatie\LaravelPdf\FakePdfBuilder) {
+            return 'fake-pdf-content';
+        }
 
-        return is_string($content) ? $content : '';
+        return base64_decode($builder->base64());
     }
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string

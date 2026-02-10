@@ -23,7 +23,8 @@ final class PdfInvoicesServiceProvider extends PackageServiceProvider
             ->name('laravel-pdf-invoices')
             ->hasConfigFile('pdf-invoices')
             ->hasViews('pdf-invoices')
-            ->hasTranslations();
+            ->hasTranslations()
+            ->hasCommand(Commands\PdfInvoicesCommand::class);
     }
 
     public function registeringPackage(): void

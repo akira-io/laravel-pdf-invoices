@@ -35,6 +35,7 @@ abstract class TestCase extends Orchestra
         return [
             PdfInvoicesServiceProvider::class,
             DebuggerServiceProvider::class,
+            \Barryvdh\DomPDF\ServiceProvider::class,
         ];
     }
 }
