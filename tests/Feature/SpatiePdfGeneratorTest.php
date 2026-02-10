@@ -6,11 +6,12 @@ use Akira\PdfInvoices\DTO\EntityData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\Pdf\SpatiePdfGenerator;
 use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\PdfBuilder;
 
 it('forces the browsershot driver while using spatie generator', function (): void {
     config(['laravel-pdf.driver' => 'dompdf']);
 
-    $builder = Mockery::mock(Spatie\LaravelPdf\PdfBuilder::class);
+    $builder = Mockery::mock(PdfBuilder::class);
 
     Pdf::shouldReceive('view')
         ->once()

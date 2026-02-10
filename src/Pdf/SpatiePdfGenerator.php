@@ -18,20 +18,11 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
     {
         $tempFile = tempnam(sys_get_temp_dir(), 'pdf_').'.pdf';
-        $compiledCss = $this->getCompiledCss();
-        $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
-        if (! is_string($locale)) {
-            $locale = 'en';
-        }
-        $translator = new InvoiceTranslator($locale);
+        $data = $this->buildViewData($invoice);
 
         $this->saveWithBrowsershotDriver(
             $template,
-            [
-                'invoice' => $invoice,
-                'compiledCss' => $compiledCss,
-                'translator' => $translator,
-            ],
+            $data,
             $tempFile,
         );
 
@@ -44,24 +35,32 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
         $fullPath = $this->basePath.'/'.$path;
-        $compiledCss = $this->getCompiledCss();
-        $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
-        if (! is_string($locale)) {
-            $locale = 'en';
-        }
-        $translator = new InvoiceTranslator($locale);
+        $data = $this->buildViewData($invoice);
 
         $this->saveWithBrowsershotDriver(
             $template,
-            [
-                'invoice' => $invoice,
-                'compiledCss' => $compiledCss,
-                'translator' => $translator,
-            ],
+            $data,
             $fullPath,
         );
 
         return $fullPath;
+    }
+
+    /**
+     * @return array{invoice: InvoiceData, compiledCss: string, translator: InvoiceTranslator}
+     */
+    private function buildViewData(InvoiceData $invoice): array
+    {
+        $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
+        if (! is_string($locale)) {
+            $locale = 'en';
+        }
+
+        return [
+            'invoice' => $invoice,
+            'compiledCss' => $this->getCompiledCss(),
+            'translator' => new InvoiceTranslator($locale),
+        ];
     }
 
     /**
