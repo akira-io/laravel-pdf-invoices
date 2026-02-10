@@ -6,7 +6,9 @@
             "pnpm",
             "dto",
             "dompdf",
-            "roadmap"
+            "roadmap",
+            "browsershot",
+            "spatie"
         ],
         "paths": []
     }

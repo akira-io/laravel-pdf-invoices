@@ -10,6 +10,8 @@ use Spatie\LaravelPdf\Facades\Pdf;
 it('forces the browsershot driver while using spatie generator', function (): void {
     config(['laravel-pdf.driver' => 'dompdf']);
 
+    $builder = Mockery::mock(Spatie\LaravelPdf\PdfBuilder::class);
+
     Pdf::shouldReceive('view')
         ->once()
         ->withArgs(function (string $view, array $data): bool {
@@ -18,9 +20,14 @@ it('forces the browsershot driver while using spatie generator', function (): vo
 
             return true;
         })
+        ->andReturn($builder);
+
+    $builder->shouldReceive('driver')
+        ->once()
+        ->with('browsershot')
         ->andReturnSelf();
 
-    Pdf::shouldReceive('save')
+    $builder->shouldReceive('save')
         ->once()
         ->with('invoices/invoice.pdf');
 
@@ -33,5 +40,4 @@ it('forces the browsershot driver while using spatie generator', function (): vo
     $savedPath = $generator->save($invoice, 'invoice.pdf');
 
     expect($savedPath)->toBe('invoices/invoice.pdf');
-    expect(config('laravel-pdf.driver'))->toBe('dompdf');
 });

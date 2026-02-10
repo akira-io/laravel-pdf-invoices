@@ -35,10 +35,16 @@ Choose your PDF generation engine:
 
 ### Option 1: Spatie (Browsershot/Chromium) - Default
 
-Best for complex layouts and JavaScript rendering:
+Best for complex layouts and JavaScript rendering.
+
+#### Runtime dependencies
+
+- **Node.js**: Required to run Browsershot/Puppeteer.
+- **Chromium or Google Chrome**: A headless browser instance.
+- **Puppeteer**: Must be installed manually as a Node dependency.
 
 ```bash
-# Install Node.js and a Chromium/Chrome binary available in PATH
+npm install puppeteer
 ```
 
 `spatie/browsershot` is installed automatically as a package dependency.

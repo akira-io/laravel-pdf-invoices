@@ -86,14 +86,9 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
     private function saveWithBrowsershotDriver(string $template, array $data, string $path): void
     {
         $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        $previousDriver = config('laravel-pdf.driver');
 
-        config(['laravel-pdf.driver' => 'browsershot']);
-
-        try {
-            Pdf::view($viewPath, $data)->save($path);
-        } finally {
-            config(['laravel-pdf.driver' => $previousDriver]);
-        }
+        Pdf::view($viewPath, $data)
+            ->driver('browsershot')
+            ->save($path);
     }
 }

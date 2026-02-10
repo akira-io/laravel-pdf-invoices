@@ -51,8 +51,9 @@ Uses Browsershot (headless Chrome/Chromium) via Node.js for rendering. Provides 
 - Best for custom templates
 
 **Requirements:**
-- Node.js installed
-- Chromium/Chrome binary accessible from the runtime environment
+- **Node.js**: Required to run Browsershot/Puppeteer.
+- **Chromium or Google Chrome**: A headless browser instance.
+- **Puppeteer**: Must be installed manually as a Node dependency (`npm install puppeteer`).
 
 **Configuration:**
 
