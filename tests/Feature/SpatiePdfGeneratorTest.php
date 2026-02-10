@@ -88,3 +88,24 @@ it('generates pdf content using real driver branch in spatie generator', functio
 
     Mockery::close();
 });
+
+it('handles base64 decoding failure in spatie generator', function (): void {
+    $invoice = new InvoiceData(
+        seller: new EntityData(name: 'Acme'),
+        buyer: new EntityData(name: 'Client'),
+    );
+
+    $mockBuilder = Mockery::mock(PdfBuilder::class);
+    $mockBuilder->shouldReceive('driver')->with('browsershot')->andReturnSelf();
+    // Return invalid base64 string
+    $mockBuilder->shouldReceive('base64')->andReturn('!!!invalid-base64!!!');
+
+    Pdf::shouldReceive('view')->andReturn($mockBuilder);
+
+    $generator = new SpatiePdfGenerator;
+    $content = $generator->generate($invoice);
+
+    expect($content)->toBe('');
+
+    Mockery::close();
+});

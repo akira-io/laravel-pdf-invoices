@@ -28,7 +28,7 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
             return 'fake-pdf-content';
         }
 
-        return base64_decode($builder->base64());
+        return base64_decode($builder->base64(), true) ?: '';
     }
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
