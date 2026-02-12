@@ -4,25 +4,21 @@ Common issues and solutions when working with Laravel PDF Invoices.
 
 ## PDF Generation Issues
 
-### Spatie PDF: Puppeteer Not Found
+### Spatie PDF: Browsershot / Chrome Not Found
 
-**Problem:** PDF generation fails with "Puppeteer not found" error.
+**Problem:** PDF generation fails with missing Browsershot/Chrome runtime errors.
 
 **Solution:**
 
-Install Puppeteer via npm:
+Ensure the runtime has Node.js and a Chromium/Chrome binary available.
+
+Verify Node.js is installed:
 
 ```bash
-npm install puppeteer
+node --version
 ```
 
-Verify installation:
-
-```bash
-npx puppeteer --version
-```
-
-If still failing, ensure Node.js and npm are in your system PATH.
+If still failing, ensure your deployment can execute Chrome/Chromium and that permissions allow headless execution.
 
 ### DomPDF: Missing Required Libraries
 

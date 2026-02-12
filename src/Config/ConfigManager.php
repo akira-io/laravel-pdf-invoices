@@ -11,91 +11,64 @@ final readonly class ConfigManager
     public function pdfDriver(): string
     {
         $driver = config('pdf-invoices.pdf.driver', 'spatie');
-        if (! is_string($driver)) {
-            return 'spatie';
-        }
 
-        return $driver;
+        return is_string($driver) ? $driver : 'spatie';
     }
 
     public function pdfTemplate(): string
     {
         $template = config('pdf-invoices.pdf.template', 'modern');
-        if (! is_string($template)) {
-            return 'modern';
-        }
 
-        return $template;
+        return is_string($template) ? $template : 'modern';
     }
 
     public function pdfBasePath(): string
     {
         $path = config('pdf-invoices.pdf.base_path', 'invoices');
-        if (! is_string($path)) {
-            return 'invoices';
-        }
 
-        return $path;
+        return is_string($path) ? $path : 'invoices';
     }
 
     public function storageDriver(): string
     {
         $driver = config('pdf-invoices.storage.driver', 'laravel');
-        if (! is_string($driver)) {
-            return 'laravel';
-        }
 
-        return $driver;
+        return is_string($driver) ? $driver : 'laravel';
     }
 
     public function storageDisk(): string
     {
         $disk = config('pdf-invoices.storage.disk', 'local');
-        if (! is_string($disk)) {
-            return 'local';
-        }
 
-        return $disk;
+        return is_string($disk) ? $disk : 'local';
     }
 
     public function currencyDriver(): string
     {
         $driver = config('pdf-invoices.currency.driver', LaravelCurrencyFormatter::class);
-        if (! is_string($driver)) {
-            return LaravelCurrencyFormatter::class;
-        }
 
-        return $driver;
+        return is_string($driver) ? $driver : LaravelCurrencyFormatter::class;
     }
 
     public function currencyCode(): string
     {
         $code = config('pdf-invoices.currency.code', 'EUR');
-        if (! is_string($code)) {
-            return 'EUR';
-        }
 
-        return $code;
+        return is_string($code) ? $code : 'EUR';
     }
 
     public function currencySymbol(): string
     {
         $symbol = config('pdf-invoices.currency.symbol', '€');
-        if (! is_string($symbol)) {
-            return '€';
-        }
 
-        return $symbol;
+        return is_string($symbol) ? $symbol : '€';
     }
 
     public function locale(): string
     {
         $locale = config('pdf-invoices.localization.locale', 'en');
-        if (! is_string($locale)) {
-            return 'en';
-        }
 
-        return $locale;
+        return is_string($locale) ? $locale : 'en';
     }
 
     /**
@@ -109,24 +82,16 @@ final readonly class ConfigManager
             return ['en'];
         }
 
-        $stringLocales = [];
-        foreach ($locales as $locale) {
-            if (is_string($locale)) {
-                $stringLocales[] = $locale;
-            }
-        }
+        $stringLocales = array_filter($locales, is_string(...));
 
-        return $stringLocales === [] ? ['en'] : $stringLocales;
+        return $stringLocales === [] ? ['en'] : array_values($stringLocales);
     }
 
     public function allowCustomAttributes(): bool
     {
         $allow = config('pdf-invoices.allow_custom_attributes', true);
-        if (! is_bool($allow)) {
-            return true;
-        }
 
-        return $allow;
+        return is_bool($allow) ? $allow : true;
     }
 
     /**
@@ -137,6 +102,7 @@ final readonly class ConfigManager
     public function all(): array
     {
         $config = config('pdf-invoices', []);
+
         if (! is_array($config)) {
             return [];
         }

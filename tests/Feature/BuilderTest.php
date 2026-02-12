@@ -124,7 +124,25 @@ describe('ItemBuilder', function (): void {
             ->build();
 
         expect($item->get('sku'))->toBe('SERV-001')
-            ->and($item->get('category'))->toBe('Professional');
+            ->and($item->get('category'))->toBe('Professional')
+            ->and($item->has('sku'))->toBeTrue()
+            ->and($item->has('missing'))->toBeFalse()
+            ->and($item->attributes())->toHaveKey('sku', 'SERV-001');
+    });
+
+    it('supports bulk attribute assignment', function (): void {
+        $item = ItemBuilder::make()
+            ->description('Service')
+            ->unitPrice(100.0)
+            ->withAttributes([
+                'sku' => 'SERV-001',
+                'category' => 'Professional',
+            ])
+            ->build();
+
+        expect($item->attributes())
+            ->toHaveKey('sku', 'SERV-001')
+            ->toHaveKey('category', 'Professional');
     });
 });
 
@@ -183,6 +201,39 @@ describe('InvoiceBuilder', function (): void {
         expect($invoice->items)->toHaveCount(2);
     });
 
+    it('can set items in bulk', function (): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+        $items = [
+            ItemBuilder::make()->description('Item 1')->unitPrice(100.0)->build(),
+            ItemBuilder::make()->description('Item 2')->unitPrice(200.0)->build(),
+        ];
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->items($items)
+            ->build();
+
+        expect($invoice->items)->toBe($items);
+    });
+
+    it('handles non-Carbon date instances', function (): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+        $date = new DateTimeImmutable('2024-01-01');
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->issuedAt($date)
+            ->dueAt($date)
+            ->build();
+
+        expect($invoice->issuedAt->format('Y-m-d'))->toBe('2024-01-01')
+            ->and($invoice->dueAt->format('Y-m-d'))->toBe('2024-01-01');
+    });
+
     it('calculates invoice totals', function (): void {
         $seller = EntityBuilder::make()->name('Seller')->build();
         $buyer = EntityBuilder::make()->name('Buyer')->build();
@@ -222,7 +273,28 @@ describe('InvoiceBuilder', function (): void {
             ->build();
 
         expect($invoice->get('po_number'))->toBe('PO-9001')
-            ->and($invoice->get('project_code'))->toBe('PROJ-001');
+            ->and($invoice->get('project_code'))->toBe('PROJ-001')
+            ->and($invoice->has('po_number'))->toBeTrue()
+            ->and($invoice->has('missing'))->toBeFalse()
+            ->and($invoice->attributes())->toHaveKey('po_number', 'PO-9001');
+    });
+
+    it('supports bulk attribute assignment', function (): void {
+        $seller = EntityBuilder::make()->name('Seller')->build();
+        $buyer = EntityBuilder::make()->name('Buyer')->build();
+
+        $invoice = InvoiceBuilder::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->withAttributes([
+                'po_number' => 'PO-9001',
+                'project_code' => 'PROJ-001',
+            ])
+            ->build();
+
+        expect($invoice->attributes())
+            ->toHaveKey('po_number', 'PO-9001')
+            ->toHaveKey('project_code', 'PROJ-001');
     });
 
     it('can set locale', function (): void {

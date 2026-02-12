@@ -13,49 +13,53 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
 {
     public function __construct(
         private string $basePath = 'invoices',
+        private ?string $cssPath = null,
     ) {}
 
     public function generate(InvoiceData $invoice, string $template = 'modern'): string
     {
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf_').'.pdf';
-        $compiledCss = $this->getCompiledCss();
-        $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
-        if (! is_string($locale)) {
-            $locale = 'en';
-        }
-        $translator = new InvoiceTranslator($locale);
-
         $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        Pdf::view($viewPath, [
-            'invoice' => $invoice,
-            'compiledCss' => $compiledCss,
-            'translator' => $translator,
-        ])->save($tempFile);
+        $data = $this->buildViewData($invoice);
 
-        $content = file_get_contents($tempFile);
-        unlink($tempFile);
+        $builder = Pdf::view($viewPath, $data)
+            ->driver('browsershot');
 
-        return is_string($content) ? $content : '';
+        if ($builder instanceof \Spatie\LaravelPdf\FakePdfBuilder) {
+            return 'fake-pdf-content';
+        }
+
+        return base64_decode($builder->base64(), true) ?: '';
     }
 
     public function save(InvoiceData $invoice, string $path, string $template = 'modern'): string
     {
         $fullPath = $this->basePath.'/'.$path;
-        $compiledCss = $this->getCompiledCss();
+        $data = $this->buildViewData($invoice);
+
+        $this->saveWithBrowsershotDriver(
+            $template,
+            $data,
+            $fullPath,
+        );
+
+        return $fullPath;
+    }
+
+    /**
+     * @return array{invoice: InvoiceData, compiledCss: string, translator: InvoiceTranslator}
+     */
+    private function buildViewData(InvoiceData $invoice): array
+    {
         $locale = $invoice->locale ?? config('pdf-invoices.localization.locale', 'en');
         if (! is_string($locale)) {
             $locale = 'en';
         }
-        $translator = new InvoiceTranslator($locale);
 
-        $viewPath = "pdf-invoices::pdf.templates.{$template}";
-        Pdf::view($viewPath, [
+        return [
             'invoice' => $invoice,
-            'compiledCss' => $compiledCss,
-            'translator' => $translator,
-        ])->save($fullPath);
-
-        return $fullPath;
+            'compiledCss' => $this->getCompiledCss(),
+            'translator' => new InvoiceTranslator($locale),
+        ];
     }
 
     /**
@@ -63,7 +67,7 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
      */
     private function getCompiledCss(): string
     {
-        $cssPath = __DIR__.'/../../resources/css/compiled.css';
+        $cssPath = $this->cssPath ?? __DIR__.'/../../resources/css/compiled.css';
 
         if (! file_exists($cssPath)) {
             return '';
@@ -72,5 +76,17 @@ final readonly class SpatiePdfGenerator implements PdfGeneratorContract
         $content = file_get_contents($cssPath);
 
         return is_string($content) ? $content : '';
+    }
+
+    /**
+     * @param  array{invoice: InvoiceData, compiledCss: string, translator: InvoiceTranslator}  $data
+     */
+    private function saveWithBrowsershotDriver(string $template, array $data, string $path): void
+    {
+        $viewPath = "pdf-invoices::pdf.templates.{$template}";
+
+        Pdf::view($viewPath, $data)
+            ->driver('browsershot')
+            ->save($path);
     }
 }

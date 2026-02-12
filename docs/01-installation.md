@@ -24,13 +24,14 @@ The package supports two PDF generation engines. Choose the one that fits your i
 
 ### Option 1: Spatie PDF (Default)
 
-Spatie PDF uses Puppeteer (Chrome headless) via Node.js for rendering. This provides the most accurate PDF output and best CSS support.
+Spatie PDF uses Browsershot (Chrome/Chromium headless) via Node.js for rendering. This provides the most accurate PDF output and best CSS support.
 
-**Install Puppeteer:**
+**Install runtime dependencies:**
 
-```bash
-npm install puppeteer
-```
+- Node.js
+- Chromium/Chrome available in your environment
+
+`spatie/browsershot` is installed automatically with this package.
 
 **Configure in .env:**
 

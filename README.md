@@ -19,7 +19,7 @@ and multi-language support.
 - **Multi-Language** - English, Portuguese, French (easily extensible)
 - **Custom Fields** - Add any custom attributes to entities
 - **Currency Support** - Flexible formatting with Laravel integration
-- **Multiple PDF Engines** - Choose between Spatie (Puppeteer) or DomPDF
+- **Multiple PDF Engines** - Choose between Spatie (Browsershot/Chromium) or DomPDF
 - **Fully Tested** - Comprehensive PestPHP test suite
 - **Quality Tools** - PHPStan level max, Laravel Pint, Rector
 
@@ -33,13 +33,21 @@ composer require akira/laravel-pdf-invoices
 
 Choose your PDF generation engine:
 
-### Option 1: Spatie (Puppeteer) - Default
+### Option 1: Spatie (Browsershot/Chromium) - Default
 
-Best for complex layouts and JavaScript rendering:
+Best for complex layouts and JavaScript rendering.
+
+#### Runtime dependencies
+
+- **Node.js**: Required to run Browsershot/Puppeteer.
+- **Chromium or Google Chrome**: A headless browser instance.
+- **Puppeteer**: Must be installed manually as a Node dependency.
 
 ```bash
 npm install puppeteer
 ```
+
+`spatie/browsershot` is installed automatically as a package dependency.
 
 ### Option 2: DomPDF
 

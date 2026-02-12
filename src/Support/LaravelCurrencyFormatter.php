@@ -6,21 +6,20 @@ namespace Akira\PdfInvoices\Support;
 
 use Akira\PdfInvoices\Contracts\CurrencyFormatterContract;
 use Illuminate\Support\Number;
+use Throwable;
 
 final class LaravelCurrencyFormatter implements CurrencyFormatterContract
 {
     public function format(float $amount, string $currency = '', string $locale = 'en'): string
     {
-        if ($currency === '' || $currency === '0') {
-            $result = Number::format($amount, precision: 2, locale: $locale);
-        } else {
-            $result = Number::currency($amount, $currency, locale: $locale);
-        }
+        try {
+            $result = ($currency === '' || $currency === '0')
+                ? Number::format($amount, precision: 2, locale: $locale)
+                : Number::currency($amount, $currency, locale: $locale);
 
-        if (! is_string($result)) {
+            return is_string($result) ? $result : (string) $amount;
+        } catch (Throwable) {
             return (string) $amount;
         }
-
-        return $result;
     }
 }

@@ -30,3 +30,5 @@ phpstan.neon
 testbench.yaml
 /coverage
 /docs/todo.md
+invoices/test.pdf
+invoices/test-locale.pdf

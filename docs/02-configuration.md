@@ -25,7 +25,7 @@ Configure which PDF engine to use and how PDFs are generated.
 ```
 
 **driver**: PDF generation engine. Options:
-- `spatie` - Uses Spatie Laravel PDF with Puppeteer (default)
+- `spatie` - Uses Spatie Laravel PDF v2 with Browsershot/Chromium (default)
 - `dompdf` - Uses DomPDF pure PHP implementation
 
 **template**: Default template for rendering invoices. Built-in options:
