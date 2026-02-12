@@ -1,4 +1,20 @@
+# Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
+# [1.7.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.6.0...v1.7.0) (2026-02-12)
+
+
+### Features
+
+* Add new feature tests, enhance builders with bulk assignment, and improve robustness for config and locale handling. ([344a7dc](https://github.com/akira-io/laravel-pdf-invoices/commit/344a7dcf321077d5804f7d2c643e322e984f13d8))
+* enhance Spatie PDF generator to gracefully handle invalid base64 content and add a test for decoding failures. ([a76acab](https://github.com/akira-io/laravel-pdf-invoices/commit/a76acab284534c053b6240a604d453873fa29476))
+* explicitly use `browsershot` driver in `SpatiePdfGenerator` and update related documentation and tests. ([f7fd489](https://github.com/akira-io/laravel-pdf-invoices/commit/f7fd489bf745ba3e6ae37af63ea0142e8e10aa66))
+* Refactor currency formatting logic, update test coverage expectation, and add a test for the Spatie PDF generator's real driver branch. ([68a4609](https://github.com/akira-io/laravel-pdf-invoices/commit/68a4609166c04fc03abc42e1ee53ae6ee24faa29))
 
 ## [1.6.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.5.0...v1.6.0) (2026-02-08)
 
@@ -46,12 +62,6 @@
 * add French to supported locales for invoice localization ([cba3d95](https://github.com/akira-io/laravel-pdf-invoices/commit/cba3d95e1a469a7161e1a4b013bec1813e8ba2af))
 * add French translations for invoice-related terms ([d7368cf](https://github.com/akira-io/laravel-pdf-invoices/commit/d7368cfbb4b0404dcb5d89984e44e01b66469173))
 
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.2.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.1.2...v1.2.0) (2025-12-02)
 
