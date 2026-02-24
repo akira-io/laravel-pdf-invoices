@@ -20,11 +20,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
-        php: ['8.4']
-        laravel: ['12.*']
-        stability: [prefer-stable]
+        os: [ ubuntu-latest ]
+        php: [ '8.4' ]
+        laravel: [ '12.*','^13.0' ]
+        stability: [ prefer-stable ]
         include:
+          - laravel: ^13.0
+            testbench: ^11.0
           - laravel: 12.*
             testbench: 10.*
 
@@ -55,4 +57,4 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: composer test
