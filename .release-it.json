@@ -1,7 +1,7 @@
 {
   "git": {
     "requireBranch": "1.x",
-    "commitMessage": "chore: release v${version}",
+    "commitMessage": "chore(release): bump v${version}",
     "requireCommits": false,
     "changelog": true,
     "tag": true,
