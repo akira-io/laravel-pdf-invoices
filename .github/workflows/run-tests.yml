@@ -41,7 +41,10 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
+          coverage: xdebug
+
+      - name: Install Aspell
+        run: sudo apt-get update && sudo apt-get install -y aspell aspell-en
 
       - name: Setup problem matchers
         run: |
