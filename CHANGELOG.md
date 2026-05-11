@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [1.8.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.7.0...v1.8.0) (2026-05-11)
+
+
+### Features
+
+* add Laravel 13 support ([5c05736](https://github.com/akira-io/laravel-pdf-invoices/commit/5c057367f4f331b20b5281ac16ae3fbccdff140f))
+
 # [1.7.0](https://github.com/akira-io/laravel-pdf-invoices/compare/v1.6.0...v1.7.0) (2026-02-12)
 
 
