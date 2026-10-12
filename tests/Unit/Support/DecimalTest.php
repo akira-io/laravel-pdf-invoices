@@ -50,3 +50,10 @@ it('accepts a missing optional decimal', function (): void {
     expect(Decimal::assertOptional(null, 'amount'))->toBeNull()
         ->and(Decimal::assertOptional('1.5', 'amount'))->toBe('1.5');
 });
+
+it('rejects decimals too long to be an amount', function (string $value): void {
+    Decimal::assert($value, 'amount');
+})->with([
+    'integer digits' => [str_repeat('9', 31)],
+    'fraction digits' => ['1.'.str_repeat('0', 11)],
+])->throws(InvalidArgumentException::class, 'at most 30 integer and 10 fraction digits');

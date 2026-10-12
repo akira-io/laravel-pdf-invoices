@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akira\PdfInvoices\DTO;
 
 use Akira\PdfInvoices\Support\Decimal;
+use InvalidArgumentException;
 
 final readonly class ItemData
 {
@@ -29,6 +30,12 @@ final readonly class ItemData
         Decimal::assertOptional($decimalQuantity, 'item quantity');
         Decimal::assertOptional($decimalUnitPrice, 'item unit price');
         Decimal::assertOptional($decimalTotal, 'item total');
+
+        throw_if(
+            $decimalTotal === null && ($decimalQuantity !== null || $decimalUnitPrice !== null),
+            InvalidArgumentException::class,
+            'An item with a decimal quantity or unit price needs its decimal total too.',
+        );
     }
 
     public function getSubtotal(): float
@@ -68,7 +75,7 @@ final readonly class ItemData
 
     public function exactTotal(): string
     {
-        return $this->decimalTotal ?? number_format($this->getTotal(), 2, '.', '');
+        return $this->decimalTotal ?? number_format($this->getSubtotal(), 2, '.', '');
     }
 
     public function get(string $key, mixed $default = null): mixed

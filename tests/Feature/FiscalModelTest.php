@@ -31,7 +31,7 @@ it('keeps the legacy item constructor and defaults', function (): void {
         ->and($item->taxes)->toBe([])
         ->and($item->exactQuantity())->toBe('2')
         ->and($item->exactUnitPrice())->toBe('100.00')
-        ->and($item->exactTotal())->toBe('230.00');
+        ->and($item->exactTotal())->toBe('200.00');
 });
 
 it('prefers exact decimal values on items', function (): void {
@@ -104,7 +104,7 @@ it('derives totals from legacy items when none are given', function (): void {
     expect($invoice->fiscal)->toBeNull()
         ->and($invoice->totals)->toBeNull()
         ->and($invoice->conversions)->toBe([])
-        ->and($totals->net)->toBe('180.00')
+        ->and($totals->net)->toBe('200.00')
         ->and($totals->discounts)->toBe('20.00')
         ->and($totals->charges)->toBe('0')
         ->and($totals->tax)->toBe('27.00')
@@ -161,3 +161,18 @@ it('builds fiscal invoices through the builders', function (): void {
         ->and($invoice->totals)->toBe($totals)
         ->and($invoice->conversions)->toBe([$conversion]);
 });
+
+it('needs a decimal total when the quantity or price is decimal', function (array $fields): void {
+    new ItemData(...['description' => 'x', 'unitPrice' => 0.0, ...$fields]);
+})->with([
+    'quantity' => [['decimalQuantity' => '2.5']],
+    'unit price' => [['decimalUnitPrice' => '10.00']],
+])->throws(InvalidArgumentException::class, 'needs its decimal total too');
+
+it('refuses to derive totals from floats when items carry decimal totals', function (): void {
+    new InvoiceData(
+        seller: new EntityData('Acme'),
+        buyer: new EntityData('Client'),
+        items: [new ItemData(description: 'x', unitPrice: 0.0, decimalTotal: '1400.00')],
+    )->fiscalTotals();
+})->throws(LogicException::class, 'need the invoice totals');

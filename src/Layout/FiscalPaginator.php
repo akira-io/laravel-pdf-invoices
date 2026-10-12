@@ -6,6 +6,7 @@ namespace Akira\PdfInvoices\Layout;
 
 use Akira\PdfInvoices\Support\Decimal;
 use Akira\PdfInvoices\Support\FiscalNumberFormatter;
+use LengthException;
 
 final readonly class FiscalPaginator
 {
@@ -50,7 +51,7 @@ final readonly class FiscalPaginator
             }
 
             $pageRows[] = $row->at($rowY);
-            $amounts[] = $row->amount;
+            $amounts[] = Decimal::round($row->amount, 2);
             $rowY += self::ROW_HEIGHT;
         }
 
@@ -61,6 +62,12 @@ final readonly class FiscalPaginator
 
             return $pages;
         }
+
+        throw_unless(
+            $summary->fits(self::CONTINUED_TABLE_Y),
+            LengthException::class,
+            'The totals, conversion evidence and notes do not fit on one page of the efatura template; shorten the notes.',
+        );
 
         $pages[] = new FiscalPage(count($pages) + 1, $pages !== [], $tableY, $pageRows);
         $pages[] = new FiscalPage(count($pages) + 1, true, null, summary: $summary->build(self::CONTINUED_TABLE_Y));

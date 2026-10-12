@@ -6,6 +6,7 @@ namespace Akira\PdfInvoices\DTO;
 
 use Carbon\CarbonInterface;
 use DateTimeInterface;
+use LogicException;
 
 final readonly class InvoiceData
 {
@@ -32,8 +33,18 @@ final readonly class InvoiceData
 
     public function fiscalTotals(): InvoiceTotalsData
     {
-        return $this->totals ?? new InvoiceTotalsData(
-            net: $this->decimal($this->getSubtotalAfterDiscount()),
+        if ($this->totals instanceof InvoiceTotalsData) {
+            return $this->totals;
+        }
+
+        throw_if(
+            array_any($this->items, static fn (ItemData $item): bool => $item->decimalTotal !== null),
+            LogicException::class,
+            'Items with decimal totals need the invoice totals as InvoiceTotalsData; they are never derived from floats.',
+        );
+
+        return new InvoiceTotalsData(
+            net: $this->decimal($this->getSubtotal()),
             payable: $this->decimal($this->getTotal()),
             discounts: $this->decimal($this->getTotalDiscount()),
             tax: $this->decimal($this->getTotalTax()),

@@ -37,8 +37,8 @@ final readonly class FiscalLayout
         $summary = new FiscalSummaryBuilder(
             $this->totals($invoice),
             $this->conversion($invoice),
-            array_values(array_filter([...$fiscal->notes, $invoice->notes])),
-            $fiscal->qrPayload === null ? null : $this->qrCode->dataUri($fiscal->qrPayload),
+            array_values(array_filter([...$fiscal->notes, $invoice->notes], fn (?string $note): bool => $note !== null && mb_trim($note) !== '')),
+            $fiscal->qrPayload === null || $fiscal->emissionMode === EmissionMode::Off ? null : $this->qrCode->dataUri($fiscal->qrPayload),
         );
 
         return new FiscalDocument(

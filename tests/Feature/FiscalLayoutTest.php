@@ -152,7 +152,7 @@ it('renders legacy invoices with derived values and placeholders', function (): 
         ->and($document->facts[2]->value)->toBe('INV-1')
         ->and($document->facts[3]->value)->toBe('-')
         ->and($rows[0]->tax)->toBe('15%')
-        ->and($rows[0]->total)->toBe('230,00')
+        ->and($rows[0]->total)->toBe('200,00')
         ->and($rows[0]->code)->toBe('')
         ->and($rows[1]->tax)->toBe('-')
         ->and($rows[2]->tax)->toBe('15% + 1,50 + M01')
@@ -192,4 +192,52 @@ it('shortens long descriptions and codes with an ellipsis', function (): void {
 
     expect($row->description)->toBe('Cimento Portland 42,5R sac…')
         ->and($row->code)->toBe('CIMENTO-PORTL…');
+});
+
+it('refuses notes that would push the DFE lookup off the page', function (): void {
+    fiscalLayout(EfaturaInvoiceFactory::make(notes: array_fill(0, 30, 'Nota fiscal')));
+})->throws(LengthException::class, 'shorten the notes');
+
+it('never draws a QR code when issued off, even with a payload', function (): void {
+    $invoice = EfaturaInvoiceFactory::make(mode: EmissionMode::Off);
+    $invoice = new InvoiceData(
+        seller: $invoice->seller,
+        buyer: $invoice->buyer,
+        fiscal: new Akira\PdfInvoices\DTO\FiscalData(emissionMode: EmissionMode::Off, qrPayload: 'https://pe.efatura.cv/dfe/view/X'),
+    );
+
+    expect(fiscalLayout($invoice)->pages[0]->summary->qrCode)->toBeNull();
+});
+
+it('ignores the contingency code outside off mode', function (): void {
+    $invoice = new InvoiceData(
+        seller: new EntityData('Acme'),
+        buyer: new EntityData('Client'),
+        fiscal: new Akira\PdfInvoices\DTO\FiscalData(emissionMode: EmissionMode::Offline, contingencyCode: '2026/1'),
+    );
+
+    expect(fiscalLayout($invoice)->contingency)->toBe('EMITIDO EM CONTINGÊNCIA OFFLINE - Pendente de Autorização');
+});
+
+it('carries forward the sum of the totals as printed', function (): void {
+    $items = array_map(
+        fn (int $index): ItemData => new ItemData(description: "Item {$index}", unitPrice: 0.0, decimalTotal: '0.005'),
+        range(1, 12),
+    );
+
+    $page = fiscalLayout(new InvoiceData(seller: new EntityData('Acme'), buyer: new EntityData('Client'), items: $items, currency: 'CVE', totals: new Akira\PdfInvoices\DTO\InvoiceTotalsData(net: '0.06', payable: '0.06')))->pages[0];
+
+    expect($page->rows[0]->total)->toBe('0$01')
+        ->and($page->carryForward)->toBe('0$11');
+});
+
+it('keeps a note that reads zero and drops blank ones', function (): void {
+    $invoice = new InvoiceData(
+        seller: new EntityData('Acme'),
+        buyer: new EntityData('Client'),
+        notes: ' ',
+        fiscal: new Akira\PdfInvoices\DTO\FiscalData(notes: ['0']),
+    );
+
+    expect(fiscalLayout($invoice)->pages[0]->summary->notes)->toBe(['0']);
 });
