@@ -1,5 +1,5 @@
 @if($page->tableY !== null)
-    @php($columns = [[66, 86, ''], [152, 170, ''], [322, 36, 'right'], [358, 65, 'right'], [423, 58, 'right'], [481, 68, 'right']])
+    @php($columns = [[66, 70, ''], [136, 150, ''], [286, 50, 'right'], [336, 85, 'right'], [421, 50, 'right'], [471, 78, 'right']])
     @php($headers = ['code', 'description', 'quantity', 'price', 'tax_column', 'total'])
     <div class="rule" style="left: 54pt; top: {{ $page->tableY + 17 }}pt; width: 487pt;"></div>
     @foreach($columns as [$x, $width, $align])

@@ -180,3 +180,16 @@ it('raises the summary above its usual place when it is tall', function (): void
 
     expect(fiscalLayout($invoice)->pages[0]->summary->totals[0]->y)->toBe(438.0);
 });
+
+it('shortens long descriptions and codes with an ellipsis', function (): void {
+    $invoice = new InvoiceData(
+        seller: new EntityData('Acme'),
+        buyer: new EntityData('Client'),
+        items: [new ItemData(description: 'Cimento Portland 42,5R saco de 50 kg', unitPrice: 1.0, code: 'CIMENTO-PORTLAND-42')],
+    );
+
+    $row = fiscalLayout($invoice)->pages[0]->rows[0];
+
+    expect($row->description)->toBe('Cimento Portland 42,5R sac…')
+        ->and($row->code)->toBe('CIMENTO-PORTL…');
+});
