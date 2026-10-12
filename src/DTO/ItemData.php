@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices\DTO;
 
+use Akira\PdfInvoices\Support\Decimal;
+
 final readonly class ItemData
 {
     /**
      * @param  array<string, mixed>  $attributes
+     * @param  array<int, ItemTaxData>  $taxes
      */
     public function __construct(
         public string $description,
@@ -16,7 +19,17 @@ final readonly class ItemData
         public float $tax = 0.0,
         public float $discount = 0.0,
         public array $attributes = [],
-    ) {}
+        public ?string $code = null,
+        public ?string $unit = null,
+        public ?string $decimalQuantity = null,
+        public ?string $decimalUnitPrice = null,
+        public ?string $decimalTotal = null,
+        public array $taxes = [],
+    ) {
+        Decimal::assertOptional($decimalQuantity, 'item quantity');
+        Decimal::assertOptional($decimalUnitPrice, 'item unit price');
+        Decimal::assertOptional($decimalTotal, 'item total');
+    }
 
     public function getSubtotal(): float
     {
@@ -41,6 +54,21 @@ final readonly class ItemData
     public function getTotal(): float
     {
         return $this->getSubtotalAfterDiscount() + $this->getTaxAmount();
+    }
+
+    public function exactQuantity(): string
+    {
+        return $this->decimalQuantity ?? (string) $this->quantity;
+    }
+
+    public function exactUnitPrice(): string
+    {
+        return $this->decimalUnitPrice ?? Decimal::trim(number_format($this->unitPrice, 5, '.', ''), 2);
+    }
+
+    public function exactTotal(): string
+    {
+        return $this->decimalTotal ?? number_format($this->getTotal(), 2, '.', '');
     }
 
     public function get(string $key, mixed $default = null): mixed
