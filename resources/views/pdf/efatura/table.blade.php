@@ -13,8 +13,9 @@
         <div class="rule rule-soft" style="left: 54pt; top: {{ $row->y + 18 }}pt; width: 487pt;"></div>
     @endforeach
     @if($page->carryForward !== null)
-        <div class="rule" style="left: 318pt; top: 706pt; width: 223pt;"></div>
-        <div class="at bold s10" style="left: 318pt; top: 715pt; width: 96pt;">{{ $document->label('carry_forward') }}</div>
-        <div class="at bold s10 right" style="left: 410pt; top: 715pt; width: 130pt;">{{ $page->carryForward }}</div>
+        @php($carryY = \Akira\PdfInvoices\Layout\FiscalPaginator::TABLE_BOTTOM_Y)
+        <div class="rule" style="left: 318pt; top: {{ $carryY + 6 }}pt; width: 223pt;"></div>
+        <div class="at bold s10" style="left: 318pt; top: {{ $carryY + 15 }}pt; width: 96pt;">{{ $document->label('carry_forward') }}</div>
+        <div class="at bold s10 right" style="left: 410pt; top: {{ $carryY + 15 }}pt; width: 130pt;">{{ $page->carryForward }}</div>
     @endif
 @endif

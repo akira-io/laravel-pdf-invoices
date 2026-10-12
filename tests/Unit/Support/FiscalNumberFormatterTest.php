@@ -19,7 +19,7 @@ it('formats other currencies with a decimal comma and the currency code', functi
     $formatter = new FiscalNumberFormatter();
 
     expect($formatter->money('12.7', 'EUR'))->toBe('12,70 EUR')
-        ->and($formatter->money('1234.5678', 'USD'))->toBe('1 234,5678 USD')
+        ->and($formatter->money('1234.5678', 'USD'))->toBe('1 234,57 USD')
         ->and($formatter->number('1234.5', 'EUR'))->toBe('1 234,50')
         ->and($formatter->number('1234.5', 'CVE'))->toBe('1 234$50');
 });

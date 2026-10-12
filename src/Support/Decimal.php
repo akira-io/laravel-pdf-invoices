@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices\Support;
 
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 final class Decimal
 {
-    private const string PATTERN = '/\A-?\d+(\.\d+)?\z/';
+    private const string PATTERN = '/\A-?\d{1,30}(\.\d{1,10})?\z/';
 
     public static function assert(string $value, string $field): string
     {
         throw_unless(
             preg_match(self::PATTERN, $value) === 1,
             InvalidArgumentException::class,
-            "The {$field} must be a decimal string such as \"1400.00\", got \"{$value}\".",
+            "The {$field} must be a decimal string such as \"1400.00\", with at most 30 integer and 10 fraction digits, got \"".Str::limit($value, 40).'".',
         );
 
         return $value;

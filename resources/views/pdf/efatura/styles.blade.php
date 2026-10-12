@@ -8,7 +8,7 @@
     .wrap { white-space: normal; overflow: visible; }
     .bold { font-weight: bold; }
     .muted { color: #555f6f; }
-    .right { text-align: right; }
+    .right { text-align: right; overflow: visible; }
     .rule { position: absolute; height: 0; border-top: 1pt solid #d8d8d8; }
     .rule-soft { border-top-color: #eeeeee; }
     .mark { position: absolute; width: 11pt; height: 16pt; border: 1pt solid #3b22d4; }

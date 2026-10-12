@@ -16,11 +16,9 @@ final readonly class FiscalNumberFormatter
 
     public function money(string $value, string $currency): string
     {
-        if ($currency === self::ESCUDO) {
-            return $this->number($value, $currency);
-        }
+        $amount = $this->number($value, $currency);
 
-        return $this->grouped(Decimal::trim($value, self::AMOUNT_SCALE), ',').' '.$currency;
+        return $currency === self::ESCUDO ? $amount : $amount.' '.$currency;
     }
 
     public function number(string $value, string $currency): string

@@ -20,7 +20,7 @@ it('renders the e-Fatura template as a pdf with dompdf', function (): void {
     $pdf = new DompdfPdfGenerator()->generate(EfaturaInvoiceFactory::make(60, EmissionMode::Online, true), 'efatura');
 
     expect($pdf)->toStartWith('%PDF-')
-        ->and(mb_substr_count($pdf, '/Type /Page'))->toBeGreaterThanOrEqual(5);
+        ->and(preg_match_all('#/Type\s*/Page\b(?!s)#', $pdf))->toBe(5);
 });
 
 it('renders every page with its header, facts and page number', function (): void {
@@ -51,4 +51,15 @@ it('renders the contingency band, conversion and notes', function (): void {
 
 it('uses the european portuguese labels for the pt locale', function (): void {
     expect(efaturaHtml(EfaturaInvoiceFactory::make(), 'pt'))->toContain('Descrição')->toContain('Emissão:');
+});
+
+it('ships every efatura label in every locale', function (string $locale): void {
+    $reference = array_keys((require __DIR__.'/../../resources/lang/en/invoice.php')['efatura']);
+    $labels = array_keys((require __DIR__."/../../resources/lang/{$locale}/invoice.php")['efatura']);
+
+    expect($labels)->toBe($reference);
+})->with(['es', 'fr', 'it', 'pt', 'pt_BR', 'pt_PT']);
+
+it('lets right aligned amounts overflow instead of clipping their leading digits', function (): void {
+    expect(efaturaHtml(EfaturaInvoiceFactory::make()))->toContain('.right { text-align: right; overflow: visible; }');
 });
