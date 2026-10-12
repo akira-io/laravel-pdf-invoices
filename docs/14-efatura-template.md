@@ -78,7 +78,7 @@ The builders expose the same fields: `ItemBuilder::code()`, `unit()`, `decimalQu
 
 ## Exact values
 
-Every amount the template prints comes from a decimal string, never from a float. Decimal strings use a dot and no grouping (`"1400.00"`, `"-12.5"`, `"0.12345"`); anything else throws an `InvalidArgumentException` when the DTO is built.
+Every amount the template prints comes from a decimal string, never from a float. Decimal strings use a dot and no grouping (`"1400.00"`, `"-12.5"`, `"0.12345"`) and hold at most 30 integer and 10 fraction digits; anything else throws an `InvalidArgumentException` when the DTO is built.
 
 | Field | Used for |
 | --- | --- |
@@ -86,15 +86,17 @@ Every amount the template prints comes from a decimal string, never from a float
 | `ItemData::$decimalUnitPrice` | Unit price column, rounded to at most 5 decimals |
 | `ItemData::$decimalTotal` | Line total column and the carried-forward sum |
 | `ItemData::$taxes` | VAT column: rate (`15%`), amount, or exemption code, joined with ` + ` |
-| `InvoiceData::$totals` | Fiscal totals, printed as given and never recalculated |
+| `InvoiceData::$totals` | Fiscal totals, never recalculated, only rounded to two decimals for display |
 
-The fields are optional. Without them the template falls back to the legacy float fields (`quantity`, `unitPrice`, `getTotal()`, `tax`), so an invoice built for the other templates still renders.
+The fields are optional. Without them the template falls back to the legacy float fields, so an invoice built for the other templates still renders: the line total is unit price times quantity, the subtotal is their sum before discounts, and the discounts, tax and payable rows come from `getTotalDiscount()`, `getTotalTax()` and `getTotal()`.
+
+An item with `decimalQuantity` or `decimalUnitPrice` must also carry `decimalTotal`, and an invoice whose items carry `decimalTotal` must pass `totals`. Both cases throw instead of printing a total computed from floats.
 
 `InvoiceTotalsData` holds the net total, discounts, charges, tax, the optional withholding and rounding amounts, and the payable total. Withholding and rounding rows appear only when they are given.
 
 ## Number format
 
-Escudo amounts follow the e-Fatura manual (v11): a space groups thousands and `$` separates the decimals, so `1400` prints as `1 400$00`. Unit prices keep between two and five decimals. Other currencies use a decimal comma and their code (`14,60 EUR`). Exchange rates print as `1 EUR = 110,26500 CVE`.
+Escudo amounts follow the e-Fatura manual (v11): a space groups thousands and `$` separates the decimals, so `1400` prints as `1 400$00`. Unit prices keep between two and five decimals. Amounts are rounded half up to two decimals. Other currencies use a decimal comma and their code (`14,60 EUR`). Exchange rates print as `1 EUR = 110,26500 CVE`.
 
 `Akira\PdfInvoices\Support\FiscalNumberFormatter` implements these rules and can be used on its own.
 
@@ -106,7 +108,7 @@ Escudo amounts follow the e-Fatura manual (v11): a space groups thousands and `$
 | --- | --- |
 | `Online` | No contingency notice |
 | `Offline` | Notice `EMITIDO EM CONTINGÊNCIA OFFLINE - Pendente de Autorização` |
-| `Off` | Notice with the IUC from `contingencyCode`, item codes hidden, no QR code |
+| `Off` | Notice with the IUC from `contingencyCode`, item codes hidden, no QR code even when a payload is given |
 
 ## Header title
 
@@ -117,9 +119,9 @@ The title at the top right is `FiscalData::$documentTitle`, so a full invoice re
 Rows are split into pages in PHP before rendering, because the generator does not expose the dompdf canvas:
 
 - The first page holds 11 rows and every continuation page 15.
-- A page that overflows ends with "A transportar" and the running sum of the line totals.
+- A page that overflows ends with "A transportar" and the running sum of the line totals as printed, each rounded to two decimals.
 - Continuation pages repeat the header and document facts, and replace the parties with "Continuação" and the IUD.
-- The totals, conversion evidence, notes and DFE lookup stay together on the last page; when they do not fit below the last row they move to a page of their own.
+- The totals, conversion evidence, notes and DFE lookup stay together on the last page; when they do not fit below the last row they move to a page of their own. When they do not fit on a page of their own either, because the notes are too long, rendering throws a `LengthException` rather than cut the DFE lookup off the page.
 - Every page shows "Pág. x/y".
 
 ## Layout differences from node-efatura
