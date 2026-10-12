@@ -34,6 +34,7 @@
   },
   "require-dev": {
     "akira/laravel-debugger": "^1.4",
+    "akira/laravel-qrcode": "^2.0",
     "larastan/larastan": "^3.9.2",
     "laravel/pint": "^1.27.1",
     "nunomaduro/collision": "^8.9.1",
@@ -48,6 +49,9 @@
     "driftingly/rector-laravel": "^2.1.9",
     "peckphp/peck": "^0.2.0",
     "pestphp/pest-plugin-type-coverage": "^4.0.3"
+  },
+  "suggest": {
+    "akira/laravel-qrcode": "Required by the efatura template to draw the e-Fatura QR code (^2.0)."
   },
   "autoload": {
     "psr-4": {
