@@ -15,6 +15,14 @@ composer require akira/laravel-qrcode
 INVOICES_PDF_DRIVER=dompdf
 ```
 
+Turn on font subsetting. `barryvdh/laravel-dompdf` ships with it off, which embeds the whole DejaVu Sans font and makes every invoice weigh about 880 KB; with it on, a one-page invoice is about 30 KB:
+
+```php
+config(['dompdf.options.enable_font_subsetting' => true]);
+```
+
+Set it in a service provider, or publish `config/dompdf.php` and change `enable_font_subsetting` there.
+
 `akira/laravel-qrcode` is a suggested dependency, not a required one: only this template needs it. When the invoice carries a QR payload and the package is missing, rendering stops with a `RuntimeException` that names the package to install. The QR code is embedded as an SVG data URI, so dompdf never needs remote access.
 
 ## Usage
@@ -119,7 +127,7 @@ Rows are split into pages in PHP before rendering, because the generator does no
 The layout follows the PDFKit renderer of node-efatura, with three deliberate differences:
 
 - The contingency notice sits below the document facts (x 306, y 236) rather than at x 54, y 184, where it overlapped the issuer address and contact once rendered in DejaVu Sans.
-- The Total column ends at the right margin (x 541) instead of 4 pt past it.
+- The columns are rebalanced (Code 70, Description 150, Qty 50, Price 85, VAT 50, Total 70 plus its 8 pt gutter, from x 66 to the right margin at x 541) so a five-decimal unit price such as `1 234$56789` fits in DejaVu Sans; descriptions longer than 26 characters and codes longer than 13 end with an ellipsis.
 - The summary rises above its usual place (y 540) whenever conversion evidence, notes or extra total rows would otherwise push the DFE lookup off the page.
 
 ## Translations
