@@ -12,6 +12,7 @@ final readonly class InvoiceData
     /**
      * @param  array<int, ItemData>  $items
      * @param  array<string, mixed>  $attributes
+     * @param  array<int, CurrencyConversionData>  $conversions
      */
     public function __construct(
         public EntityData $seller,
@@ -24,7 +25,20 @@ final readonly class InvoiceData
         public ?string $locale = null,
         public ?string $notes = null,
         public array $attributes = [],
+        public ?FiscalData $fiscal = null,
+        public ?InvoiceTotalsData $totals = null,
+        public array $conversions = [],
     ) {}
+
+    public function fiscalTotals(): InvoiceTotalsData
+    {
+        return $this->totals ?? new InvoiceTotalsData(
+            net: $this->decimal($this->getSubtotalAfterDiscount()),
+            payable: $this->decimal($this->getTotal()),
+            discounts: $this->decimal($this->getTotalDiscount()),
+            tax: $this->decimal($this->getTotalTax()),
+        );
+    }
 
     public function getSubtotal(): float
     {
@@ -82,5 +96,10 @@ final readonly class InvoiceData
     public function attributes(): array
     {
         return $this->attributes;
+    }
+
+    private function decimal(float $value): string
+    {
+        return number_format($value, 2, '.', '');
     }
 }
