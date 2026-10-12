@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Akira\PdfInvoices\Builder;
 
 use Akira\PdfInvoices\Contracts\BuilderContract;
+use Akira\PdfInvoices\DTO\CurrencyConversionData;
 use Akira\PdfInvoices\DTO\EntityData;
+use Akira\PdfInvoices\DTO\FiscalData;
 use Akira\PdfInvoices\DTO\InvoiceData;
+use Akira\PdfInvoices\DTO\InvoiceTotalsData;
 use Akira\PdfInvoices\DTO\ItemData;
 use Carbon\CarbonInterface;
 use DateTimeInterface;
@@ -36,6 +39,13 @@ final class InvoiceBuilder implements BuilderContract
 
     /** @var array<string, mixed> */
     private array $attributes = [];
+
+    private ?FiscalData $fiscal = null;
+
+    private ?InvoiceTotalsData $totals = null;
+
+    /** @var array<int, CurrencyConversionData> */
+    private array $conversions = [];
 
     public static function make(): static
     {
@@ -78,6 +88,9 @@ final class InvoiceBuilder implements BuilderContract
             locale: $this->locale,
             notes: $this->notes,
             attributes: $this->attributes,
+            fiscal: $this->fiscal,
+            totals: $this->totals,
+            conversions: $this->conversions,
         );
     }
 
@@ -150,6 +163,27 @@ final class InvoiceBuilder implements BuilderContract
     public function notes(string $notes): static
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function fiscal(FiscalData $fiscal): static
+    {
+        $this->fiscal = $fiscal;
+
+        return $this;
+    }
+
+    public function totals(InvoiceTotalsData $totals): static
+    {
+        $this->totals = $totals;
+
+        return $this;
+    }
+
+    public function addConversion(CurrencyConversionData $conversion): static
+    {
+        $this->conversions[] = $conversion;
 
         return $this;
     }

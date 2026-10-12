@@ -6,12 +6,14 @@ namespace Akira\PdfInvoices\DTO;
 
 use Carbon\CarbonInterface;
 use DateTimeInterface;
+use LogicException;
 
 final readonly class InvoiceData
 {
     /**
      * @param  array<int, ItemData>  $items
      * @param  array<string, mixed>  $attributes
+     * @param  array<int, CurrencyConversionData>  $conversions
      */
     public function __construct(
         public EntityData $seller,
@@ -24,7 +26,30 @@ final readonly class InvoiceData
         public ?string $locale = null,
         public ?string $notes = null,
         public array $attributes = [],
+        public ?FiscalData $fiscal = null,
+        public ?InvoiceTotalsData $totals = null,
+        public array $conversions = [],
     ) {}
+
+    public function fiscalTotals(): InvoiceTotalsData
+    {
+        if ($this->totals instanceof InvoiceTotalsData) {
+            return $this->totals;
+        }
+
+        throw_if(
+            array_any($this->items, static fn (ItemData $item): bool => $item->decimalTotal !== null),
+            LogicException::class,
+            'Items with decimal totals need the invoice totals as InvoiceTotalsData; they are never derived from floats.',
+        );
+
+        return new InvoiceTotalsData(
+            net: $this->decimal($this->getSubtotal()),
+            payable: $this->decimal($this->getTotal()),
+            discounts: $this->decimal($this->getTotalDiscount()),
+            tax: $this->decimal($this->getTotalTax()),
+        );
+    }
 
     public function getSubtotal(): float
     {
@@ -82,5 +107,10 @@ final readonly class InvoiceData
     public function attributes(): array
     {
         return $this->attributes;
+    }
+
+    private function decimal(float $value): string
+    {
+        return number_format($value, 2, '.', '');
     }
 }

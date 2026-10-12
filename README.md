@@ -288,6 +288,7 @@ composer test -- --coverage
 - [Custom Attributes](docs/04-attributes.md)
 - [Templates Guide](docs/05-templates.md)
 - [Custom Templates](docs/06-creating-custom-templates.md)
+- [e-Fatura Template](docs/14-efatura-template.md)
 - [Customization](docs/07-customization.md)
 - [Localization](docs/08-localization.md)
 - [CSS Compilation](docs/09-css-compilation.md)

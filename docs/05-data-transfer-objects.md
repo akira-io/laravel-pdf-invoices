@@ -264,6 +264,10 @@ Returns all custom attributes.
 $customItemData = $itemData->attributes();
 ```
 
+## Fiscal Data
+
+`InvoiceData`, `ItemData` and `EntityData` accept optional fields used by the `efatura` template: exact decimal strings for quantities, prices and totals, per-line taxes (`ItemTaxData`), caller-supplied totals (`InvoiceTotalsData`), fiscal identification (`FiscalData`) and currency conversion evidence (`CurrencyConversionData`). Every field defaults to empty, so existing code keeps working. See [e-Fatura Template](14-efatura-template.md).
+
 ## Immutability
 
 All DTOs are readonly and immutable by design. Once created, their properties cannot be changed. This ensures:

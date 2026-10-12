@@ -1,6 +1,6 @@
 # Templates
 
-Laravel PDF Invoices includes three professionally designed templates. All templates are built with Tailwind CSS and support localization.
+Laravel PDF Invoices includes three professionally designed templates built with Tailwind CSS, plus the `efatura` template for Cabo Verde e-Fatura invoices built with plain CSS for dompdf. All templates support localization.
 
 ## Available Templates
 
@@ -70,6 +70,16 @@ A rich layout emphasizing brand identity with prominent visual elements.
 $generator->generate($invoiceData, 'branded');
 ```
 
+### efatura
+
+The Cabo Verde e-Fatura invoice with its DFA layout, QR code and paginated items table. It needs the `dompdf` driver and `akira/laravel-qrcode`.
+
+```php
+$generator->generate($invoiceData, 'efatura');
+```
+
+See [e-Fatura Template](14-efatura-template.md) for the fields it reads.
+
 ## Template Location
 
 All templates are Blade views located at:
@@ -78,7 +88,8 @@ All templates are Blade views located at:
 resources/views/pdf/templates/
 ├── modern.blade.php
 ├── minimal.blade.php
-└── branded.blade.php
+├── branded.blade.php
+└── efatura.blade.php
 ```
 
 ## Template Data

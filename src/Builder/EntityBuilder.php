@@ -19,6 +19,8 @@ final class EntityBuilder implements BuilderContract
 
     private ?string $email = null;
 
+    private ?string $phone = null;
+
     /** @var array<string, mixed> */
     private array $attributes = [];
 
@@ -62,6 +64,13 @@ final class EntityBuilder implements BuilderContract
         return $this;
     }
 
+    public function phone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     public function set(string $key, mixed $value): static
     {
         $this->attributes[$key] = $value;
@@ -90,6 +99,7 @@ final class EntityBuilder implements BuilderContract
             logoUrl: $this->logoUrl,
             email: $this->email,
             attributes: $this->attributes,
+            phone: $this->phone,
         );
     }
 }
