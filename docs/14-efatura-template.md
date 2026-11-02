@@ -85,7 +85,7 @@ Every amount the template prints comes from a decimal string, never from a float
 | `ItemData::$decimalQuantity` | Quantity column, non-integer quantities allowed |
 | `ItemData::$decimalUnitPrice` | Unit price column, rounded to at most 5 decimals |
 | `ItemData::$decimalTotal` | Line total column and the carried-forward sum |
-| `ItemData::$taxes` | VAT column: rate (`15%`), amount, or exemption code, joined with ` + ` |
+| `ItemData::$taxes` | VAT column: rate (`15%`), amount, or exemption code, one per line |
 | `InvoiceData::$totals` | Fiscal totals, never recalculated, only rounded to two decimals for display |
 
 The fields are optional. Without them the template falls back to the legacy float fields, so an invoice built for the other templates still renders: the line total is unit price times quantity, the subtotal is their sum before discounts, and the discounts, tax and payable rows come from `getTotalDiscount()`, `getTotalTax()` and `getTotal()`.
@@ -118,18 +118,25 @@ The title at the top right is `FiscalData::$documentTitle`, so a full invoice re
 
 Rows are split into pages in PHP before rendering, because the generator does not expose the dompdf canvas:
 
-- The first page holds 11 rows and every continuation page 15.
+- The first page holds 11 rows and every continuation page 15, as long as each line has one tax. A line with several taxes grows by 12 pt per extra tax, so fewer rows fit.
 - A page that overflows ends with "A transportar" and the running sum of the line totals as printed, each rounded to two decimals.
 - Continuation pages repeat the header and document facts, and replace the parties with "Continuação" and the IUD.
 - The totals, conversion evidence, notes and DFE lookup stay together on the last page; when they do not fit below the last row they move to a page of their own. When they do not fit on a page of their own either, because the notes are too long, rendering throws a `LengthException` rather than cut the DFE lookup off the page.
 - Every page shows "Pág. x/y".
+
+## Long text
+
+`Akira\PdfInvoices\Support\FiscalTextMeasure` estimates text width from an upper bound of the DejaVu Sans glyph widths, so it never reserves less space than dompdf draws:
+
+- Party names and addresses take up to two lines and tax IDs and contacts one, 240 pt wide. The seller name beside the logo takes one line. Anything longer ends with an ellipsis.
+- Notes and conversion sources wrap, and the summary reserves the lines they need. Text in wide capitals takes more room than ordinary text, so it reaches the `LengthException` limit sooner.
 
 ## Layout differences from node-efatura
 
 The layout follows the PDFKit renderer of node-efatura, with three deliberate differences:
 
 - The contingency notice sits below the document facts (x 306, y 236) rather than at x 54, y 184, where it overlapped the issuer address and contact once rendered in DejaVu Sans.
-- The columns are rebalanced (Code 70, Description 150, Qty 50, Price 85, VAT 50, Total 70 plus its 8 pt gutter, from x 66 to the right margin at x 541) so a five-decimal unit price such as `1 234$56789` fits in DejaVu Sans; descriptions longer than 26 characters and codes longer than 13 end with an ellipsis.
+- The columns are rebalanced (Code 70, Description 150, Qty 50, Price 75, VAT 60, Total 70 plus its 8 pt gutter, from x 66 to the right margin at x 541) so a five-decimal unit price such as `1 234$56789` fits in DejaVu Sans; descriptions longer than 26 characters and codes longer than 13 end with an ellipsis.
 - The summary rises above its usual place (y 540) whenever conversion evidence, notes or extra total rows would otherwise push the DFE lookup off the page.
 
 ## Translations
