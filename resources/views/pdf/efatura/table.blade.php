@@ -1,5 +1,5 @@
 @if($page->tableY !== null)
-    @php($columns = [[66, 70, ''], [136, 150, ''], [286, 50, 'right'], [336, 85, 'right'], [421, 50, 'right'], [471, 78, 'right']])
+    @php($columns = [[66, 70, ''], [136, 150, ''], [286, 50, 'right'], [336, 75, 'right'], [411, 60, 'right'], [471, 78, 'right']])
     @php($headers = ['code', 'description', 'quantity', 'price', 'tax_column', 'total'])
     <div class="rule" style="left: 54pt; top: {{ $page->tableY + 17 }}pt; width: 487pt;"></div>
     @foreach($columns as [$x, $width, $align])
@@ -7,10 +7,14 @@
     @endforeach
     <div class="rule" style="left: 54pt; top: {{ $page->tableY + 44 }}pt; width: 487pt;"></div>
     @foreach($page->rows as $row)
-        @foreach([$row->code, $row->description, $row->quantity, $row->unitPrice, $row->tax, $row->total] as $value)
-            <div class="at s9 {{ $columns[$loop->index][2] }}" style="left: {{ $columns[$loop->index][0] }}pt; top: {{ $row->y }}pt; width: {{ $columns[$loop->index][1] - 8 }}pt; height: 14pt;">{{ $value }}</div>
+        @foreach([$row->code, $row->description, $row->quantity, $row->unitPrice, $row->taxes, $row->total] as $value)
+            <div class="at s9 tight {{ $columns[$loop->index][2] }}" style="left: {{ $columns[$loop->index][0] }}pt; top: {{ $row->y }}pt; width: {{ $columns[$loop->index][1] - 8 }}pt; height: {{ 14 + (is_array($value) ? $row->taxHeight() : 0) }}pt;">
+                @foreach((array) $value as $line)
+                    <div>{{ $line }}</div>
+                @endforeach
+            </div>
         @endforeach
-        <div class="rule rule-soft" style="left: 54pt; top: {{ $row->y + 18 }}pt; width: 487pt;"></div>
+        <div class="rule rule-soft" style="left: 54pt; top: {{ $row->y + 18 + $row->taxHeight() }}pt; width: 487pt;"></div>
     @endforeach
     @if($page->carryForward !== null)
         @php($carryY = \Akira\PdfInvoices\Layout\FiscalPaginator::TABLE_BOTTOM_Y)

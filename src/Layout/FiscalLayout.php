@@ -10,6 +10,7 @@ use Akira\PdfInvoices\DTO\FiscalData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\Enums\EmissionMode;
 use Akira\PdfInvoices\Support\FiscalNumberFormatter;
+use Akira\PdfInvoices\Support\FiscalTextMeasure;
 use Akira\PdfInvoices\Support\InvoiceTranslator;
 use Akira\PdfInvoices\Support\QrCodeImage;
 use DateTimeInterface;
@@ -21,11 +22,24 @@ final readonly class FiscalLayout
         'continuation', 'identifier', 'conversion', 'notes', 'verification', 'verification_text', 'platform', 'page',
     ];
 
+    private const float BRAND_SIZE = 11.2;
+
+    private const float BRAND_WIDTH = 226.0;
+
+    private const float PARTY_SIZE = 10.0;
+
+    private const float PARTY_DETAIL_SIZE = 9.0;
+
+    private const float PARTY_WIDTH = 240.0;
+
+    private const int PARTY_TEXT_LINES = 2;
+
     private FiscalNumberFormatter $formatter;
 
     public function __construct(
         private InvoiceTranslator $translator,
         private QrCodeImage $qrCode = new QrCodeImage(),
+        private FiscalTextMeasure $measure = new FiscalTextMeasure(),
     ) {
         $this->formatter = new FiscalNumberFormatter();
     }
@@ -44,7 +58,7 @@ final readonly class FiscalLayout
         return new FiscalDocument(
             title: $fiscal->documentTitle ?? $this->text('title'),
             subtitle: $this->text('subtitle'),
-            brand: $invoice->seller->name,
+            brand: $this->measure->limit($invoice->seller->name, self::BRAND_SIZE, self::BRAND_WIDTH),
             issuer: $this->party($this->text('issuer'), $invoice->seller),
             customer: $this->party($this->text('customer'), $invoice->buyer),
             facts: $this->facts($invoice, $fiscal),
@@ -59,10 +73,10 @@ final readonly class FiscalLayout
     {
         return new FiscalParty(
             title: $title,
-            name: $this->filled($entity->name),
-            taxId: $this->text('tax_id').': '.$this->filled($entity->vatNumber),
-            address: $this->filled($entity->address),
-            contact: $this->filled($entity->contact()),
+            name: $this->measure->limit($this->filled($entity->name), self::PARTY_SIZE, self::PARTY_WIDTH, self::PARTY_TEXT_LINES),
+            taxId: $this->measure->limit($this->text('tax_id').': '.$this->filled($entity->vatNumber), self::PARTY_SIZE, self::PARTY_WIDTH),
+            address: $this->measure->limit($this->filled($entity->address), self::PARTY_DETAIL_SIZE, self::PARTY_WIDTH, self::PARTY_TEXT_LINES),
+            contact: $this->measure->limit($this->filled($entity->contact()), self::PARTY_DETAIL_SIZE, self::PARTY_WIDTH),
         );
     }
 

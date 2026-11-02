@@ -39,8 +39,8 @@ it('lays out a single line invoice on one page', function (): void {
         ->and($page->tableY)->toBe(350.0)
         ->and($page->carryForward)->toBeNull()
         ->and($row->y)->toBe(406.0)
-        ->and([$row->code, $row->description, $row->quantity, $row->unitPrice, $row->tax, $row->total])
-        ->toBe(['CIM-001', 'Cimento Portland saco 1', '2 UN', '700$00', '15%', '1 400$00'])
+        ->and([$row->code, $row->description, $row->quantity, $row->unitPrice, $row->taxes, $row->total])
+        ->toBe(['CIM-001', 'Cimento Portland saco 1', '2 UN', '700$00', ['15%'], '1 400$00'])
         ->and(array_map(fn (FiscalLine $line): string => $line->label.' '.$line->value, $page->summary->totals))->toBe([
             'Subtotal: 1 400$00', 'Descontos: 0$00', 'Encargos: 0$00', 'Imposto: 210$00', 'Total: 1 610$00',
         ])
@@ -151,13 +151,13 @@ it('renders legacy invoices with derived values and placeholders', function (): 
         ->and($document->customer->taxId)->toBe('Tax ID: -')
         ->and($document->facts[2]->value)->toBe('INV-1')
         ->and($document->facts[3]->value)->toBe('-')
-        ->and($rows[0]->tax)->toBe('15%')
+        ->and($rows[0]->taxes)->toBe(['15%'])
         ->and($rows[0]->total)->toBe('200,00')
         ->and($rows[0]->code)->toBe('')
-        ->and($rows[1]->tax)->toBe('-')
-        ->and($rows[2]->tax)->toBe('15% + 1,50 + M01')
-        ->and($document->pages[0]->summary->totals[4]->value)->toBe('245,00 EUR')
-        ->and($document->pages[0]->summary->notes)->toBe(['Thanks'])
+        ->and($rows[1]->taxes)->toBe(['-'])
+        ->and($rows[2]->taxes)->toBe(['15%', '1,50', 'M01'])
+        ->and($document->pages[1]->summary->totals[4]->value)->toBe('245,00 EUR')
+        ->and($document->pages[1]->summary->notes)->toBe(['Thanks'])
         ->and($document->label('unknown'))->toBe('unknown');
 });
 

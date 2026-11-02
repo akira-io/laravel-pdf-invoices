@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Akira\PdfInvoices\Layout;
 
+use Akira\PdfInvoices\Support\FiscalTextMeasure;
+
 final readonly class FiscalSummaryBuilder
 {
     public const float TOTAL_ROW_HEIGHT = 21.0;
@@ -18,9 +20,11 @@ final readonly class FiscalSummaryBuilder
 
     private const float TEXT_LINE_HEIGHT = 10.0;
 
-    private const int CONVERSION_CHARACTERS_PER_LINE = 80;
+    private const float TEXT_SIZE = 8.0;
 
-    private const int NOTE_CHARACTERS_PER_LINE = 100;
+    private const float CONVERSION_WIDTH = 387.0;
+
+    private const float NOTE_WIDTH = 487.0;
 
     /**
      * @param  array<int, FiscalLine>  $totals
@@ -32,6 +36,7 @@ final readonly class FiscalSummaryBuilder
         private array $conversion,
         private array $notes,
         private ?string $qrCode,
+        private FiscalTextMeasure $measure = new FiscalTextMeasure(),
     ) {}
 
     public function preferredY(float $ceiling): float
@@ -95,7 +100,7 @@ final readonly class FiscalSummaryBuilder
         $placed = [];
 
         foreach ($this->conversion as $line) {
-            $height = $this->lines($line->value, self::CONVERSION_CHARACTERS_PER_LINE) * self::TEXT_LINE_HEIGHT;
+            $height = $this->measure->lineCount($line->value, self::TEXT_SIZE, self::CONVERSION_WIDTH) * self::TEXT_LINE_HEIGHT;
             $placed[] = $line->at($rowY, $height);
             $rowY += $height + 5;
         }
@@ -106,15 +111,10 @@ final readonly class FiscalSummaryBuilder
     private function notesHeight(): float
     {
         $lines = array_sum(array_map(
-            fn (string $note): int => $this->lines($note, self::NOTE_CHARACTERS_PER_LINE),
+            fn (string $note): int => $this->measure->lineCount($note, self::TEXT_SIZE, self::NOTE_WIDTH),
             $this->notes,
         ));
 
         return $lines * self::TEXT_LINE_HEIGHT;
-    }
-
-    private function lines(string $text, int $perLine): int
-    {
-        return max(1, (int) ceil(mb_strlen($text) / $perLine));
     }
 }

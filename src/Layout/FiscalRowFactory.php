@@ -40,19 +40,22 @@ final readonly class FiscalRowFactory
             description: Str::limit($item->description, self::DESCRIPTION_LENGTH, '…'),
             quantity: mb_trim($this->formatter->quantity($item->exactQuantity()).' '.$item->unit),
             unitPrice: $this->formatter->unitPrice($item->exactUnitPrice(), $this->currency),
-            tax: $this->tax($item),
+            taxes: $this->taxes($item),
             total: $this->formatter->number($total, $this->currency),
             amount: $total,
         );
     }
 
-    private function tax(ItemData $item): string
+    /**
+     * @return array<int, string>
+     */
+    private function taxes(ItemData $item): array
     {
         if ($item->taxes === []) {
-            return $item->tax > 0 ? $this->formatter->percentage(number_format($item->tax * 100, 5, '.', '')) : '-';
+            return [$item->tax > 0 ? $this->formatter->percentage(number_format($item->tax * 100, 5, '.', '')) : '-'];
         }
 
-        return implode(' + ', array_map($this->taxLabel(...), $item->taxes));
+        return array_values(array_map($this->taxLabel(...), $item->taxes));
     }
 
     private function taxLabel(ItemTaxData $tax): string

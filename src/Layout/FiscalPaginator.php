@@ -42,7 +42,7 @@ final readonly class FiscalPaginator
         $rowY = $tableY + self::TABLE_HEADER_HEIGHT;
 
         foreach ($rows as $row) {
-            if ($rowY + self::ROW_TEXT_HEIGHT > self::TABLE_BOTTOM_Y) {
+            if ($rowY + self::ROW_TEXT_HEIGHT + $row->taxHeight() > self::TABLE_BOTTOM_Y) {
                 $carried = $this->formatter->money(Decimal::sum($amounts), $this->currency);
                 $pages[] = new FiscalPage(count($pages) + 1, $pages !== [], $tableY, $pageRows, $carried);
                 $tableY = self::CONTINUED_TABLE_Y;
@@ -52,7 +52,7 @@ final readonly class FiscalPaginator
 
             $pageRows[] = $row->at($rowY);
             $amounts[] = Decimal::round($row->amount, 2);
-            $rowY += self::ROW_HEIGHT;
+            $rowY += self::ROW_HEIGHT + $row->taxHeight();
         }
 
         $totalsY = max($rowY + 24, $summary->preferredY(self::SUMMARY_LOWEST_Y));
