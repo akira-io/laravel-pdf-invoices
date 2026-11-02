@@ -110,9 +110,9 @@ it('places the conversion evidence and notes below the totals', function (): voi
         ->and($summary->totals[0]->y)->toBe(245.0)
         ->and($summary->conversionY)->toBe(364.0)
         ->and($summary->conversion[0]->y)->toBe(384.0)
-        ->and($summary->conversion[0]->height)->toBe(10.0)
+        ->and($summary->conversion[0]->height)->toBe(10.25)
         ->and($summary->notes)->toBe(['Isento nos termos do artigo 9.º do CIVA.'])
-        ->and($summary->notesY)->toBe(468.0)
+        ->and($summary->notesY)->toBe(469.25)
         ->and($summary->verificationY)->toBe(665.0);
 });
 
@@ -121,7 +121,7 @@ it('keeps the conversion evidence on the first page when it fits', function (): 
 
     expect($summary->totals[0]->y)->toBe(457.0)
         ->and($summary->conversionY)->toBe(576.0)
-        ->and($summary->verificationY)->toBe(684.0);
+        ->and($summary->verificationY)->toBe(685.25);
 });
 
 it('renders legacy invoices with derived values and placeholders', function (): void {
@@ -178,7 +178,7 @@ it('shows withholding and rounding only when given', function (): void {
 it('raises the summary above its usual place when it is tall', function (): void {
     $invoice = EfaturaInvoiceFactory::make(0, conversion: true);
 
-    expect(fiscalLayout($invoice)->pages[0]->summary->totals[0]->y)->toBe(438.0);
+    expect(fiscalLayout($invoice)->pages[0]->summary->totals[0]->y)->toBe(436.75);
 });
 
 it('shortens long descriptions and codes with an ellipsis', function (): void {
@@ -190,8 +190,9 @@ it('shortens long descriptions and codes with an ellipsis', function (): void {
 
     $row = fiscalLayout($invoice)->pages[0]->rows[0];
 
-    expect($row->description)->toBe('Cimento Portland 42,5R sac…')
-        ->and($row->code)->toBe('CIMENTO-PORTL…');
+    expect($row->description)->toBe('Cimento Portland 42,5…')
+        ->and($row->code)->toStartWith('CIMENT')
+        ->and($row->code)->toEndWith('…');
 });
 
 it('refuses notes that would push the DFE lookup off the page', function (): void {

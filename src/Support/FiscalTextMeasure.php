@@ -12,24 +12,28 @@ final readonly class FiscalTextMeasure
 
     private const string NARROW_GLYPHS = " .,:;'!|()-/ifjlrtIJ";
 
-    private const string MEDIUM_GLYPHS = 'abcdeghknopqsuvxyz0123456789$+=#*?_"';
+    private const string MEDIUM_GLYPHS = 'abcdeghknopqsuvxyz0123456789$*?_"';
+
+    private const string WIDE_GLYPHS = 'mwMW@%+=#<>~^`{}[]\\';
 
     private const string CAPITAL_GLYPHS = 'ABCDEFGHKLNOPQRSTUVXYZ&';
 
-    private const float NARROW_WIDTH = 0.41;
+    private const float NARROW_WIDTH = 0.412;
 
     private const float MEDIUM_WIDTH = 0.64;
 
     private const float CAPITAL_WIDTH = 0.79;
 
-    private const float WIDEST = 1.0;
+    private const float WIDE_WIDTH = 1.0;
+
+    private const float UNKNOWN_WIDTH = 1.45;
 
     public function width(string $text, float $size): float
     {
         $em = 0.0;
 
-        foreach (mb_str_split(Str::ascii($text)) as $glyph) {
-            $em += $this->glyphWidth($glyph);
+        foreach (mb_str_split($text) as $glyph) {
+            $em += $this->glyphWidth($this->baseLetter($glyph));
         }
 
         return $em * $size;
@@ -79,13 +83,25 @@ final readonly class FiscalTextMeasure
         return mb_rtrim($cut).self::ELLIPSIS;
     }
 
+    private function baseLetter(string $glyph): string
+    {
+        if (preg_match('/^[\x{C0}-\x{D6}\x{D8}-\x{F6}\x{F8}-\x{FF}]$/u', $glyph) !== 1) {
+            return $glyph;
+        }
+
+        $ascii = Str::ascii($glyph);
+
+        return mb_strlen($ascii) === 1 ? $ascii : $glyph;
+    }
+
     private function glyphWidth(string $glyph): float
     {
         return match (true) {
             str_contains(self::NARROW_GLYPHS, $glyph) => self::NARROW_WIDTH,
             str_contains(self::MEDIUM_GLYPHS, $glyph) => self::MEDIUM_WIDTH,
             str_contains(self::CAPITAL_GLYPHS, $glyph) => self::CAPITAL_WIDTH,
-            default => self::WIDEST,
+            str_contains(self::WIDE_GLYPHS, $glyph) => self::WIDE_WIDTH,
+            default => self::UNKNOWN_WIDTH,
         };
     }
 }

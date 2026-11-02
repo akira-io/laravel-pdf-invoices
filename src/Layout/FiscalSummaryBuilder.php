@@ -18,7 +18,7 @@ final readonly class FiscalSummaryBuilder
 
     private const float VERIFICATION_GAP = 18.0;
 
-    private const float TEXT_LINE_HEIGHT = 10.0;
+    private const float TEXT_LINE_HEIGHT = 10.25;
 
     private const float TEXT_SIZE = 8.0;
 

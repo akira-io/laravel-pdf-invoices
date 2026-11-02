@@ -8,18 +8,21 @@ use Akira\PdfInvoices\DTO\ItemData;
 use Akira\PdfInvoices\DTO\ItemTaxData;
 use Akira\PdfInvoices\Enums\EmissionMode;
 use Akira\PdfInvoices\Support\FiscalNumberFormatter;
-use Illuminate\Support\Str;
+use Akira\PdfInvoices\Support\FiscalTextMeasure;
 
 final readonly class FiscalRowFactory
 {
-    private const int DESCRIPTION_LENGTH = 26;
+    private const float TEXT_SIZE = 9.0;
 
-    private const int CODE_LENGTH = 13;
+    private const float DESCRIPTION_WIDTH = 128.0;
+
+    private const float CODE_WIDTH = 62.0;
 
     public function __construct(
         private FiscalNumberFormatter $formatter,
         private string $currency,
         private EmissionMode $mode,
+        private FiscalTextMeasure $measure = new FiscalTextMeasure(),
     ) {}
 
     /**
@@ -36,8 +39,8 @@ final readonly class FiscalRowFactory
         $total = $item->exactTotal();
 
         return new FiscalRow(
-            code: $this->mode === EmissionMode::Off ? '' : Str::limit((string) $item->code, self::CODE_LENGTH, '…'),
-            description: Str::limit($item->description, self::DESCRIPTION_LENGTH, '…'),
+            code: $this->mode === EmissionMode::Off ? '' : $this->measure->limit((string) $item->code, self::TEXT_SIZE, self::CODE_WIDTH),
+            description: $this->measure->limit($item->description, self::TEXT_SIZE, self::DESCRIPTION_WIDTH),
             quantity: mb_trim($this->formatter->quantity($item->exactQuantity()).' '.$item->unit),
             unitPrice: $this->formatter->unitPrice($item->exactUnitPrice(), $this->currency),
             taxes: $this->taxes($item),

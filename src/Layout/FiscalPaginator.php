@@ -42,6 +42,12 @@ final readonly class FiscalPaginator
         $rowY = $tableY + self::TABLE_HEADER_HEIGHT;
 
         foreach ($rows as $row) {
+            throw_if(
+                self::FIRST_TABLE_Y + self::TABLE_HEADER_HEIGHT + self::ROW_TEXT_HEIGHT + $row->taxHeight() > self::TABLE_BOTTOM_Y,
+                LengthException::class,
+                'A line has too many taxes to fit on a page of the efatura template.',
+            );
+
             if ($rowY + self::ROW_TEXT_HEIGHT + $row->taxHeight() > self::TABLE_BOTTOM_Y) {
                 $carried = $this->formatter->money(Decimal::sum($amounts), $this->currency);
                 $pages[] = new FiscalPage(count($pages) + 1, $pages !== [], $tableY, $pageRows, $carried);

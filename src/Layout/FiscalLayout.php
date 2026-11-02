@@ -22,7 +22,7 @@ final readonly class FiscalLayout
         'continuation', 'identifier', 'conversion', 'notes', 'verification', 'verification_text', 'platform', 'page',
     ];
 
-    private const float BRAND_SIZE = 11.2;
+    private const float BRAND_SIZE = 12.0;
 
     private const float BRAND_WIDTH = 226.0;
 

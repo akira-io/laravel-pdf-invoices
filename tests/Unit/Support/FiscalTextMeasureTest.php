@@ -14,12 +14,30 @@ it('measures wide glyphs wider than narrow ones', function (): void {
         ->and($measure->width('ç', 10.0))->toBe($measure->width('c', 10.0));
 });
 
-it('never measures below the dejavu sans advance width', function (string $text, float $points): void {
-    expect(new FiscalTextMeasure()->width($text, 9.0))->toBeGreaterThanOrEqual($points);
-})->with([
-    'several taxes' => ['15% + 1,50 + M01', 85.8],
-    'long tax amount' => ['123 456$00', 54.4],
-]);
+it('never measures a glyph below its dejavu sans advance width', function (): void {
+    $measure = new FiscalTextMeasure();
+    $metrics = file(dirname(__DIR__, 3).'/vendor/dompdf/dompdf/lib/fonts/DejaVuSans.ufm');
+    $tooNarrow = [];
+
+    foreach ($metrics as $line) {
+        if (preg_match('/^U (\d+) ; WX (\d+)/', $line, $match) !== 1 || (int) $match[1] < 32 || (int) $match[1] > 0x4FF) {
+            continue;
+        }
+
+        $glyph = mb_chr((int) $match[1]);
+
+        if ($glyph !== false && $measure->width($glyph, 1000.0) < (float) $match[2]) {
+            $tooNarrow[] = $glyph;
+        }
+    }
+
+    expect($tooNarrow)->toBe([]);
+});
+
+it('counts symbols the ascii transliteration would drop', function (): void {
+    expect(new FiscalTextMeasure()->width('• § °', 10.0))->toBeGreaterThan(30.0)
+        ->and(new FiscalTextMeasure()->width('—', 10.0))->toBe(14.5);
+});
 
 it('counts wrapped lines', function (string $text, float $width, int $lines): void {
     expect(new FiscalTextMeasure()->lineCount($text, 8.0, $width))->toBe($lines);
