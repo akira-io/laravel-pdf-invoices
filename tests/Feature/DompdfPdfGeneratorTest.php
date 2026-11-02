@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Akira\PdfInvoices\DTO\EntityData;
 use Akira\PdfInvoices\DTO\InvoiceData;
 use Akira\PdfInvoices\Pdf\DompdfPdfGenerator;
+use Illuminate\Support\Facades\File;
 
 it('generates pdf using dompdf', function (): void {
     $invoice = new InvoiceData(
@@ -53,7 +54,6 @@ it('covers missing css path in dompdf generator', function (): void {
         buyer: new EntityData(name: 'Client'),
     );
 
-    // Provide a non-existent CSS path
     $generator = new DompdfPdfGenerator(cssPath: '/non/existent/path.css');
     $generator->generate($invoice);
 
@@ -74,6 +74,6 @@ it('covers dompdf directory creation', function (): void {
     expect(is_dir(dirname($fullPath)))->toBeTrue();
 
     if (file_exists($fullPath)) {
-        unlink($fullPath);
+        File::delete($fullPath);
     }
 });
