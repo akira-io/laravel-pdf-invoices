@@ -8,7 +8,10 @@
             "dompdf",
             "roadmap",
             "browsershot",
-            "spatie"
+            "spatie",
+            "efatura",
+            "paginator",
+            "glyphs"
         ],
         "paths": [
             "tests"

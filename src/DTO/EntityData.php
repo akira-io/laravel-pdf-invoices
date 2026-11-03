@@ -16,7 +16,13 @@ final readonly class EntityData
         public ?string $logoUrl = null,
         public ?string $email = null,
         public array $attributes = [],
+        public ?string $phone = null,
     ) {}
+
+    public function contact(): ?string
+    {
+        return $this->phone ?? $this->email;
+    }
 
     public function get(string $key, mixed $default = null): mixed
     {

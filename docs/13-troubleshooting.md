@@ -474,4 +474,4 @@ If issues persist:
    - Full error message and stack trace
    - Minimal reproducible example
 
-**Previous:** [Advanced Usage](12-advanced-usage.md)
+**Previous:** [Advanced Usage](12-advanced-usage.md) | **Next:** [e-Fatura Template](14-efatura-template.md)
